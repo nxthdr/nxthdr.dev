@@ -1,11 +1,18 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
+import { createLogto } from '@logto/vue';
+
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+const config = {
+  endpoint: 'https://3qo5br.logto.app/',
+  appId: 'y2obn9hlxnhxqpw8briyf',
+};
 
-app.use(router)
+createApp(App)
+    .use(router)
+    .use(createLogto, config)
+    .mount('#app')
 
-app.mount('#app')
