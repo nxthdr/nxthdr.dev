@@ -10,6 +10,7 @@
         >Dashboard</RouterLink>
         <RouterLink class="header-link" to="/docs">Docs</RouterLink>
         <RouterLink class="header-link" to="/about">About</RouterLink>
+        <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Blog</a>
       </nav>
     </div>
     <div class="header-actions">
