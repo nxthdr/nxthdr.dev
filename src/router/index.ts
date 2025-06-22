@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CallbackView from '../views/CallbackView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import DocsView from '../views/DocsView.vue'
+import AboutView from '../views/AboutView.vue'
 import { useLogto } from '@logto/vue';
 
 const router = createRouter({
@@ -22,6 +24,16 @@ const router = createRouter({
       name: 'dashboard',
       component: DashboardView,
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/docs',
+      name: 'docs',
+      component: DocsView,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView,
     },
   ],
 })

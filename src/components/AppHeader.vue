@@ -4,20 +4,39 @@
       <img class="header-logo" src="/favicon.svg" alt="nxthdr logo" />
       <a class="header-brand" href="/">nxthdr</a>
       <nav class="header-nav">
-        <a class="header-link" href="/">Home</a>
-        <a class="header-link" href="#">Features</a>
-        <a class="header-link" href="#">Docs</a>
-        <a class="header-link" href="#">About</a>
+        <a
+          v-if="isAuthenticated"
+          class="header-link"
+          href="/dashboard"
+        >Dashboard</a>
+        <a class="header-link" href="/docs">Docs</a>
+        <a class="header-link" href="/about">About</a>
       </nav>
     </div>
     <div class="header-actions">
-      <slot name="actions"></slot>
+      <button
+        v-if="isAuthenticated"
+        class="login-btn"
+        @click="handleLogout"
+      >Logout</button>
+      <button
+        v-else
+        class="login-btn"
+        @click="handleLogin"
+      >Login</button>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-// No logic needed, actions are provided via slot
+import { useLogto } from '@logto/vue';
+const { isAuthenticated, signIn, signOut } = useLogto();
+function handleLogin() {
+  signIn(window.location.origin + '/callback');
+}
+function handleLogout() {
+  signOut(window.location.origin + '/');
+}
 </script>
 
 <style scoped>

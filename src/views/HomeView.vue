@@ -1,19 +1,6 @@
 <template>
   <div class="page-root">
-    <AppHeader>
-      <template #actions>
-        <button
-          v-if="!isAuthenticated"
-          class="login-btn"
-          @click="handleLogin"
-        >Login</button>
-        <button
-          v-else
-          class="login-btn"
-          @click="handleLogout"
-        >Logout</button>
-      </template>
-    </AppHeader>
+    <AppHeader />
     <main class="main-content">
       <h1>A Wide-Open Window to the Internet</h1>
       <p class="main-desc">
@@ -29,7 +16,7 @@ import AppHeader from '@/components/AppHeader.vue';
 import { ref, onMounted } from 'vue';
 import { useLogto, type IdTokenClaims } from '@logto/vue';
 
-const { isAuthenticated, getIdTokenClaims, signIn, signOut } = useLogto();
+const { isAuthenticated, getIdTokenClaims } = useLogto();
 const user = ref<IdTokenClaims>();
 
 onMounted(async () => {
@@ -38,12 +25,4 @@ onMounted(async () => {
     user.value = claims;
   }
 });
-
-function handleLogin() {
-  signIn(window.location.origin + '/callback');
-}
-
-function handleLogout() {
-  signOut(window.location.origin + '/');
-}
 </script>
