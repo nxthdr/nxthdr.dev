@@ -142,7 +142,7 @@ html, body {
 .main-subtitle {
   font-size: 1.4rem;
   font-weight: 500;
-  color: var(--color-primary);
+  color: var(--color-accent);
   margin-top: -0.5rem;
   margin-bottom: 2rem;
   width: 100%;
@@ -175,13 +175,17 @@ html, body {
 }
 
 .main-desc {
-  color: var(--color-text);
-  font-size: 1.2rem;
+  color: var(--color-heading); /* Using heading color for more contrast - still white but brighter */
+  font-size: 1.25rem;
   margin: 0 auto 2rem;
-  line-height: 1.7;
+  line-height: 1.8;
   text-align: justify;
   width: 100%;
   font-weight: 500;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* Subtle text shadow for depth */
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3); /* Subtle primary-colored bottom border (blue) */
 }
 
 /* Apply text justification to all regular paragraphs in content */
@@ -248,8 +252,8 @@ code {
 }
 
 .alert-important {
-  background-color: rgba(217, 119, 6, 0.15);
-  border-left-color: #f59e0b;
+  background-color: rgba(32, 31, 62, 0.50);
+  border-left-color: rgb(43, 39, 116);
 }
 
 .alert p {
@@ -306,18 +310,34 @@ th, td {
   object-fit: contain;
 }
 
+.header-brand-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+
 .header-brand {
   font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--color-header-link-hover);
-  letter-spacing: 0.5px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.8px;
   text-decoration: none;
-  transition: color 0.15s ease;
+  position: relative;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0;
 }
 
 .header-brand:hover {
   text-decoration: none;
-  color: var(--color-accent);
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .header-nav {

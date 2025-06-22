@@ -4,7 +4,7 @@
     <main class="dashboard-root">
       <div class="content-wrapper">
         <div class="content-card">
-          <h1>Welcome to your Dashboard</h1>
+          <h1>Dashboard</h1>
           <p>This page is only accessible to authenticated users.</p>
         </div>
       </div>

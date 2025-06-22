@@ -7,7 +7,7 @@
           <h1>A Wide-Open Window to the Internet</h1>
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
-            <p class="main-desc">
+            <p>
               <b>nxthdr</b>, pronounced /ˈnɛkst ˈhɛdə˞/ or simply "Next Header", is an initiative to offer metrology capabilities to researchers and students to study and learn about the Internet.
             </p>
             <p>
@@ -16,7 +16,7 @@
           </div>
 
           <div class="alert alert-important">
-            <p><strong>Important:</strong> Currently, <b>nxthdr</b> is in its early stages and not yet open to the public for experiments. However, the datasets collected are already accessible.</p>
+            <p>Currently, <b>nxthdr</b> is in its early stages and not yet open to the public for experiments. However, the datasets collected are already accessible.</p>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>

@@ -1,7 +1,6 @@
 <template>
   <header class="header">
     <div class="header-left">
-      <img class="header-logo" src="/favicon.svg" alt="nxthdr logo" />
       <RouterLink class="header-brand" to="/">nxthdr</RouterLink>
       <nav class="header-nav">
         <RouterLink
