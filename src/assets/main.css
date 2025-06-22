@@ -1,35 +1,456 @@
-@import './base.css';
+/* Main CSS file for nxthdr application - Dark theme only */
 
+/* ====== Base Variables ====== */
+:root {
+  /* Core colors based on the screenshot */
+  --color-primary: #3B82F6;        /* Primary blue for active elements and links */
+  --color-secondary: #818CF8;      /* Secondary purple-blue for highlights */
+  --color-accent: #2DD4BF;         /* Teal accent for interactive elements */
+
+  /* Background colors */
+  --color-bg: #1A1C1D;             /* Main background - darker gray (26-28-29) */
+  --color-content-bg: #2A2C31;     /* Content areas - slightly lighter (42-44-49) */
+  --color-header-bg: #232528;      /* Header background - slightly darker than content */
+
+  /* Text colors */
+  --color-text: #E5E7EB;           /* Main text - light gray with slight blue tint */
+  --color-text-muted: #9CA3AF;     /* Subdued text */
+  --color-heading: #F9FAFB;        /* Headings - almost white */
+
+  /* UI Element colors */
+  --color-header-link: #D1D5DB;    /* Header navigation links */
+  --color-header-link-hover: #3B82F6; /* Link hover state */
+  --color-header-btn-bg: #374151;  /* Button background */
+  --color-header-btn-text: #3B82F6; /* Button text */
+  --color-header-btn-border: #3B82F6; /* Button border */
+  --color-header-btn-hover-bg: #4B5563; /* Button hover background */
+
+  /* Accents */
+  --color-border: rgba(255, 255, 255, 0.1); /* Subtle borders */
+  --color-card-shadow: rgba(0, 0, 0, 0.25);  /* Shadow for cards */
+
+  /* Page spacing */
+  --section-gap: 160px;
+}
+
+/* ====== Base Styles ====== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Add this to prevent the initial flash */
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ====== App Layout ====== */
 #app {
-  max-width: 1280px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ====== Page Layout ====== */
+.page-root {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.main-content, .dashboard-root {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: var(--color-bg);
+  border-radius: 0;
+  color: var(--color-text);
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Content wrapper for consistent layout */
+.content-wrapper {
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 3rem 1.5rem 4rem;
+  align-self: center;
 }
 
-a,
-.green {
+/* ====== Card-style content ====== */
+.content-card {
+  background: var(--color-content-bg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 0.8rem;
+  border: 1px solid var(--color-border);
+  padding: 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ====== Typography ====== */
+.main-content h1, .dashboard-root h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--color-heading);
+  margin-bottom: 1.2rem;
+  letter-spacing: -1px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.main-subtitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-top: -0.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  text-align: center !important;
+  display: block;
+}
+
+/* Center the main title for better alignment with subtitle */
+.content-card h1 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--color-heading);
+  font-weight: 800;
+}
+
+.subheading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.main-desc {
+  color: var(--color-text);
+  font-size: 1.2rem;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  text-align: justify;
+  width: 100%;
+  font-weight: 500;
+}
+
+/* Apply text justification to all regular paragraphs in content */
+.content-card p {
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* But keep certain elements with normal alignment */
+.alert p,
+.values-list li {
+  text-align: left;
+  /* Removed .content-card h1 + p.main-subtitle from here to keep subtitle centered */
+}
+
+/* Content section for better spacing and organization */
+.content-section {
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.content-section:last-child {
+  margin-bottom: 0;
+}
+
+/* First content section after title should be nicely integrated */
+h1 + .main-subtitle + .content-section {
+  margin-top: 2rem;
+}
+
+/* Style main content links with accent color */
+.content-card a {
+  color: var(--color-accent);
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.content-card a:hover {
+  filter: brightness(1.2);
+  text-decoration: underline;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+/* Make code elements stand out better */
+code {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+  color: var(--color-accent);
+}
+
+/* Improve alert styling */
+.alert {
+  margin: 2.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 5px solid;
+  display: block;
+  width: 100%;
+}
+
+.alert-important {
+  background-color: rgba(217, 119, 6, 0.15);
+  border-left-color: #f59e0b;
+}
+
+.alert p {
+  margin-bottom: 0;
+  text-align: left;
+}
+
+/* Fix list styles */
+.values-list {
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.values-list li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ====== Header Styles ====== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background: var(--color-header-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.header-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.header-brand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-header-link-hover);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.header-brand:hover {
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  margin-left: 2.5rem;
+}
+
+.header-link {
+  color: var(--color-header-link);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s;
+  display: inline-block;
+}
+
+.header-link:hover {
+  color: var(--color-header-link-hover);
+  text-decoration: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.login-btn, .register-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+.login-btn:hover {
+  background: rgba(59, 130, 246, 0.25);
+}
+
+.register-btn {
+  background: var(--color-accent);
+  color: #1A1C1D;
+  margin-left: 0.5rem;
+  border-color: var(--color-accent);
+  font-weight: 700;
+}
+
+.register-btn:hover {
+  filter: brightness(1.08);
+  background: var(--color-accent);
+}
+
+.dark-toggle-btn {
+  /* Dark toggle button is removed since we're only using dark mode */
+  display: none;
+}
+
+/* Dark toggle removed - always in dark mode */
+
+/* RouterLink active styling */
+.router-link-active {
+  color: var(--color-header-link-hover);
+}
+
+.router-link-exact-active {
+  color: var(--color-header-link-hover);
+  font-weight: 700;
+}
+
+/* ====== Card Grid Layout ====== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.feature-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.6rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-heading);
+}
+
+.feature-card p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ====== Responsive Layout ====== */
+@media (max-width: 768px) {
+  .main-content, .dashboard-root {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  .header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .header-nav {
+    margin-left: 1rem;
+    gap: 1rem;
+  }
+
+  .main-content h1, .dashboard-root h1 {
+    font-size: 2.2rem;
   }
 }

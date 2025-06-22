@@ -1,14 +1,18 @@
 <template>
   <div class="page-root">
     <AppHeader />
-    <div class="dashboard-root">
-      <h1>Welcome to your Dashboard</h1>
-      <p>This page is only accessible to authenticated users.</p>
-    </div>
+    <main class="dashboard-root">
+      <div class="content-wrapper">
+        <div class="content-card">
+          <h1>Welcome to your Dashboard</h1>
+          <p>This page is only accessible to authenticated users.</p>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
-// No login/logout logic needed, handled by AppHeader
 </script>
+

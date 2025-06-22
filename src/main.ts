@@ -1,5 +1,7 @@
 import './assets/main.css'
 
+document.documentElement.classList.add('dark');
+
 import { createApp } from 'vue'
 import { createLogto } from '@logto/vue';
 
