@@ -2,9 +2,19 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-left">
-        <div class="footer-logo">
-          <img src="/favicon.svg" alt="nxthdr Logo" class="footer-logo-img" />
-          <span class="footer-brand">nxthdr</span>
+        <div class="footer-branding">
+          <div class="footer-logo">
+            <img src="/favicon.svg" alt="nxthdr Logo" class="footer-logo-img" />
+            <span class="footer-brand">nxthdr</span>
+          </div>
+          <!-- GitHub icon appears here on mobile -->
+          <div class="footer-social footer-social-mobile">
+            <a href="https://github.com/nxthdr" target="_blank" rel="noopener" aria-label="GitHub" class="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
         </div>
         <p class="footer-tagline">Powering network measurements and research</p>
       </div>
@@ -28,7 +38,7 @@
       </div>
 
       <div class="footer-right">
-        <div class="footer-social">
+        <div class="footer-social footer-social-desktop">
           <a href="https://github.com/nxthdr" target="_blank" rel="noopener" aria-label="GitHub" class="footer-social-link">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -67,8 +77,10 @@ const currentYear = computed(() => new Date().getFullYear());
   flex-wrap: wrap;
   justify-content: space-between;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 2.5rem;
+  box-sizing: border-box;
 }
 
 .footer-left {
@@ -77,10 +89,16 @@ const currentYear = computed(() => new Date().getFullYear());
   min-width: 200px;
 }
 
+.footer-branding {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
 .footer-logo {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
 }
 
 .footer-logo-img {
@@ -113,6 +131,7 @@ const currentYear = computed(() => new Date().getFullYear());
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 100%;
 }
 
 .footer-section {
@@ -149,11 +168,17 @@ const currentYear = computed(() => new Date().getFullYear());
   min-width: 200px;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-start;
 }
 
 .footer-social {
   display: flex;
   gap: 1rem;
+}
+
+/* Hide mobile social on desktop */
+.footer-social-mobile {
+  display: none;
 }
 
 .footer-social-link {
@@ -169,7 +194,14 @@ const currentYear = computed(() => new Date().getFullYear());
   text-align: center;
   margin-top: 2rem;
   padding-top: 1.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .copyright {
@@ -179,18 +211,57 @@ const currentYear = computed(() => new Date().getFullYear());
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem 0 1rem;
+  }
+
   .footer-content {
     flex-direction: column;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
   }
 
-  .footer-left, .footer-center, .footer-right {
-    flex: 1 0 100%;
-    margin-bottom: 2rem;
+  /* Show mobile social, hide desktop social */
+  .footer-social-mobile {
+    display: flex;
   }
 
-  .footer-right {
+  .footer-social-desktop {
+    display: none;
+  }
+
+  .footer-left {
+    margin-bottom: 1rem;
+  }
+
+  .footer-branding {
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-tagline {
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
     justify-content: flex-start;
+  }
+
+  .footer-section {
+    margin-right: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-link {
+    padding-left: 0;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-bottom {
+    text-align: left;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
   }
 }
 </style>
