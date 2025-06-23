@@ -88,7 +88,7 @@ html, body {
   overflow-x: hidden;
 }
 
-.main-content, .dashboard-root {
+.main-content {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -108,7 +108,7 @@ html, body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
+  padding: 3rem 1rem 4rem;
   align-self: center;
 }
 
@@ -130,7 +130,7 @@ html, body {
 }
 
 /* ====== Typography ====== */
-.main-content h1, .dashboard-root h1 {
+.main-content h1 {
   font-size: 2.8rem;
   font-weight: 900;
   color: var(--color-heading);
@@ -455,9 +455,18 @@ th, td {
 
 /* ====== Responsive Layout ====== */
 @media (max-width: 768px) {
-  .main-content, .dashboard-root {
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .main-content {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .content-wrapper {
+    padding: 2rem 0.5rem 3rem;
+  }
+
+  .content-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .header {
@@ -470,7 +479,24 @@ th, td {
     gap: 1rem;
   }
 
-  .main-content h1, .dashboard-root h1 {
+  .main-content h1 {
     font-size: 2.2rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .main-content {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .content-wrapper {
+    padding: 1.5rem 0.25rem 2rem;
+  }
+
+  .content-card {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
   }
 }

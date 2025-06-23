@@ -1,7 +1,7 @@
 <template>
   <div class="page-root">
     <AppHeader />
-    <main class="dashboard-root">
+    <main class="main-content">
       <div class="content-wrapper">
         <div class="content-card">
           <h1>Dashboard</h1>
