@@ -61,11 +61,13 @@
         </div>
       </div>
     </main>
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
 import { ref, onMounted } from 'vue';
 import { useLogto, type IdTokenClaims } from '@logto/vue';
 

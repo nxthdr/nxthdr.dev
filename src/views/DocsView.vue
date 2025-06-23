@@ -32,12 +32,14 @@
         </div>
       </div>
     </main>
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
 import DocsSidebar from '@/components/DocsSidebar.vue';
+import AppFooter from '@/components/AppFooter.vue';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 
