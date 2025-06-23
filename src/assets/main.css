@@ -217,6 +217,34 @@ h1 + .main-subtitle + .content-section {
   margin-top: 2rem;
 }
 
+/* References section styling to match content-section */
+.references-section {
+  margin-bottom: 2.5rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.references-section:last-child {
+  margin-bottom: 0;
+}
+
+.references-list {
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.5rem;
+  line-height: 1.6;
+}
+
+.references-list li {
+  margin-bottom: 1rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.references-list a {
+  word-break: break-all;
+}
+
 /* Style main content links with accent color */
 .content-card a {
   color: var(--color-accent);
@@ -461,7 +489,7 @@ th, td {
   }
 
   .content-wrapper {
-    padding: 2rem 0.5rem 3rem;
+    padding: 1rem 0.5rem 2rem;
   }
 
   .content-card {
@@ -470,8 +498,8 @@ th, td {
   }
 
   .header {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .header-nav {
@@ -492,11 +520,29 @@ th, td {
   }
 
   .content-wrapper {
-    padding: 1.5rem 0.25rem 2rem;
+    padding: 0.75rem 0.25rem 1.5rem;
   }
 
   .content-card {
     padding: 1.25rem;
     border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .header {
+    padding: 1rem 0.25rem;
+  }
+
+  /* References improvements for small screens */
+  .references-list {
+    padding-left: 1.2rem;
+  }
+
+  .references-list li {
+    margin-bottom: 1.2rem;
+  }
+
+  .references-list a {
+    font-size: 0.9rem;
   }
 }
