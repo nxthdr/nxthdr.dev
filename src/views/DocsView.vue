@@ -52,7 +52,7 @@ const sidebarSections = [
     title: 'INFRASTRUCTURE',
     links: [
       { to: '/docs/infrastructure', text: 'Overview' },
-      { to: '/docs/as215011', text: 'AS215011 Network' }
+      { to: '/docs/as215011', text: 'as215011' }
     ]
   },
   {

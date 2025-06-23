@@ -1,6 +1,6 @@
 <template>
   <div class="docs-page-content">
-    <h1 class="docs-title">AS215011 Network</h1>
+    <h1 class="docs-title">as215011</h1>
     <p class="docs-subtitle">The autonomous system powering nxthdr's global measurement platform</p>
 
     <div class="section-container">

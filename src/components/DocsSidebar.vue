@@ -2,11 +2,31 @@
   <div>
     <!-- Mobile sidebar toggle -->
     <button class="mobile-sidebar-toggle" @click="toggleSidebar">
-      {{ isSidebarOpen ? 'Hide Menu' : 'Show Menu' }}
+      <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      {{ isSidebarOpen ? 'Hide Menu' : 'Menu' }}
     </button>
 
+    <!-- Backdrop overlay (mobile only) -->
+    <div
+      class="sidebar-backdrop"
+      v-show="isSidebarOpen"
+      @click="closeMobileSidebar"
+      aria-hidden="true"
+    ></div>
+
     <div class="docs-sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
-      <!-- Sidebar content container -->
+      <!-- Mobile-only header (only visible on mobile) -->
+      <div class="sidebar-mobile-header">
+        <button class="sidebar-close-btn" @click="closeMobileSidebar" aria-label="Close sidebar">
+          ×
+        </button>
+      </div>
+
+      <!-- Sidebar content container - no changes to this structure to preserve desktop version -->
       <div class="sidebar-content">
         <!-- Use custom sections if provided, otherwise use default sections -->
         <template v-if="sections && sections.length > 0">
@@ -45,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 // Define the types for the sidebar sections
 interface SidebarLink {
@@ -80,11 +100,25 @@ function toggleSidebar() {
 }
 
 function closeMobileSidebar() {
-  if (window.innerWidth <= 768) {
-    isSidebarOpen.value = false;
-    emit('update:isSidebarOpen', false);
+  isSidebarOpen.value = false;
+  emit('update:isSidebarOpen', false);
+}
+
+// Close sidebar on escape key press
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && isSidebarOpen.value) {
+    closeMobileSidebar();
   }
 }
+
+// Add event listener for escape key
+onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeyDown);
+});
 </script>
 
 <style scoped>
@@ -147,11 +181,15 @@ function closeMobileSidebar() {
   font-weight: 600;
 }
 
-/* Mobile sidebar toggle */
-.mobile-sidebar-toggle {
-  display: none;
+/* Mobile elements - all hidden on desktop */
+.mobile-sidebar-toggle,
+.sidebar-backdrop,
+.sidebar-mobile-header,
+.sidebar-close-btn {
+  display: none; /* Hide all mobile elements on desktop */
 }
 
+/* Keep the original desktop sidebar structure */
 .sidebar-content {
   flex: 1 1 auto;
   min-height: 0;
@@ -174,19 +212,19 @@ function closeMobileSidebar() {
 
 @media (max-width: 768px) {
   .docs-sidebar {
-    width: 100%;
-    height: auto;
-    max-height: 0;
-    overflow: hidden;
-    position: static; /* Change to static positioning for mobile */
-    top: auto;
-    left: auto;
-    padding-top: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-    transition: max-height 0.3s ease, padding 0.3s ease;
-    padding: 0;
-    display: block; /* Reset flex display for mobile */
+    width: 85%; /* Not full width to allow some content visibility */
+    max-width: 300px;
+    height: calc(100vh - var(--header-height));
+    position: fixed;
+    top: var(--header-height);
+    left: -100%; /* Start off-screen */
+    bottom: 0;
+    padding: 1rem 0;
+    border-right: 1px solid var(--color-border);
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    z-index: 10; /* Higher z-index to appear above content */
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
   }
 
   .sidebar-footer-spacer {
@@ -194,31 +232,89 @@ function closeMobileSidebar() {
   }
 
   .docs-sidebar.sidebar-open {
-    max-height: 1000px;
-    padding: 1rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    left: 0; /* Slide in from left */
   }
 
+  /* Show the mobile header only when sidebar is open on mobile */
+  .docs-sidebar.sidebar-open .sidebar-mobile-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Overlay for sidebar background when open */
+  /* Removed the pseudo-element overlay, using dedicated overlay element instead */
+
   .mobile-sidebar-toggle {
-    display: block;
-    padding: 0.75rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
     background: var(--color-content-bg);
     color: var(--color-text);
     font-weight: 600;
     cursor: pointer;
-    border: none;
-    width: 100%;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 0.25rem;
+    border: 1px solid var(--color-border);
+    width: auto;
+    max-width: 120px;
+    margin: 0.75rem 1rem;
+    border-radius: 4px;
     position: sticky;
-    top: var(--header-height); /* Use the header height variable */
+    top: calc(var(--header-height) + 0.5rem); /* Position below header with some spacing */
     z-index: 5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  }
+
+  .mobile-sidebar-toggle:hover,
+  .mobile-sidebar-toggle:focus {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+  }
+
+  .menu-icon {
+    margin-right: 6px;
   }
 
   .sidebar-link {
     padding: 0.5rem 1.5rem;
+  }
+
+  /* Backdrop for the mobile sidebar */
+  .sidebar-backdrop {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    background-color: rgba(0, 0, 0, 0.7); /* Darker for better contrast */
+    z-index: 9;
+    transition: opacity 0.3s ease;
+    display: block; /* Show on mobile */
+  }
+
+  /* Mobile sidebar header styling */
+  .sidebar-mobile-header {
+    display: none; /* Always hidden by default */
+  }
+
+  .sidebar-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent);
   }
 }
 </style>
