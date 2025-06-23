@@ -23,6 +23,9 @@
   --color-header-btn-bg: #374151;  /* Button background */
   --color-header-btn-text: #3B82F6; /* Button text */
   --color-header-btn-border: #3B82F6; /* Button border */
+
+  /* Layout dimensions */
+  --header-height: 72px;           /* Fixed header height for consistent spacing */
   --color-header-btn-hover-bg: #4B5563; /* Button hover background */
 
   /* Accents */
@@ -55,6 +58,8 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   background: var(--color-bg);
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none; /* Prevents bounce effect at the top of the page */
   color: var(--color-text);
   box-sizing: border-box;
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
@@ -83,9 +88,11 @@ html, body {
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 0;
+  padding: var(--header-height) 0 0 0; /* Use header height variable for top padding */
   box-sizing: border-box;
   overflow-x: hidden;
+  position: relative; /* Ensure proper positioning context */
+  overscroll-behavior-y: none; /* Prevent overscroll bounce effects */
 }
 
 .main-content {
@@ -106,27 +113,18 @@ html, body {
 /* Content wrapper for consistent layout */
 .content-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 3rem 1rem 4rem;
+  padding: 2rem 1rem 4rem;
   align-self: center;
 }
 
-/* ====== Card-style content ====== */
+/* ====== Content styling (modernized, no card) ====== */
 .content-card {
-  background: var(--color-content-bg);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 0.8rem;
-  border: 1px solid var(--color-border);
-  padding: 2.5rem;
-  max-width: 900px;
+  max-width: 800px; /* Match docs page width */
   width: 100%;
-  margin: 0 auto 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.content-card:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  margin: 0 0 2rem;
+  padding: 0; /* Remove padding since we're removing the card */
 }
 
 /* ====== Typography ====== */
@@ -140,38 +138,55 @@ html, body {
 }
 
 .main-subtitle {
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--color-accent);
-  margin-top: -0.5rem;
-  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem;
+  margin-top: 0;
+  max-width: 800px;
   width: 100%;
-  text-align: center !important;
+  text-align: left;
   display: block;
 }
 
-/* Center the main title for better alignment with subtitle */
+/* Content titles - use same styling as docs titles */
 .content-card h1 {
-  text-align: center;
-  margin-bottom: 0.5rem;
-  color: var(--color-heading);
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 0.2rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  letter-spacing: 0.8px;
+  text-shadow: none !important;
+  filter: none !important;
+  line-height: 1.2;
+}
+
+/* First subheading in content card should have less top margin */
+.content-card h2.subheading:first-child {
+  margin-top: 0.5rem;
+}
+
+/* Global styles for headings */
+.subheading, h2 {
+  font-size: 1.8rem;
   font-weight: 800;
-}
-
-.subheading {
-  font-size: 1.75rem;
-  font-weight: 700;
+  margin: 2.5rem 0 1.2rem;
   color: var(--color-heading);
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  letter-spacing: -0.01em;
 }
 
-.section-title {
+.section-title, h3 {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--color-heading);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin: 1.8rem 0 0.75rem;
+  color: #A0AEC0; /* Muted blue-gray tone that's less flashy but still distinct */
+  letter-spacing: 0.01em;
 }
 
 .main-desc {
@@ -188,11 +203,12 @@ html, body {
   border-bottom: 1px solid rgba(59, 130, 246, 0.3); /* Subtle primary-colored bottom border (blue) */
 }
 
-/* Apply text justification to all regular paragraphs in content */
-.content-card p {
+/* Apply consistent text styling to all paragraphs */
+p {
   margin-bottom: 1.2rem;
   line-height: 1.6;
-  text-align: justify;
+  font-size: 1rem;
+  color: var(--color-text);
 }
 
 /* But keep certain elements with normal alignment */
@@ -204,13 +220,16 @@ html, body {
 
 /* Content section for better spacing and organization */
 .content-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem; /* Slightly reduced spacing between sections */
   width: 100%;
 }
 
 .content-section:last-child {
   margin-bottom: 0;
 }
+
+/* Removed duplicate subheading and section-title styles
+   Using the shared styles defined elsewhere */
 
 /* First content section after title should be nicely integrated */
 h1 + .main-subtitle + .content-section {
@@ -241,12 +260,8 @@ h1 + .main-subtitle + .content-section {
   word-break: break-word;
 }
 
-.references-list a {
-  word-break: break-all;
-}
-
-/* Style main content links with accent color */
-.content-card a {
+/* Common Link Styling - Applied globally */
+a {
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
@@ -254,9 +269,14 @@ h1 + .main-subtitle + .content-section {
   transition: all 0.2s ease;
 }
 
-.content-card a:hover {
+a:hover {
   filter: brightness(1.2);
   text-decoration: underline;
+}
+
+/* Special case for references list links */
+.references-list a {
+  word-break: break-all;
 }
 
 /* Make code elements stand out better */
@@ -320,10 +340,18 @@ th, td {
   padding: 1.2rem 2.5rem;
   background: var(--color-header-bg);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   width: 100%;
+  height: var(--header-height);
+  box-sizing: border-box;
+  /* Ensure header stays fixed at the top without jumping */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .header-left {
@@ -362,7 +390,7 @@ th, td {
 }
 
 .header-brand:hover {
-  text-decoration: none;
+  text-decoration: none !important; /* Ensure no underline from global style */
   filter: brightness(1.2);
   transform: translateY(-1px);
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
@@ -382,11 +410,13 @@ th, td {
   text-decoration: none;
   transition: color 0.15s;
   display: inline-block;
+  position: relative; /* To match global link style */
 }
 
 .header-link:hover {
   color: var(--color-header-link-hover);
   text-decoration: none;
+  filter: none; /* Override the global hover brightness */
 }
 
 .header-actions {
@@ -409,6 +439,7 @@ th, td {
 
 .login-btn:hover {
   background: rgba(59, 130, 246, 0.25);
+  text-decoration: none !important; /* Override global link style */
 }
 
 .register-btn {
@@ -417,11 +448,13 @@ th, td {
   margin-left: 0.5rem;
   border-color: var(--color-accent);
   font-weight: 700;
+  text-decoration: none !important; /* Override global link style */
 }
 
 .register-btn:hover {
   filter: brightness(1.08);
   background: var(--color-accent);
+  text-decoration: none !important; /* Override global link style */
 }
 
 .dark-toggle-btn {
@@ -432,11 +465,12 @@ th, td {
 /* Dark toggle removed - always in dark mode */
 
 /* RouterLink active styling */
-.router-link-active {
+/* Make router link styles more specific to avoid conflicts with global link styles */
+.header-nav .router-link-active {
   color: var(--color-header-link-hover);
 }
 
-.router-link-exact-active {
+.header-nav .router-link-exact-active {
   color: var(--color-header-link-hover);
   font-weight: 700;
 }
@@ -493,8 +527,25 @@ th, td {
   }
 
   .content-card {
-    padding: 1.5rem;
     margin-bottom: 1.5rem;
+    margin-left: 0;
+    padding: 0 0.5rem;
+  }
+
+  .docs-title {
+    font-size: 1.4rem;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+    margin-left: 0;
+    text-shadow: none;
+  }
+
+  .docs-subtitle {
+    font-size: 0.9rem;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
+    margin-bottom: 1rem;
+    margin-left: 0;
   }
 
   .header {
@@ -524,9 +575,9 @@ th, td {
   }
 
   .content-card {
-    padding: 1.25rem;
-    border-radius: 0.5rem;
     margin-bottom: 1rem;
+    margin-left: 0;
+    padding: 0 0.25rem;
   }
 
   .header {
@@ -545,4 +596,168 @@ th, td {
   .references-list a {
     font-size: 0.9rem;
   }
+}
+
+/* ====== Scroll fixes ====== */
+/* Force header to stay fixed even at scroll boundaries */
+html[data-scroll-y="0"] .header {
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+/* Ensure content doesn't jump when scrolling to top */
+.app-container {
+  transform: translateZ(0);
+}
+
+/* Additional scrollbar styles to ensure consistent behavior */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #4d4d4d #1a1c1d;
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #1a1c1d;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #4d4d4d;
+  border-radius: 4px;
+}
+
+/* ====== Page Title Styles (Outside of Content Cards) ====== */
+.page-title {
+  color: var(--color-heading);
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  max-width: 900px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-subtitle {
+  color: var(--color-text);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ====== Documentation-specific styles ====== */
+.docs-page-content {
+  max-width: 800px;
+  padding-bottom: 3rem;
+}
+
+/* Override main-content h1 shadow for docs title */
+.main-content h1.docs-title {
+  text-shadow: none !important;
+}
+
+.docs-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 0; /* No spacing between title and subtitle */
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  letter-spacing: 0.8px;
+  position: relative;
+  line-height: 1.2;
+  filter: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-text-shadow: none !important;
+  -moz-text-shadow: none !important;
+  border: none !important;
+}
+
+.docs-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem; /* Space between subtitle and content */
+  margin-top: 0; /* No top margin to create tighter connection with title */
+  max-width: 800px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Documentation section styling */
+.section-container {
+  margin-bottom: 2rem;
+}
+
+/* These styles are now handled by global styles */
+
+/* Documentation list styling now uses global styles */
+
+/* Documentation link styling - inherits from global a styles */
+
+/* Documentation Quick Links */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.quick-link {
+  display: block;
+  padding: 1.5rem;
+  background: rgba(30, 32, 33, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  /* No font-weight to override the global link style */
+  font-weight: normal;
+}
+
+.quick-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-accent);
+  text-decoration: none !important;
+  filter: none; /* Override global hover filter */
+}
+
+.quick-link-title {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.quick-link-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+/* Documentation code blocks */
+.docs-page-content pre {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.docs-page-content code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
 }

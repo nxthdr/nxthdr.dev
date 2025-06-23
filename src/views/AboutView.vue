@@ -4,7 +4,6 @@
     <main class="main-content">
       <div class="content-wrapper">
         <div class="content-card">
-          <h1>About</h1>
           <div class="content-section">
             <p>
               Hey, I'm <a href="https://matthieugouel.name/" target="_blank" rel="noopener">Matthieu Gouel</a>. My <a href="https://theses.hal.science/tel-04164622v1/document" target="_blank" rel="noopener">PhD</a> focused on measuring the Internet using large-scale ping and traceroute data to enhance our understanding of how the Internet operates in practice. But, to be honest, I was more interested in building the tools and platforms than in writing papers.

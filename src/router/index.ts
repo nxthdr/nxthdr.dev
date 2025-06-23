@@ -29,6 +29,23 @@ const router = createRouter({
       path: '/docs',
       name: 'docs',
       component: DocsView,
+      children: [
+        {
+          path: 'infrastructure',
+          name: 'docs-infrastructure',
+          component: () => import('../views/docs/InfrastructureView.vue')
+        },
+        {
+          path: 'as215011',
+          name: 'docs-as215011',
+          component: () => import('../views/docs/AS215011View.vue')
+        },
+        {
+          path: 'datasets',
+          name: 'docs-datasets',
+          component: () => import('../views/docs/DatasetsView.vue')
+        },
+      ]
     },
     {
       path: '/about',

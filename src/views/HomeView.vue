@@ -11,7 +11,7 @@
               nxthdr, pronounced "Next Header", is an initiative to offer metrology capabilities to researchers and students to study and learn about the Internet.
             </p>
             <p>
-              It integrates high-speed probing capabilities together with peering control, offering the community a unique platform. The nxthdr <router-link to="/docs">infrastructure</router-link> enables Internet-scale route tracing while managing and collecting BGP advertisements from diverse vantage points and multiple IXPs, powered by the <router-link to="/as215011">as215011</router-link> network.
+              It integrates high-speed probing capabilities together with peering control, offering the community a unique platform. The nxthdr <router-link to="/docs">infrastructure</router-link> enables Internet-scale route tracing while managing and collecting BGP advertisements from diverse vantage points and multiple IXPs, powered by the <router-link to="/docs">as215011</router-link> network.
             </p>
           </div>
 
