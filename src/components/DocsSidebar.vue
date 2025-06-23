@@ -6,40 +6,46 @@
     </button>
 
     <div class="docs-sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
-      <!-- Use custom sections if provided, otherwise use default sections -->
-      <template v-if="sections && sections.length > 0">
-        <div v-for="(section, index) in sections" :key="index" class="sidebar-section">
-          <h3 class="sidebar-title">{{ section.title }}</h3>
-          <router-link
-            v-for="link in section.links"
-            :key="link.to"
-            :to="link.to"
-            class="sidebar-link"
-            @click="closeMobileSidebar"
-          >
-            {{ link.text }}
-          </router-link>
-        </div>
-      </template>
+      <!-- Sidebar content container -->
+      <div class="sidebar-content">
+        <!-- Use custom sections if provided, otherwise use default sections -->
+        <template v-if="sections && sections.length > 0">
+          <div v-for="(section, index) in sections" :key="index" class="sidebar-section">
+            <h3 class="sidebar-title">{{ section.title }}</h3>
+            <router-link
+              v-for="link in section.links"
+              :key="link.to"
+              :to="link.to"
+              class="sidebar-link"
+              @click="closeMobileSidebar"
+            >
+              {{ link.text }}
+            </router-link>
+          </div>
+        </template>
 
-      <!-- Default sidebar content if no sections provided -->
-      <template v-else>
-        <div class="sidebar-section">
-          <h3 class="sidebar-title">INFRASTRUCTURE</h3>
-          <router-link to="/docs/infrastructure" class="sidebar-link" @click="closeMobileSidebar">Overview</router-link>
-          <router-link to="/docs/as215011" class="sidebar-link" @click="closeMobileSidebar">AS215011 Network</router-link>
-        </div>
-        <div class="sidebar-section">
-          <h3 class="sidebar-title">DATASETS</h3>
-          <router-link to="/docs/datasets" class="sidebar-link" @click="closeMobileSidebar">Available Data</router-link>
-        </div>
-      </template>
+        <!-- Default sidebar content if no sections provided -->
+        <template v-else>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">INFRASTRUCTURE</h3>
+            <router-link to="/docs/infrastructure" class="sidebar-link" @click="closeMobileSidebar">Overview</router-link>
+            <router-link to="/docs/as215011" class="sidebar-link" @click="closeMobileSidebar">AS215011 Network</router-link>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">DATASETS</h3>
+            <router-link to="/docs/datasets" class="sidebar-link" @click="closeMobileSidebar">Available Data</router-link>
+          </div>
+        </template>
+      </div>
+
+      <!-- Spacer to ensure the sidebar content doesn't go behind the footer -->
+      <div class="sidebar-footer-spacer"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 
 // Define the types for the sidebar sections
 interface SidebarLink {
@@ -88,15 +94,17 @@ function closeMobileSidebar() {
   flex-shrink: 0;
   background: rgba(26, 28, 29, 0.97);
   border-right: 1px solid var(--color-border);
-  padding: 1.5rem 0;
-  height: calc(100vh - var(--header-height)); /* Adjust height to account for header */
   position: fixed;
   left: 0;
   top: var(--header-height); /* Position exactly below the header */
-  padding-top: 1.5rem; /* Reset padding-top to be consistent */
+  bottom: 0; /* Extend to the bottom of the viewport */
+  padding: 1.5rem 0; /* Consistent padding */
+  padding-bottom: 0; /* We'll handle the footer spacing differently */
   overflow-y: auto;
   z-index: 4; /* Below header but above other content */
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-open {
@@ -144,6 +152,19 @@ function closeMobileSidebar() {
   display: none;
 }
 
+.sidebar-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 1.5rem;
+}
+
+.sidebar-footer-spacer {
+  flex: 0 0 auto;
+  height: var(--footer-height, 300px);
+  width: 100%;
+}
+
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .docs-sidebar {
@@ -165,6 +186,11 @@ function closeMobileSidebar() {
     border-bottom: 1px solid var(--color-border);
     transition: max-height 0.3s ease, padding 0.3s ease;
     padding: 0;
+    display: block; /* Reset flex display for mobile */
+  }
+
+  .sidebar-footer-spacer {
+    display: none; /* Hide the spacer on mobile */
   }
 
   .docs-sidebar.sidebar-open {

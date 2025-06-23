@@ -54,8 +54,12 @@ const currentYear = computed(() => new Date().getFullYear());
   background: var(--color-header-bg);
   color: var(--color-text);
   padding: 2.5rem 0 1rem;
-  margin-top: 5rem;
+  margin-top: 0; /* Remove top margin to connect directly with content */
   border-top: 1px solid var(--color-border);
+  min-height: var(--footer-height); /* Match footer height variable */
+  box-sizing: border-box; /* Include padding in the height calculation */
+  position: relative; /* Ensure proper stacking context */
+  z-index: 5; /* Higher than sidebar to ensure it's always on top */
 }
 
 .footer-content {

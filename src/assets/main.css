@@ -26,7 +26,7 @@
 
   /* Layout dimensions */
   --header-height: 72px;           /* Fixed header height for consistent spacing */
-  --color-header-btn-hover-bg: #4B5563; /* Button hover background */
+  --footer-height: 300px;          /* Footer height for layout calculations */
 
   /* Accents */
   --color-border: rgba(255, 255, 255, 0.1); /* Subtle borders */

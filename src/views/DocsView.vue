@@ -81,9 +81,9 @@ function updateSidebarState(isOpen: boolean) {
   padding: 0;
   margin: 0;
   position: relative;
-  min-height: calc(100vh - var(--header-height)); /* Adjust for header height */
   width: 100%;
   max-width: 100%;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
 }
 
 .docs-content {
@@ -92,8 +92,9 @@ function updateSidebarState(isOpen: boolean) {
   padding-right: 1.5rem;
   width: 100%;
   max-width: 100%;
-  min-height: calc(100vh - var(--header-height)); /* Use the header height variable */
+  min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
   padding-top: 2rem; /* Increased top padding for better spacing with titles */
+  padding-bottom: 2rem; /* Add bottom padding to ensure content doesn't touch footer */
 }
 
 /* Quick links have been moved to DocsContentStyle component */
@@ -124,6 +125,7 @@ function updateSidebarState(isOpen: boolean) {
   .docs-content {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    min-height: auto; /* Remove min-height constraint on mobile */
   }
 }
 </style>
