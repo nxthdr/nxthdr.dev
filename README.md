@@ -26,5 +26,3 @@ If you need to change the environment settings for production:
 2. Commit the changes to your repository
 3. Build the Docker image
 
-This approach keeps things simple and transparent.
-

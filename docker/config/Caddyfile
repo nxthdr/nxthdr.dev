@@ -1,21 +1,30 @@
 {
-    servers {
-        metrics
-    }
+    metrics
 }
 
 :80 {
-    root * /www/html
+    # Handle API requests first - explicitly only for the agents endpoint
+    handle /api/saimiris/agents {
+        # Strip the /api/saimiris part and add /api
+        rewrite * /api/agents
 
-    # Enable file server
-    file_server
+        # Forward to the target server
+        reverse_proxy https://saimiris.nxthdr.dev {
+            header_up Host {http.reverse_proxy.upstream.hostport}
+            header_up Accept "application/json"
 
-    # Handle SPA routing - serve index.html for any path that doesn't exist as a file
-    try_files {path} /index.html
+            # Add CORS headers
+            header_down Access-Control-Allow-Origin "*"
+            header_down Access-Control-Allow-Methods "GET, OPTIONS"
+            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization"
+        }
+    }
 
-    # Add proper MIME types
-    encode gzip
-    header /assets/* {
-        Cache-Control "public, max-age=31536000, immutable"
+    # Serve everything else as static files
+    handle {
+        root * /www/html
+        encode gzip
+        file_server
+        try_files {path} /index.html
     }
 }
