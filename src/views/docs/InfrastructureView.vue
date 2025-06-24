@@ -5,53 +5,77 @@
 
     <div class="section-container">
       <p>
-        The nxthdr platform consists of multiple components working together to provide a comprehensive solution for Internet measurements. Our infrastructure is designed to be reliable, scalable, and easily accessible to researchers and students.
-      </p>
-      <p>
-        All of our infrastructure is managed as code and is publicly available on <a href="https://github.com/nxthdr/infrastructure" target="_blank" rel="noopener">GitHub</a>. This transparency allows anyone to see how the platform is built and even contribute improvements.
+        This page offers an overview of the <strong>nxthdr</strong> platform's infrastructure, outlining its key components and progressively building a complete picture of the system. The infrastructure is managed as code and is open-source, accessible in the <a href="https://github.com/nxthdr/infrastructure" target="_blank" rel="noopener">infrastructure</a> repository.
       </p>
     </div>
 
-    <h2 class="subheading">Key Components</h2>
+    <h2 class="subheading">as215011 Network</h2>
 
     <div class="section-container">
-      <h3 class="section-title">AS215011 Network</h3>
+      <img src="/infrastructure/ixp.png" alt="nxthdr infrastructure IXP diagram" class="infrastructure-image" />
       <p>
-        The <router-link to="/docs/as215011">AS215011</router-link> network is the backbone of nxthdr, providing global connectivity through multiple IXPs and peering relationships. This autonomous system advertises several IPv6 prefixes that are used for measurements.
+        We operate the <strong>as215011</strong> Asynchronous System (AS) network to enable Internet-scale peering and routing experiments.
       </p>
-
-      <h3 class="section-title">Probing Servers</h3>
       <p>
-        Our distributed probing servers are located at strategic points around the world. These servers run our high-speed measurement tools and collect data about the Internet's structure and performance.
+        Currently, <strong>as215011</strong> consists of servers running <a href="https://bird.network.cz/" target="_blank" rel="noopener">BIRD</a> routing daemon located in Frankfurt and Amsterdam. Those servers are uniquely connected to Internet Exchange Point (IXP) LANs, allowing us to peer with multiple ASes and exchange routing information. See the <router-link to="/docs/as215011">as215011</router-link> page for more information.
       </p>
-
-      <h3 class="section-title">Data Storage</h3>
       <p>
-        All measurement data is stored in a distributed ClickHouse database cluster. This setup allows for efficient querying and analysis of massive datasets, making it possible to study Internet behavior at scale.
+        In addition, we use <strong>as215011</strong> to reach <strong>nxthdr</strong> services, allowing us to dogfood our own network. Each of those IXP servers is connected to a core server via a WireGuard tunnel. The core server announces the prefix <code>2a06:de00:50::/44</code> to the IXP servers, which then propagate it to the Internet. As a result, traffic destined for <strong>nxthdr</strong> services is routed through the IXP servers before reaching the core server.
       </p>
     </div>
 
-    <h2 class="subheading">Infrastructure as Code</h2>
+    <h2 class="subheading">Probing Servers</h2>
 
     <div class="section-container">
-      <p>The entire nxthdr infrastructure is managed using:</p>
-      <ul class="values-list">
-        <li><strong>Terraform</strong> - For cloud resource provisioning</li>
-        <li><strong>Ansible</strong> - For configuration management</li>
-        <li><strong>Docker</strong> - For containerized services</li>
-      </ul>
+      <img src="/infrastructure/probing.png" alt="nxthdr infrastructure probing diagram" class="infrastructure-image" />
       <p>
-        This approach ensures consistency, reproducibility, and transparency. All configuration files are available in our <a href="https://github.com/nxthdr/infrastructure" target="_blank" rel="noopener">infrastructure repository</a>.
+        We also manage probing servers used for active measurements. These servers are <a href="https://www.vultr.com/" target="_blank" rel="noopener">Vultr</a> instances located in multiple locations worldwide. They run a <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> probing agent. These servers rely on the core server to function, as it manages and stores the data (probes and results) using Redpanda and ClickHouse.
+      </p>
+      <p>
+        The probing servers advertise the sub prefixes of <code>2a0e:97c0:8a0::/44</code>, which is dedicated to the <strong>nxthdr</strong> probing infrastructure. This enables measurements using source unicast and anycast addresses managed by <strong>as215011</strong>. As with other parts of the network, the limitation is that it is IPv6-only. However, if measurements need to be performed from IPv4-only networks, the server's IPv4 address can possibly be used.
       </p>
     </div>
 
-    <h2 class="subheading">Observability</h2>
+    <h2 class="subheading">Core Services</h2>
 
     <div class="section-container">
+      <img src="/infrastructure/core.png" alt="nxthdr core services diagram" class="infrastructure-image" />
       <p>
-        All components of the nxthdr infrastructure are monitored using Prometheus and visualized with Grafana. Our <a href="https://grafana.nxthdr.dev/dashboards" target="_blank" rel="noopener">public dashboards</a> provide real-time insights into the health and performance of the platform.
+        All essential <strong>nxthdr</strong> services run on a core server, a <a href="https://www.scaleway.com/en/dedibox/" target="_blank" rel="noopener">Scaleway</a> Dedibox bare-metal server located in Amsterdam. <strong>nxthdr</strong> relies on various key components, including ClickHouse and PostgreSQL for databases, Redpanda for data streaming, and Prometheus, Loki, and Grafana for observability. These are examples of the technologies currently in use, and they may evolve as the platform grows.
+      </p>
+      <p>
+        All services are managed using <a href="https://www.docker.com/" target="_blank" rel="noopener">Docker</a>. We utilize two Docker networks. The <em>backend</em> network is internal and not accessible from the internet, facilitating communication between services. The <em>dmz</em> network is internet-facing and used by a <a href="https://caddyserver.com/" target="_blank" rel="noopener">Caddy</a> HTTPS reverse proxy to route traffic to backend services. Some non-HTTPS services also have an interface in the dmz network.
+      </p>
+      <p>
+        Currently, there is no redundancy for the core server, but regular backups of service data are performed.
+      </p>
+
+      <h3 class="section-title">IPv4 Proxy</h3>
+      <p>
+        The current limitation of <strong>as215011</strong> is that it is IPv6-only. To address this, we use an "IPv4 proxy server"--a <a href="https://www.scaleway.com/en/" target="_blank" rel="noopener">Scaleway</a> cloud instance with a public IPv4 address. This server proxies IPv4 traffic to the IPv6-only core server through a <a href="https://caddyserver.com/" target="_blank" rel="noopener">Caddy</a> reverse proxy.
+      </p>
+      <p>
+        All <strong>nxthdr</strong> domains have both A and AAAA records: the A records point to the IPv4 proxy service, and the AAAA records point to the core services directly.
       </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.infrastructure-image {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0 2rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+code {
+  font-family: monospace;
+  background-color: var(--color-code-bg);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+</style>
 

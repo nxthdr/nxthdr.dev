@@ -49,7 +49,7 @@
           <div class="sidebar-section">
             <h3 class="sidebar-title">INFRASTRUCTURE</h3>
             <router-link to="/docs/infrastructure" class="sidebar-link" @click="closeMobileSidebar">Overview</router-link>
-            <router-link to="/docs/as215011" class="sidebar-link" @click="closeMobileSidebar">AS215011 Network</router-link>
+            <router-link to="/docs/as215011" class="sidebar-link" @click="closeMobileSidebar">as215011</router-link>
           </div>
           <div class="sidebar-section">
             <h3 class="sidebar-title">DATASETS</h3>

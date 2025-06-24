@@ -5,64 +5,75 @@
 
     <div class="section-container">
       <p>
-        AS215011 is the autonomous system assigned to nxthdr that forms the backbone of our global measurement platform. This network is designed to support researchers and students in conducting Internet-scale experiments on routing and peering.
+        We currently administrate the Autonomous System (AS) <a href="https://www.peeringdb.com/net/36080" target="_blank" rel="noopener">215011</a>, announcing multiple IPv6 prefixes.
+      </p>
+      <p>
+        The <strong>as215011</strong> network is currently IPv6-only and is connected to multiple Internet Exchange Points (IXPs) in Europe. It is used for conducting routing and peering experiments and can also be combined with the <strong>nxthdr</strong> probing platform to perform active measurements while controlling prefix announcements during experiments. Additionally, it is possible to peer with <strong>as215011</strong> for experimental or non-commercial purposes.
+      </p>
+      <p>
+        The <strong>as215011</strong> network is used to provide connectivity to the <strong>nxthdr</strong> <router-link to="/docs/infrastructure">infrastructure</router-link>, allowing us to dogfood our own network.
+      </p>
+      <p>
+        Routing data collected by <strong>as215011</strong> routers is made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
       </p>
     </div>
 
     <h2 class="subheading">Network Overview</h2>
 
     <div class="section-container">
-      <p>AS215011 is deployed with the following characteristics:</p>
-      <ul class="values-list">
-        <li><strong>IPv6-only</strong> - Focused on the next-generation Internet protocol</li>
-        <li><strong>Multiple prefixes</strong> - Advertises several IPv6 prefixes for different measurement purposes</li>
-        <li><strong>Global presence</strong> - Connected to multiple IXPs around the world</li>
-        <li><strong>Open peering policy</strong> - Welcomes peering with any network</li>
-      </ul>
+      <h3 class="section-title">IXPs presence</h3>
+      <pre class="code-block">
+FogIXP - Frankfurt
+LOCIX  - Frankfurt
+NL-IX  - Amsterdam</pre>
 
-      <h3 class="section-title">Network Architecture</h3>
+      <h3 class="section-title">Announced prefixes</h3>
+      <pre class="code-block">
+2a06:de00:50::/44  - NXTHDR
+2a0e:97c0:8a0::/44 - NXTHDR-RESEARCH
+2a06:de01:d0::/44  - DSCP</pre>
+
       <p>
-        The AS215011 network consists of multiple routers deployed at different locations worldwide. Each router:
+        We embrace a radical transparency approach, so you can view the full <a href="https://github.com/nxthdr/infrastructure/tree/main/networks" target="_blank" rel="noopener">configuration</a> of <strong>as215011</strong> routers. If you identify a security issue, please feel free to open an issue or submit a pull request in the repository. Alternatively, you can join our <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener">Discord</a> server or email us at <a href="mailto:admin@nxthdr.dev">admin@nxthdr.dev</a>.
       </p>
-      <ul class="values-list">
-        <li>Runs <a href="https://frrouting.org/" target="_blank" rel="noopener">FRRouting</a> for BGP and other routing protocols</li>
-        <li>Establishes BGP sessions with peers at IXPs and via direct connections</li>
-        <li>Sends BMP (BGP Monitoring Protocol) data to our central collectors</li>
-        <li>Is fully managed via automation using Ansible</li>
-      </ul>
-    </div>
-
-    <h2 class="subheading">Peering Information</h2>
-
-    <div class="section-container">
-      <p>We maintain an open peering policy and welcome connections from any network. Our peering details:</p>
-      <ul class="values-list">
-        <li><strong>ASN</strong>: 215011</li>
-        <li><strong>IRR</strong>: AS-NXTHDR</li>
-        <li><strong>Peering email</strong>: peering@nxthdr.dev</li>
-      </ul>
       <p>
-        We're present at multiple IXPs globally. For an up-to-date list of our peering locations, please check <a href="https://peeringdb.com/asn/215011" target="_blank" rel="noopener">PeeringDB</a>.
+        You can check our geofeed <a href="https://geofeed.nxthdr.dev" target="_blank" rel="noopener">here</a>.
       </p>
     </div>
 
-    <h2 class="subheading">BGP Data Collection</h2>
+    <h2 class="subheading">Peering Policy</h2>
 
     <div class="section-container">
       <p>
-        All AS215011 routers send BGP data via the BGP Monitoring Protocol (BMP) to our <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a> collector. This data includes:
+        <strong>as215011</strong> operates an open peering policy and can also provide transit for other ASes, either through direct peering at IXPs or via a WireGuard tunnel. We enforce RPKI filtering with a refresh interval of 900 seconds.
       </p>
-      <ul class="values-list">
-        <li>BGP updates (announcements and withdrawals)</li>
-        <li>Router state information</li>
-        <li>Peer down/up notifications</li>
-        <li>Statistics messages</li>
-      </ul>
       <p>
-        The collected data is stored in a ClickHouse database and is freely available for research and analysis. Visit our <router-link to="/docs/datasets">Datasets</router-link> page for more information.
+        You can check our peers <a href="https://peers.nxthdr.dev" target="_blank" rel="noopener">here</a>.
+      </p>
+    </div>
+
+    <h2 class="subheading">Acknowledgements</h2>
+
+    <div class="section-container">
+      <p>
+        We thank the <a href="https://www.cnrs.fr/fr" target="_blank" rel="noopener">CNRS</a> for generously providing the NL-IX IXP server located in Amsterdam in 2024 for a one-year period.
       </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.code-block {
+  background-color: var(--color-code-bg);
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: monospace;
+  margin: 1.5rem 0;
+  white-space: pre;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+</style>
 
 

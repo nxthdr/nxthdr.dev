@@ -20,7 +20,7 @@
             <div class="quick-links">
               <router-link to="/docs/infrastructure" class="quick-link">
                 <span class="quick-link-title">Infrastructure</span>
-                <span class="quick-link-desc">Platform architecture & AS215011 network</span>
+                <span class="quick-link-desc">Platform architecture & as215011 network</span>
               </router-link>
 
               <router-link to="/docs/datasets" class="quick-link">
