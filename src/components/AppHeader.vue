@@ -37,7 +37,6 @@ const { isAuthenticated, signIn, signOut } = useLogto();
 
 function handleLogin() {
   // Store the current path in localStorage before redirecting
-  localStorage.setItem('nxthdr-redirect-after-login', router.currentRoute.value.fullPath);
   signIn(window.location.origin + '/callback');
 }
 
