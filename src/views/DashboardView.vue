@@ -50,7 +50,7 @@
                   </td>
                   <td>
                     <div v-for="(config, index) in agent.config" :key="index">
-                      {{ config.probing_rate }}
+                      {{ formatRate(config.probing_rate) }}
                     </div>
                   </td>
                   <td>
@@ -150,6 +150,16 @@ const formatDate = (dateString: string) => {
   } catch (e) {
     return dateString;
   }
+};
+
+const formatRate = (rate: number): string => {
+  if (rate >= 1000) {
+    const kRate = rate / 1000;
+    // If it's a whole number, display without decimal; otherwise use 1 decimal place
+    const formattedKRate = Number.isInteger(kRate) ? kRate : kRate.toFixed(1);
+    return `${formattedKRate}kpps`;
+  }
+  return `${rate}pps`;
 };
 
 onMounted(() => {
