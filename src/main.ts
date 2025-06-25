@@ -15,10 +15,15 @@ if (!import.meta.env.VITE_LOGTO_APP_ID || !import.meta.env.VITE_LOGTO_ENDPOINT) 
   throw new Error('Required Logto environment variables are not set');
 }
 
+// Check if resource URL is set
+if (!import.meta.env.VITE_LOGTO_RESOURCE_URL) {
+  console.error('Error: Logto resource URL environment variable is not set.');
+}
+
 const config = {
   endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,
   appId: import.meta.env.VITE_LOGTO_APP_ID,
-  resources: ['http://localhost:8080'],
+  resources: [import.meta.env.VITE_LOGTO_RESOURCE_URL ],
 };
 
 createApp(App)

@@ -28,6 +28,27 @@
           <div class="main-subtitle">Monitor and manage Saimiris agents across the network.</div>
 
           <div class="section-container">
+            <div class="auth-status">
+              <h3>Authentication Status</h3>
+              <div v-if="accessToken" class="token-container">
+                <p class="token-label">Access Token:</p>
+                <div class="token-display">
+                  <span class="token-text">{{ accessToken.substring(0, 20) }}...</span>
+                  <button class="copy-button" @click="copyToClipboard(accessToken)">
+                    Copy
+                  </button>
+                </div>
+                <p class="token-help">This token can be used to authenticate API requests to the Saimiris Gateway.</p>
+              </div>
+              <div v-else-if="tokenError" class="token-error">
+                <p>Failed to retrieve access token: {{ tokenError }}</p>
+                <button class="retry-button" @click="fetchAccessToken">Retry</button>
+              </div>
+              <div v-else class="token-loading">
+                <p>Fetching access token...</p>
+              </div>
+            </div>
+
             <h2>Saimiris Agents</h2>
           <table class="agents-table">
             <thead>
@@ -90,6 +111,9 @@ import { useLogto } from '@logto/vue';
 
 const { getAccessToken } = useLogto();
 const isSidebarOpen = ref(false);
+const accessToken = ref<string | null>(null);
+const tokenError = ref<string | null>(null);
+const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 
 // Define the sidebar sections
 const sidebarSections = [
@@ -105,13 +129,35 @@ function updateSidebarState(isOpen: boolean) {
   isSidebarOpen.value = isOpen;
 }
 
-getAccessToken('http://localhost:8080')
-  .then(token => {
-    console.log('Access Token:', token);
-  })
-  .catch(error => {
+// Get access token and store it in the component state
+const fetchAccessToken = async () => {
+  try {
+    const token = await getAccessToken(resourceUrl);
+    accessToken.value = token || null;
+    tokenError.value = null;
+  } catch (error) {
     console.error('Error fetching access token:', error);
-  });
+    tokenError.value = error instanceof Error ? error.message : 'Failed to fetch access token';
+    accessToken.value = null;
+  }
+};
+
+// Function to copy token to clipboard
+const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert('Access token copied to clipboard');
+    })
+    .catch(err => {
+      console.error('Failed to copy token: ', err);
+    });
+};
+
+// Call functions on component mount
+onMounted(() => {
+  fetchAccessToken();
+  fetchAgents();
+});
 
 interface AgentConfig {
   batch_size: number;
@@ -162,7 +208,6 @@ const fetchAgents = async () => {
     }
 
     agents.value = await response.json();
-    console.log('Successfully fetched agent data:', agents.value);
   } catch (err) {
     console.error('Error fetching agent data:', err);
     error.value = err instanceof Error ?
@@ -196,9 +241,7 @@ const formatRate = (rate: number): string => {
   return `${rate}pps`;
 };
 
-onMounted(() => {
-  fetchAgents();
-});
+// onMounted() is now called earlier in the code
 </script>
 
 <style scoped>
@@ -351,4 +394,85 @@ onMounted(() => {
 }
 
 /* Dashboard specific styles */
+
+/* Token display styles */
+.auth-status {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.auth-status h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--color-heading);
+}
+
+.token-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.token-label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+.token-display {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+}
+
+.token-text {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  color: var(--color-accent);
+}
+
+.token-help {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+
+.copy-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.copy-button:hover {
+  background-color: #1976d2;
+}
+
+.token-error {
+  color: #e53935;
+  padding: 0.75rem;
+  background-color: rgba(229, 57, 53, 0.1);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.token-loading {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
 </style>
