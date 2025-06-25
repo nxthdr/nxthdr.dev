@@ -2,7 +2,7 @@
   <div class="page-root docs-page-root">
     <AppHeader />
     <main class="main-content docs-layout">
-      <DocsSidebar
+      <Sidebar
         :initial-sidebar-state="isSidebarOpen"
         :sections="sidebarSections"
         @update:is-sidebar-open="updateSidebarState"
@@ -12,7 +12,7 @@
         <router-view v-if="$route.path !== '/docs'" />
         <div v-else class="docs-landing docs-page-content">
           <h1 class="docs-title">Documentation</h1>
-          <p class="docs-subtitle">Here you'll find guides and references for using the platform.</p>
+          <div class="main-subtitle">Here you'll find guides and references for using the platform.</div>
 
           <div class="section-container">
             <p>Please select a topic from the sidebar to get started:</p>
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
-import DocsSidebar from '@/components/DocsSidebar.vue';
+import Sidebar from '@/components/Sidebar.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
@@ -98,17 +98,6 @@ function updateSidebarState(isOpen: boolean) {
 }
 
 /* Quick links have been moved to DocsContentStyle component */
-
-/* Ensure docs title has no shadow and proper alignment */
-:deep(.docs-title) {
-  text-shadow: none !important;
-  filter: none !important;
-  margin-bottom: 0 !important;
-}
-
-:deep(.docs-subtitle) {
-  margin-top: 0 !important;
-}
 
 /* Responsive adjustments */
 @media (max-width: 992px) {

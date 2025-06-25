@@ -18,7 +18,7 @@
       aria-hidden="true"
     ></div>
 
-    <div class="docs-sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
+    <div class="app-sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
       <!-- Mobile-only header (only visible on mobile) -->
       <div class="sidebar-mobile-header">
         <button class="sidebar-close-btn" @click="closeMobileSidebar" aria-label="Close sidebar">
@@ -47,13 +47,8 @@
         <!-- Default sidebar content if no sections provided -->
         <template v-else>
           <div class="sidebar-section">
-            <h3 class="sidebar-title">INFRASTRUCTURE</h3>
-            <router-link to="/docs/infrastructure" class="sidebar-link" @click="closeMobileSidebar">Overview</router-link>
-            <router-link to="/docs/as215011" class="sidebar-link" @click="closeMobileSidebar">as215011</router-link>
-          </div>
-          <div class="sidebar-section">
-            <h3 class="sidebar-title">DATASETS</h3>
-            <router-link to="/docs/datasets" class="sidebar-link" @click="closeMobileSidebar">Available Data</router-link>
+            <h3 class="sidebar-title">SAIMIRIS</h3>
+            <router-link to="/dashboard" class="sidebar-link" @click="closeMobileSidebar">Overview</router-link>
           </div>
         </template>
       </div>
@@ -123,7 +118,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* Sidebar Styles */
-.docs-sidebar {
+.app-sidebar {
   width: 280px;
   flex-shrink: 0;
   background: rgba(26, 28, 29, 0.97);
@@ -205,13 +200,13 @@ onBeforeUnmount(() => {
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
-  .docs-sidebar {
+  .app-sidebar {
     width: 240px;
   }
 }
 
 @media (max-width: 768px) {
-  .docs-sidebar {
+  .app-sidebar {
     width: 85%; /* Not full width to allow some content visibility */
     max-width: 300px;
     height: calc(100vh - var(--header-height));
@@ -231,20 +226,17 @@ onBeforeUnmount(() => {
     display: none; /* Hide the spacer on mobile */
   }
 
-  .docs-sidebar.sidebar-open {
+  .app-sidebar.sidebar-open {
     left: 0; /* Slide in from left */
   }
 
   /* Show the mobile header only when sidebar is open on mobile */
-  .docs-sidebar.sidebar-open .sidebar-mobile-header {
+  .app-sidebar.sidebar-open .sidebar-mobile-header {
     display: flex;
     justify-content: flex-end;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--color-border);
   }
-
-  /* Overlay for sidebar background when open */
-  /* Removed the pseudo-element overlay, using dedicated overlay element instead */
 
   .mobile-sidebar-toggle {
     display: flex;

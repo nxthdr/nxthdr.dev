@@ -2,11 +2,7 @@
   <div class="page-root dashboard-page-root">
     <AppHeader />
     <main class="main-content dashboard-layout">
-      <Sidebar
-        :initial-sidebar-state="isSidebarOpen"
-        :sections="sidebarSections"
-        @update:is-sidebar-open="updateSidebarState"
-      />
+      <Sidebar />
       <div class="dashboard-content">
         <div v-if="loading" class="loading-container">
           <p>Loading agent data...</p>
@@ -24,11 +20,8 @@
           </div>
         </div>
         <div v-else class="dashboard-page-content">
-          <h1 class="dashboard-title">Dashboard</h1>
-          <div class="main-subtitle">Monitor and manage Saimiris agents across the network.</div>
-
-          <div class="section-container">
-            <h2>Saimiris Agents</h2>
+          <h1>Dashboard</h1>
+          <h2>Saimiris Agents</h2>
           <table class="agents-table">
             <thead>
               <tr>
@@ -73,7 +66,6 @@
               </tr>
             </tbody>
           </table>
-          </div>
         </div>
       </div>
     </main>
@@ -89,21 +81,6 @@ import Sidebar from '@/components/Sidebar.vue';
 import { useLogto } from '@logto/vue';
 
 const { getAccessToken } = useLogto();
-const isSidebarOpen = ref(false);
-
-// Define the sidebar sections
-const sidebarSections = [
-  {
-    title: 'SAIMIRIS',
-    links: [
-      { to: '/dashboard', text: 'Overview' }
-    ]
-  }
-];
-
-function updateSidebarState(isOpen: boolean) {
-  isSidebarOpen.value = isOpen;
-}
 
 getAccessToken('http://localhost:8080')
   .then(token => {
@@ -351,4 +328,12 @@ onMounted(() => {
 }
 
 /* Dashboard specific styles */
+.dashboard-page-content {
+  padding: 0 1rem;
+}
+
+.dashboard-page-content h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
 </style>

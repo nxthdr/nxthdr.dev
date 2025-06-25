@@ -18,6 +18,7 @@ if (!import.meta.env.VITE_LOGTO_APP_ID || !import.meta.env.VITE_LOGTO_ENDPOINT) 
 const config = {
   endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,
   appId: import.meta.env.VITE_LOGTO_APP_ID,
+  resources: ['http://localhost:8080'],
 };
 
 createApp(App)

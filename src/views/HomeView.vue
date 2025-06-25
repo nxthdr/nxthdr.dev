@@ -4,7 +4,7 @@
     <main class="main-content">
       <div class="content-wrapper">
         <div class="content-card">
-          <h1>A Wide-Open Window to the Internet</h1>
+          <h1 class="home-title">A Wide-Open Window to the Internet</h1>
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
             <p>

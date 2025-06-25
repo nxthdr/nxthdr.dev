@@ -532,19 +532,29 @@ th, td {
     padding: 0 0.5rem;
   }
 
-  .docs-title {
-    font-size: 1.4rem;
+  .main-content h1,
+  .content-card h1,
+  .docs-title,
+  .dashboard-title,
+  .about-title,
+  .home-title {
+    font-size: 2.2rem;
     padding-left: 0.75rem;
     padding-right: 0.5rem;
     margin-left: 0;
     text-shadow: none;
   }
 
-  .docs-subtitle {
-    font-size: 0.9rem;
+  .main-subtitle,
+  .docs-subtitle,
+  .dashboard-subtitle,
+  .about-subtitle,
+  .home-subtitle {
+    font-size: 0.95rem;
     padding-left: 0.75rem;
     padding-right: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.2rem;
     margin-left: 0;
   }
 
@@ -654,51 +664,64 @@ html::-webkit-scrollbar-thumb {
   margin-right: auto;
 }
 
-/* ====== Documentation-specific styles ====== */
-.docs-page-content {
+/* ====== Documentation and Dashboard shared styles ====== */
+.docs-page-content,
+.dashboard-page-content {
   max-width: 800px;
   padding-bottom: 3rem;
+  padding: 0 1rem 3rem;
 }
 
-/* Override main-content h1 shadow for docs title */
-.main-content h1.docs-title {
-  text-shadow: none !important;
-}
-
-.docs-title {
-  font-size: 2.4rem;
+/* Use the same title styling for all views */
+.main-content h1 {
+  font-size: 2.8rem;
   font-weight: 900;
-  margin-bottom: 0; /* No spacing between title and subtitle */
+  color: var(--color-heading);
+  margin-bottom: 0.2rem;
+  letter-spacing: -1px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* For consistency, we apply same styling to all subtitles */
+.main-subtitle,
+.docs-subtitle,
+.dashboard-subtitle,
+.about-subtitle,
+.home-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 2.2rem; /* Consistent spacing between subtitle and content */
+  margin-top: 0.2rem; /* Consistent spacing between title and subtitle */
+  max-width: 800px;
+  width: 100%;
+  display: block;
+}
+
+/* Special gradient styling for all title types */
+.content-card h1,
+.docs-title,
+.dashboard-title,
+.about-title,
+.home-title {
+  font-size: 2.6rem; /* Standardized size for all title elements */
+  font-weight: 900;
+  margin-bottom: 0.2rem; /* Consistent spacing between title and subtitle */
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   letter-spacing: 0.8px;
-  position: relative;
-  line-height: 1.2;
-  filter: none !important;
   text-shadow: none !important;
-  box-shadow: none !important;
-  -webkit-text-shadow: none !important;
-  -moz-text-shadow: none !important;
-  border: none !important;
+  filter: none !important;
+  line-height: 1.2;
 }
 
-.docs-subtitle {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-  margin-bottom: 2.5rem; /* Space between subtitle and content */
-  margin-top: 0; /* No top margin to create tighter connection with title */
-  max-width: 800px;
-  padding-top: 0;
-  border-top: 0;
-}
-
-/* Documentation section styling */
+/* Section container styling for both docs and dashboard */
 .section-container {
   margin-bottom: 2rem;
+  margin-top: 1.5rem;
 }
 
 /* These styles are now handled by global styles */
