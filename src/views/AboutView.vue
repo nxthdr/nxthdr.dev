@@ -6,7 +6,7 @@
         <div class="content-card">
           <div class="content-section">
             <h1 class="about-title">About</h1>
-            <div class="main-subtitle">The story behind nxthdr and as215011</div>
+            <div class="main-subtitle">nxthdr and as215011</div>
             <p>
               Hey, I'm <a href="https://matthieugouel.name/" target="_blank" rel="noopener">Matthieu Gouel</a>. My <a href="https://theses.hal.science/tel-04164622v1/document" target="_blank" rel="noopener">PhD</a> focused on measuring the Internet using large-scale ping and traceroute data to enhance our understanding of how the Internet operates in practice. But, to be honest, I was more interested in building the tools and platforms than in writing papers.
             </p>

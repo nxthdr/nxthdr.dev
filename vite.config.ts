@@ -19,7 +19,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to avoid CORS issues
       '/api/saimiris': {
-        target: 'https://saimiris.nxthdr.dev',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/saimiris/, '/api'),
         secure: false

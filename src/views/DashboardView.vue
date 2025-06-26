@@ -25,11 +25,55 @@
         </div>
         <div v-else class="dashboard-page-content">
           <h1 class="dashboard-title">Dashboard</h1>
-          <div class="main-subtitle">Monitor and manage Saimiris agents across the network.</div>
+          <div class="main-subtitle">Manage your measurements across the network.</div>
 
+            <!-- Credits Section -->
+            <div class="auth-status">
+              <div v-if="creditsLoading" class="token-loading">
+                <p>Loading credit information...</p>
+              </div>
+              <div v-else-if="creditsError" class="token-error">
+                <p>{{ creditsError }}</p>
+                <button class="retry-button" @click="retryFetchCredits">Retry</button>
+              </div>
+              <div v-else-if="credits" class="token-container">
+                <div class="token-info-row">
+                  <div class="token-info-item">
+                    <p class="token-label">Used Credits:</p>
+                    <div class="token-display">
+                      <span class="token-text credit-value">{{ credits.used.toLocaleString() }}</span>
+                    </div>
+                  </div>
+                  <div class="token-info-item">
+                    <p class="token-label">Credit Limit:</p>
+                    <div class="token-display">
+                      <span class="token-text credit-value">{{ credits.limit.toLocaleString() }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="credits-bar-container">
+                  <div class="credits-bar">
+                    <div
+                      class="credits-bar-fill"
+                      :style="{ width: `${Math.min((credits.used / credits.limit) * 100, 100)}%` }"
+                      :class="{'credits-high': (credits.used / credits.limit) > 0.8 }"
+                    ></div>
+                  </div>
+                  <div class="credits-bar-labels">
+                    <span>0</span>
+                    <span>{{ credits.limit.toLocaleString() }}</span>
+                  </div>
+                </div>
+                <p class="token-help">Credits are consumed when you send probes via the probing platform.</p>
+              </div>
+              <div v-else class="token-loading">
+                <p>Credit information is not available.</p>
+              </div>
+            </div>
+
+          <!-- Token Section -->
           <div class="section-container">
             <div class="auth-status">
-              <h3>Authentication Status</h3>
               <div v-if="accessToken" class="token-container">
                 <p class="token-label">Access Token:</p>
                 <div class="token-display">
@@ -49,7 +93,7 @@
               </div>
             </div>
 
-            <h2>Saimiris Agents</h2>
+          <h2>Agents</h2>
           <table class="agents-table">
             <thead>
               <tr>
@@ -115,6 +159,11 @@ const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 
+// Credits tracking
+const credits = ref<{ used: number; limit: number } | null>(null);
+const creditsLoading = ref(false);
+const creditsError = ref<string | null>(null);
+
 // Define the sidebar sections
 const sidebarSections = [
   {
@@ -129,19 +178,6 @@ function updateSidebarState(isOpen: boolean) {
   isSidebarOpen.value = isOpen;
 }
 
-// Get access token and store it in the component state
-const fetchAccessToken = async () => {
-  try {
-    const token = await getAccessToken(resourceUrl);
-    accessToken.value = token || null;
-    tokenError.value = null;
-  } catch (error) {
-    console.error('Error fetching access token:', error);
-    tokenError.value = error instanceof Error ? error.message : 'Failed to fetch access token';
-    accessToken.value = null;
-  }
-};
-
 // Function to copy token to clipboard
 const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text)
@@ -153,44 +189,63 @@ const copyToClipboard = (text: string) => {
     });
 };
 
-// Call functions on component mount
-onMounted(() => {
-  fetchAccessToken();
-  fetchAgents();
-});
+// Get access token and store it in the component state
+const fetchAccessToken = async () => {
+  try {
+    const token = await getAccessToken(resourceUrl);
+    accessToken.value = token || null;
+    tokenError.value = null;
 
-interface AgentConfig {
-  batch_size: number;
-  instance_id: number;
-  dry_run: boolean;
-  min_ttl: number | null;
-  max_ttl: number | null;
-  integrity_check: boolean;
-  interface: string;
-  src_ipv4_addr: string | null;
-  src_ipv6_addr: string | null;
-  packets: number;
-  probing_rate: number;
-  rate_limiting_method: string;
-}
+    // Once we have the token, fetch credits
+    if (token) {
+      fetchUserCredits(token);
+    }
+  } catch (error) {
+    console.error('Error fetching access token:', error);
+    tokenError.value = error instanceof Error ? error.message : 'Failed to fetch access token';
+    accessToken.value = null;
+  }
+};
 
-interface AgentHealth {
-  healthy: boolean;
-  last_check: string;
-  message: string | null;
-}
+// Function to fetch user credits
+const fetchUserCredits = async (token: string) => {
+  creditsLoading.value = true;
+  creditsError.value = null;
 
-interface Agent {
-  id: string;
-  config: AgentConfig[];
-  health: AgentHealth;
-  last_seen: string;
-}
+  try {
+    const response = await fetch('/api/saimiris/user/credits', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
-const agents = ref<Agent[]>([]);
-const loading = ref(true);
-const error = ref<string | null>(null);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
+    credits.value = await response.json();
+  } catch (err) {
+    console.error('Error fetching user credits:', err);
+    creditsError.value = err instanceof Error ?
+      err.message :
+      'Unable to fetch credit information. Please try again later.';
+    credits.value = null;
+  } finally {
+    creditsLoading.value = false;
+  }
+};
+
+// Function to retry fetching credits
+const retryFetchCredits = () => {
+  if (accessToken.value) {
+    fetchUserCredits(accessToken.value);
+  } else {
+    creditsError.value = "No access token available. Please log in again.";
+  }
+};
+
+// Get initial agents data
 const fetchAgents = async () => {
   try {
     loading.value = true;
@@ -242,6 +297,42 @@ const formatRate = (rate: number): string => {
 };
 
 // onMounted() is now called earlier in the code
+onMounted(() => {
+  fetchAccessToken();
+  fetchAgents();
+});
+
+interface AgentConfig {
+  batch_size: number;
+  instance_id: number;
+  dry_run: boolean;
+  min_ttl: number | null;
+  max_ttl: number | null;
+  integrity_check: boolean;
+  interface: string;
+  src_ipv4_addr: string | null;
+  src_ipv6_addr: string | null;
+  packets: number;
+  probing_rate: number;
+  rate_limiting_method: string;
+}
+
+interface AgentHealth {
+  healthy: boolean;
+  last_check: string;
+  message: string | null;
+}
+
+interface Agent {
+  id: string;
+  config: AgentConfig[];
+  health: AgentHealth;
+  last_seen: string;
+}
+
+const agents = ref<Agent[]>([]);
+const loading = ref(true);
+const error = ref<string | null>(null);
 </script>
 
 <style scoped>
@@ -404,7 +495,7 @@ const formatRate = (rate: number): string => {
   border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.auth-status h3 {
+.auth-status h3, .auth-status h2 {
   margin-top: 0;
   margin-bottom: 1rem;
   font-size: 1.2rem;
@@ -415,6 +506,18 @@ const formatRate = (rate: number): string => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.token-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.token-info-item {
+  flex: 1;
+  min-width: 150px;
 }
 
 .token-label {
@@ -439,6 +542,13 @@ const formatRate = (rate: number): string => {
   white-space: nowrap;
   flex: 1;
   color: var(--color-accent);
+}
+
+.token-text .credit-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: inherit;
+  color: var(--color-text);
 }
 
 .token-help {
@@ -474,5 +584,38 @@ const formatRate = (rate: number): string => {
 .token-loading {
   color: var(--color-text-muted);
   font-style: italic;
+}
+
+/* Credits bar styles - keep these */
+.credits-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.75rem 0;
+}
+
+.credits-bar {
+  height: 10px;
+  background-color: #2a2a2a;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.credits-bar-fill {
+  height: 100%;
+  background-color: #4caf50;
+  border-radius: 5px 0 0 5px;
+  transition: width 0.3s ease;
+}
+
+.credits-bar-fill.credits-high {
+  background-color: #e53935;
+}
+
+.credits-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
 }
 </style>
