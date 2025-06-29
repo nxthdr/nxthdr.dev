@@ -20,10 +20,10 @@
         }
     }
 
-    # Handle API requests for user credits
-    handle /api/saimiris/user/credits {
+    # Handle API requests for user usage
+    handle /api/saimiris/user/usage {
         # Strip the /api/saimiris part and add /api
-        rewrite * /api/user/credits
+        rewrite * /api/user/usage
 
         # Forward to the target server
         reverse_proxy https://saimiris.nxthdr.dev {

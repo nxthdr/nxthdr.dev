@@ -27,44 +27,44 @@
           <h1 class="dashboard-title">Dashboard</h1>
           <div class="main-subtitle">Manage your measurements across the network.</div>
 
-            <!-- Credits Section -->
+            <!-- usage Section -->
             <div class="auth-status">
-              <div v-if="creditsLoading" class="token-loading">
+              <div v-if="usageLoading" class="token-loading">
                 <p>Loading credit information...</p>
               </div>
-              <div v-else-if="creditsError" class="token-error">
-                <p>{{ creditsError }}</p>
-                <button class="retry-button" @click="retryFetchCredits">Retry</button>
+              <div v-else-if="usageError" class="token-error">
+                <p>{{ usageError }}</p>
+                <button class="retry-button" @click="retryFetchusage">Retry</button>
               </div>
-              <div v-else-if="credits" class="token-container">
+              <div v-else-if="usage" class="token-container">
                 <div class="token-info-row">
                   <div class="token-info-item">
-                    <p class="token-label">Used Credits:</p>
+                    <p class="token-label">Credits Used:</p>
                     <div class="token-display">
-                      <span class="token-text credit-value">{{ credits.used.toLocaleString() }}</span>
+                      <span class="token-text credit-value">{{ usage.used.toLocaleString() }}</span>
                     </div>
                   </div>
                   <div class="token-info-item">
-                    <p class="token-label">Credit Limit:</p>
+                    <p class="token-label">Credits Limit:</p>
                     <div class="token-display">
-                      <span class="token-text credit-value">{{ credits.limit.toLocaleString() }}</span>
+                      <span class="token-text credit-value">{{ usage.limit.toLocaleString() }}</span>
                     </div>
                   </div>
                 </div>
-                <div class="credits-bar-container">
-                  <div class="credits-bar">
+                <div class="usage-bar-container">
+                  <div class="usage-bar">
                     <div
-                      class="credits-bar-fill"
-                      :style="{ width: `${Math.min((credits.used / credits.limit) * 100, 100)}%` }"
-                      :class="{'credits-high': (credits.used / credits.limit) > 0.8 }"
+                      class="usage-bar-fill"
+                      :style="{ width: `${Math.min((usage.used / usage.limit) * 100, 100)}%` }"
+                      :class="{'usage-high': (usage.used / usage.limit) > 0.8 }"
                     ></div>
                   </div>
-                  <div class="credits-bar-labels">
+                  <div class="usage-bar-labels">
                     <span>0</span>
-                    <span>{{ credits.limit.toLocaleString() }}</span>
+                    <span>{{ usage.limit.toLocaleString() }}</span>
                   </div>
                 </div>
-                <p class="token-help">Credits are consumed when you send probes via the probing platform.</p>
+                <p class="token-help">Credits are consumed when you send probes via the measurements pipeline.</p>
               </div>
               <div v-else class="token-loading">
                 <p>Credit information is not available.</p>
@@ -159,10 +159,10 @@ const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 
-// Credits tracking
-const credits = ref<{ used: number; limit: number } | null>(null);
-const creditsLoading = ref(false);
-const creditsError = ref<string | null>(null);
+// Usage tracking
+const usage = ref<{ used: number; limit: number } | null>(null);
+const usageLoading = ref(false);
+const usageError = ref<string | null>(null);
 
 // Define the sidebar sections
 const sidebarSections = [
@@ -196,9 +196,9 @@ const fetchAccessToken = async () => {
     accessToken.value = token || null;
     tokenError.value = null;
 
-    // Once we have the token, fetch credits
+    // Once we have the token, fetch usage
     if (token) {
-      fetchUserCredits(token);
+      fetchUserUsage(token);
     }
   } catch (error) {
     console.error('Error fetching access token:', error);
@@ -207,13 +207,13 @@ const fetchAccessToken = async () => {
   }
 };
 
-// Function to fetch user credits
-const fetchUserCredits = async (token: string) => {
-  creditsLoading.value = true;
-  creditsError.value = null;
+// Function to fetch user usage
+const fetchUserUsage = async (token: string) => {
+  usageLoading.value = true;
+  usageError.value = null;
 
   try {
-    const response = await fetch('/api/saimiris/user/credits', {
+    const response = await fetch('/api/saimiris/user/usage', {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -224,24 +224,24 @@ const fetchUserCredits = async (token: string) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    credits.value = await response.json();
+    usage.value = await response.json();
   } catch (err) {
-    console.error('Error fetching user credits:', err);
-    creditsError.value = err instanceof Error ?
+    console.error('Error fetching user usage:', err);
+    usageError.value = err instanceof Error ?
       err.message :
-      'Unable to fetch credit information. Please try again later.';
-    credits.value = null;
+      'Unable to fetch usage information. Please try again later.';
+    usage.value = null;
   } finally {
-    creditsLoading.value = false;
+    usageLoading.value = false;
   }
 };
 
-// Function to retry fetching credits
-const retryFetchCredits = () => {
+// Function to retry fetching usage
+const retryFetchusage = () => {
   if (accessToken.value) {
-    fetchUserCredits(accessToken.value);
+    fetchUserUsage(accessToken.value);
   } else {
-    creditsError.value = "No access token available. Please log in again.";
+    usageError.value = "No access token available. Please log in again.";
   }
 };
 
@@ -586,33 +586,33 @@ const error = ref<string | null>(null);
   font-style: italic;
 }
 
-/* Credits bar styles - keep these */
-.credits-bar-container {
+/* usage bar styles - keep these */
+.usage-bar-container {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin: 0.75rem 0;
 }
 
-.credits-bar {
+.usage-bar {
   height: 10px;
   background-color: #2a2a2a;
   border-radius: 5px;
   overflow: hidden;
 }
 
-.credits-bar-fill {
+.usage-bar-fill {
   height: 100%;
   background-color: #4caf50;
   border-radius: 5px 0 0 5px;
   transition: width 0.3s ease;
 }
 
-.credits-bar-fill.credits-high {
+.usage-bar-fill.usage-high {
   background-color: #e53935;
 }
 
-.credits-bar-labels {
+.usage-bar-labels {
   display: flex;
   justify-content: space-between;
   font-size: 0.8rem;
