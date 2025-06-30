@@ -39,13 +39,13 @@
               <div v-else-if="usage" class="token-container">
                 <div class="token-info-row">
                   <div class="token-info-item">
-                    <p class="token-label">Credits Used:</p>
+                    <p class="token-label">Credits Used Today:</p>
                     <div class="token-display">
                       <span class="token-text credit-value">{{ usage.used.toLocaleString() }}</span>
                     </div>
                   </div>
                   <div class="token-info-item">
-                    <p class="token-label">Credits Limit:</p>
+                    <p class="token-label">Daily Credits Limit:</p>
                     <div class="token-display">
                       <span class="token-text credit-value">{{ usage.limit.toLocaleString() }}</span>
                     </div>
@@ -64,7 +64,7 @@
                     <span>{{ usage.limit.toLocaleString() }}</span>
                   </div>
                 </div>
-                <p class="token-help">Credits are consumed when you send probes via the measurements pipeline.</p>
+                <p class="token-help">Credits are consumed when you send probes via the measurements pipeline. Your daily limit resets at midnight UTC.</p>
               </div>
               <div v-else class="token-loading">
                 <p>Credit information is not available.</p>
