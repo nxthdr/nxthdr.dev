@@ -11,6 +11,7 @@
   --color-bg: #1A1C1D;             /* Main background - darker gray (26-28-29) */
   --color-content-bg: #2A2C31;     /* Content areas - slightly lighter (42-44-49) */
   --color-header-bg: #232528;      /* Header background - slightly darker than content */
+  --color-code-bg: #1E293B;        /* Code block background - dark slate */
 
   /* Text colors */
   --color-text: #E5E7EB;           /* Main text - light gray with slight blue tint */
@@ -300,8 +301,8 @@ code {
 }
 
 .alert-important {
-  background-color: rgba(32, 31, 62, 0.50);
-  border-left-color: rgb(43, 39, 116);
+  background-color: rgba(31, 62, 46, 0.5);
+  border-left-color: rgb(39, 116, 40);
 }
 
 .alert p {
@@ -782,5 +783,18 @@ html::-webkit-scrollbar-thumb {
 
 .docs-page-content code {
   font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+}
+
+/* Global code block styling for consistency across all docs pages */
+.code-block {
+  background-color: var(--color-code-bg);
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: monospace;
+  margin: 1.5rem 0;
+  white-space: pre;
+  overflow-x: auto;
   font-size: 0.9rem;
 }

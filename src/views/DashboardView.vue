@@ -9,11 +9,11 @@
       />
       <div class="dashboard-content">
         <div v-if="loading" class="loading-container">
-          <p>Loading agent data...</p>
+          <p>Loading dashboard data...</p>
         </div>
         <div v-else-if="error" class="error-container">
           <div class="error-message">
-            <h3>Unable to load agent data</h3>
+            <h3>Unable to load dashboard data</h3>
             <p>{{ error }}</p>
             <p class="error-help">
               Saimiris Gateway may be unavailable.

@@ -63,17 +63,6 @@ NL-IX  - Amsterdam</pre>
 </template>
 
 <style scoped>
-.code-block {
-  background-color: var(--color-code-bg);
-  color: var(--color-text);
-  padding: 1rem;
-  border-radius: 6px;
-  font-family: monospace;
-  margin: 1.5rem 0;
-  white-space: pre;
-  overflow-x: auto;
-  font-size: 0.9rem;
-}
 </style>
 
 
