@@ -45,6 +45,11 @@ const router = createRouter({
           name: 'docs-datasets',
           component: () => import('../views/docs/DatasetsView.vue')
         },
+        {
+          path: 'saimiris',
+          name: 'docs-saimiris',
+          component: () => import('../views/docs/SaimirisView.vue')
+        },
       ]
     },
     {

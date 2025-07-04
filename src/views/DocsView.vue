@@ -18,14 +18,19 @@
             <p>Please select a topic from the sidebar to get started:</p>
 
             <div class="quick-links">
-              <router-link to="/docs/infrastructure" class="quick-link">
-                <span class="quick-link-title">Infrastructure</span>
-                <span class="quick-link-desc">Platform architecture & as215011 network</span>
+              <router-link to="/docs/saimiris" class="quick-link">
+                <span class="quick-link-title">Saimiris</span>
+                <span class="quick-link-desc">Internet measurement platform & probing agents</span>
               </router-link>
 
               <router-link to="/docs/datasets" class="quick-link">
                 <span class="quick-link-title">Datasets</span>
-                <span class="quick-link-desc">Available data & access methods</span>
+                <span class="quick-link-desc">Available datasets</span>
+              </router-link>
+
+              <router-link to="/docs/infrastructure" class="quick-link">
+                <span class="quick-link-title">Infrastructure</span>
+                <span class="quick-link-desc">Platform architecture & as215011 network</span>
               </router-link>
             </div>
           </div>
@@ -49,16 +54,22 @@ const isSidebarOpen = ref(false);
 // Define the sidebar sections
 const sidebarSections = [
   {
-    title: 'INFRASTRUCTURE',
+    title: 'MEASUREMENTS',
     links: [
-      { to: '/docs/infrastructure', text: 'Overview' },
-      { to: '/docs/as215011', text: 'as215011' }
+      { to: '/docs/saimiris', text: 'Saimiris' }
     ]
   },
   {
     title: 'DATASETS',
     links: [
-      { to: '/docs/datasets', text: 'Available Data' }
+      { to: '/docs/datasets', text: 'Overview' }
+    ]
+  },
+  {
+    title: 'INFRASTRUCTURE',
+    links: [
+      { to: '/docs/infrastructure', text: 'Overview' },
+      { to: '/docs/as215011', text: 'as215011' }
     ]
   }
 ];
