@@ -78,8 +78,12 @@
                 <p class="token-label">Access Token:</p>
                 <div class="token-display">
                   <span class="token-text">{{ accessToken.substring(0, 20) }}...</span>
-                  <button class="copy-button" @click="copyToClipboard(accessToken)">
-                    Copy
+                  <button
+                    class="copy-button"
+                    :class="{ 'copy-button-copied': tokenCopied }"
+                    @click="copyToClipboard(accessToken)"
+                  >
+                    {{ tokenCopied ? 'Copied!' : 'Copy' }}
                   </button>
                 </div>
                 <p class="token-help">This token can be used to authenticate API requests to the Saimiris Gateway.</p>
@@ -147,7 +151,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import Sidebar from '@/components/Sidebar.vue';
@@ -159,10 +163,18 @@ const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 
+// Copy state tracking
+const tokenCopied = ref(false);
+
 // Usage tracking
 const usage = ref<{ used: number; limit: number } | null>(null);
 const usageLoading = ref(false);
 const usageError = ref<string | null>(null);
+
+// Refresh intervals
+const tokenRefreshInterval = ref<number | null>(null);
+const usageRefreshInterval = ref<number | null>(null);
+const agentsRefreshInterval = ref<number | null>(null);
 
 // Define the sidebar sections
 const sidebarSections = [
@@ -182,7 +194,12 @@ function updateSidebarState(isOpen: boolean) {
 const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text)
     .then(() => {
-      alert('Access token copied to clipboard');
+      // Show copied state
+      tokenCopied.value = true;
+      // Reset after 2 seconds
+      setTimeout(() => {
+        tokenCopied.value = false;
+      }, 2000);
     })
     .catch(err => {
       console.error('Failed to copy token: ', err);
@@ -296,10 +313,51 @@ const formatRate = (rate: number): string => {
   return `${rate}pps`;
 };
 
+// Setup refresh intervals
+const startRefreshIntervals = () => {
+  // Refresh token every 30 minutes (1800000 ms)
+  tokenRefreshInterval.value = setInterval(() => {
+    fetchAccessToken();
+  }, 1800000);
+
+  // Refresh usage every 5 minutes (300000 ms)
+  usageRefreshInterval.value = setInterval(() => {
+    if (accessToken.value) {
+      fetchUserUsage(accessToken.value);
+    }
+  }, 300000);
+
+  // Refresh agents every 2 minutes (120000 ms)
+  agentsRefreshInterval.value = setInterval(() => {
+    fetchAgents();
+  }, 120000);
+};
+
+// Clear refresh intervals
+const clearRefreshIntervals = () => {
+  if (tokenRefreshInterval.value) {
+    clearInterval(tokenRefreshInterval.value);
+    tokenRefreshInterval.value = null;
+  }
+  if (usageRefreshInterval.value) {
+    clearInterval(usageRefreshInterval.value);
+    usageRefreshInterval.value = null;
+  }
+  if (agentsRefreshInterval.value) {
+    clearInterval(agentsRefreshInterval.value);
+    agentsRefreshInterval.value = null;
+  }
+};
+
 // onMounted() is now called earlier in the code
 onMounted(() => {
   fetchAccessToken();
   fetchAgents();
+  startRefreshIntervals();
+});
+
+onUnmounted(() => {
+  clearRefreshIntervals();
 });
 
 interface AgentConfig {
@@ -567,10 +625,20 @@ const error = ref<string | null>(null);
   font-size: 0.8rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  min-width: 60px;
 }
 
 .copy-button:hover {
   background-color: #1976d2;
+}
+
+.copy-button-copied {
+  background-color: #4caf50 !important;
+  cursor: default;
+}
+
+.copy-button-copied:hover {
+  background-color: #4caf50 !important;
 }
 
 .token-error {

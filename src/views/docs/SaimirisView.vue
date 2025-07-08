@@ -48,36 +48,37 @@
      -d '{
          "metadata": [
              {
-                 "id": "vltcdg01"
+                 "id": "vltcdg01",
+                 "ip_address": "2a0e:97c0:8a0::50"
              }
          ],
          "probes": [
-             ["2606:4700:4700::1111", 12345, 53, 30, "icmp"],
-             ["2606:4700:4700::1001", 12345, 53, 30, "udp"],
-             ["2001:4860:4860::8888", 12345, 53, 30, "icmp"],
-             ["2001:4860:4860::8844", 12345, 53, 30, "udp"]
+             ["2606:4700:4700::1111", 24000, 33434, 30, "icmpv6"],
+             ["2606:4700:4700::1001", 24000, 33434, 30, "udp"],
+             ["2001:4860:4860::8888", 24000, 33434, 30, "icmpv6"],
+             ["2001:4860:4860::8844", 24000, 33434, 30, "udp"]
          ]
      }'</pre>
       <p>
-        This will send 4 probes (2 ICMP and 2 UDP) to Cloudflare and Google's IPv6 DNS servers. You can optionally add an <code>"ip_address"</code> field in the metadata to select a specific agent IP address (also shown on your dashboard).
+        This will send 4 probes (2 ICMP and 2 UDP) to Cloudflare and Google's IPv6 DNS servers. The <code>"ip_address"</code> field is required and must specify the exact agent IP address you want to use for the measurement (available on your dashboard). This IP address also serves as the measurement identifier for retrieving results.
       </p>
       <p>
-        The API will return a <code>measurement_id</code> that you can use to retrieve the results later (explained in the next section). After running this command, go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page - you should see that your used credits have increased by 4.
+        The API will return a confirmation that your probes have been accepted for processing. After running this command, go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page - you should see that your used credits have increased by 4.
       </p>
 
       <h3 class="section-title">Retrieve measurement results</h3>
       <p>
-        Once your probes have been executed, you can query the results using the <code>measurement_id</code> returned from the previous API call. The results are stored in our ClickHouse database and can be accessed using the same credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
+        Once your probes have been executed, you can query the results using the source IP address you specified in the metadata. The results are stored in our ClickHouse database and can be accessed using the same credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
       </p>
       <pre class="code-block">echo """
-     SELECT *
-     FROM saimiris.results
-     WHERE measurement_id = 'YOUR_MEASUREMENT_ID'
-     FORMAT PRETTY
-     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \
-          --data-binary @-</pre>
+    SELECT *
+    FROM saimiris.replies
+    WHERE probe_src_addr = toIPv6('2a0e:97c0:8a0::50')
+    AND time_received_ns >= now() - INTERVAL 1 HOUR
+    """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \
+        --data-binary @-</pre>
       <p>
-        Replace <code>YOUR_MEASUREMENT_ID</code> with the actual measurement ID returned from your probe request. This will show you all the detailed results including round-trip times, ICMP responses, and any intermediate hops discovered during the measurement.
+        Replace <code>185.230.223.37</code> with the actual IP address you used in your probe request metadata. The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
       </p>
       <p>
         <strong>Important note:</strong> all measurements data collected by Saimiris is made freely available for everyone, without any authentication, through our <router-link to="/docs/datasets">datasets</router-link>.
