@@ -17,11 +17,11 @@
 
     <h2 class="subheading">Get started</h2>
     <div class="section-container">
-      <p>
+      <p v-if="!isAuthenticated">
         The very first step is to register yourself on the nxthdr platform. Once done, you should be able to access to your <router-link to="/dashboard">dashboard</router-link>.
       </p>
       <p>
-        On your dashboard, you will see how many probes credits you have available for the day. Currenly, each user is allocated <code>10000</code> credits per day, which allows you to send <code>10000</code> individual probes. Please <a href="mailto:admin@nxthdr.dev">contact us</a> if you need more.
+        On your <router-link to="/dashboard">dashboard</router-link>, you will see how many probes credits you have available for the day. Currenly, each user is allocated <code>10000</code> credits per day, which allows you to send <code>10000</code> individual probes. Please <a href="mailto:admin@nxthdr.dev">contact us</a> if you need more.
       </p>
       <p>
         Also, you will find your <strong>Access Token</strong>. This token is necessary to authenticate your requests to the Saimiris Gateway API. You can use it to send measurements from your own scripts or applications. We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
@@ -86,6 +86,12 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useLogto } from '@logto/vue';
+
+const { isAuthenticated } = useLogto();
+</script>
 
 <style scoped>
 .section-title {

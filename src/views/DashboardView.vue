@@ -104,7 +104,7 @@
                 <th>Agent ID</th>
                 <th>Status</th>
                 <th>Last Seen</th>
-                <th>Source IPv6</th>
+                <th>Source IPv6 Prefix</th>
                 <th>Probing Rate</th>
                 <th>Min TTL</th>
                 <th>Max TTL</th>
@@ -121,7 +121,7 @@
                 <td>{{ formatDate(agent.last_seen) }}</td>
                 <td>
                   <div v-for="(config, index) in agent.config" :key="index">
-                    {{ config.src_ipv6_addr || 'N/A' }}
+                    {{ config.src_ipv6_prefix || 'N/A' }}
                   </div>
                 </td>
                 <td>
@@ -368,8 +368,8 @@ interface AgentConfig {
   max_ttl: number | null;
   integrity_check: boolean;
   interface: string;
-  src_ipv4_addr: string | null;
-  src_ipv6_addr: string | null;
+  src_ipv4_prefix: string | null;
+  src_ipv6_prefix: string | null;
   packets: number;
   probing_rate: number;
   rate_limiting_method: string;
