@@ -37,8 +37,13 @@
             <h3 class="footer-section-title">Resources</h3>
             <router-link to="/blog" class="footer-link">Blog</router-link>
             <a href="https://github.com/nxthdr" target="_blank" rel="noopener" class="footer-link">GitHub</a>
-            <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener" class="footer-link">Discord</a>
             <router-link to="/about" class="footer-link">About</router-link>
+          </div>
+
+          <div class="footer-section">
+            <h3 class="footer-section-title">Contact</h3>
+            <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener" class="footer-link">Discord</a>
+            <a href="mailto:admin@nxthdr.dev" class="footer-link">Email</a>
           </div>
         </div>
       </div>
@@ -143,12 +148,13 @@ const currentYear = computed(() => new Date().getFullYear());
   flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
+  gap: 2rem; /* Add gap between sections */
 }
 
 .footer-section {
   margin-bottom: 1.5rem;
   min-width: 150px;
-  margin-right: 2rem;
+  margin-right: 0; /* Remove right margin since we're using gap */
 }
 
 .footer-section-title {

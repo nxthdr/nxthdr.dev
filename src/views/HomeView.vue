@@ -16,7 +16,7 @@
           </div>
 
           <div class="alert alert-important">
-            <p>Currently, nxthdr is in its early stages and not yet open to the public for experiments. However, the <router-link to="/docs/datasets">datasets</router-link> collected are already accessible.</p>
+            <p>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/saimiris">documentation</router-link> to send your first probes from as215011!</p>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>

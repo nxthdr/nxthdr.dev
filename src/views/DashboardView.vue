@@ -9,11 +9,11 @@
       />
       <div class="dashboard-content">
         <div v-if="loading" class="loading-container">
-          <p>Loading agent data...</p>
+          <p>Loading dashboard data...</p>
         </div>
         <div v-else-if="error" class="error-container">
           <div class="error-message">
-            <h3>Unable to load agent data</h3>
+            <h3>Unable to load dashboard data</h3>
             <p>{{ error }}</p>
             <p class="error-help">
               Saimiris Gateway may be unavailable.
@@ -78,8 +78,12 @@
                 <p class="token-label">Access Token:</p>
                 <div class="token-display">
                   <span class="token-text">{{ accessToken.substring(0, 20) }}...</span>
-                  <button class="copy-button" @click="copyToClipboard(accessToken)">
-                    Copy
+                  <button
+                    class="copy-button"
+                    :class="{ 'copy-button-copied': tokenCopied }"
+                    @click="copyToClipboard(accessToken)"
+                  >
+                    {{ tokenCopied ? 'Copied!' : 'Copy' }}
                   </button>
                 </div>
                 <p class="token-help">This token can be used to authenticate API requests to the Saimiris Gateway.</p>
@@ -100,7 +104,7 @@
                 <th>Agent ID</th>
                 <th>Status</th>
                 <th>Last Seen</th>
-                <th>Source IPv6</th>
+                <th>Your IPv6 Prefixes</th>
                 <th>Probing Rate</th>
                 <th>Min TTL</th>
                 <th>Max TTL</th>
@@ -116,8 +120,15 @@
                 </td>
                 <td>{{ formatDate(agent.last_seen) }}</td>
                 <td>
-                  <div v-for="(config, index) in agent.config" :key="index">
-                    {{ config.src_ipv6_addr || 'N/A' }}
+                  <div v-if="prefixesLoading" class="loading-text">Loading...</div>
+                  <div v-else-if="prefixesError" class="error-text">Error loading prefixes</div>
+                  <div v-else>
+                    <div v-for="(prefix, index) in getUserPrefixesForAgent(agent.id)" :key="index">
+                      {{ prefix }}
+                    </div>
+                    <div v-if="getUserPrefixesForAgent(agent.id).length === 0" class="no-prefixes">
+                      No prefixes available
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -147,7 +158,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import Sidebar from '@/components/Sidebar.vue';
@@ -159,10 +170,23 @@ const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 
+// Copy state tracking
+const tokenCopied = ref(false);
+
 // Usage tracking
 const usage = ref<{ used: number; limit: number } | null>(null);
 const usageLoading = ref(false);
 const usageError = ref<string | null>(null);
+
+// User prefixes tracking
+const userPrefixes = ref<any | null>(null);
+const prefixesLoading = ref(false);
+const prefixesError = ref<string | null>(null);
+
+// Refresh intervals
+const tokenRefreshInterval = ref<number | null>(null);
+const usageRefreshInterval = ref<number | null>(null);
+const agentsRefreshInterval = ref<number | null>(null);
 
 // Define the sidebar sections
 const sidebarSections = [
@@ -182,7 +206,12 @@ function updateSidebarState(isOpen: boolean) {
 const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text)
     .then(() => {
-      alert('Access token copied to clipboard');
+      // Show copied state
+      tokenCopied.value = true;
+      // Reset after 2 seconds
+      setTimeout(() => {
+        tokenCopied.value = false;
+      }, 2000);
     })
     .catch(err => {
       console.error('Failed to copy token: ', err);
@@ -199,6 +228,7 @@ const fetchAccessToken = async () => {
     // Once we have the token, fetch usage
     if (token) {
       fetchUserUsage(token);
+      fetchUserPrefixes(token);
     }
   } catch (error) {
     console.error('Error fetching access token:', error);
@@ -213,7 +243,7 @@ const fetchUserUsage = async (token: string) => {
   usageError.value = null;
 
   try {
-    const response = await fetch('/api/saimiris/user/usage', {
+    const response = await fetch('/api/saimiris/user/me', {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -236,10 +266,40 @@ const fetchUserUsage = async (token: string) => {
   }
 };
 
+// Function to fetch user prefixes
+const fetchUserPrefixes = async (token: string) => {
+  prefixesLoading.value = true;
+  prefixesError.value = null;
+
+  try {
+    const response = await fetch('/api/saimiris/user/prefixes', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    userPrefixes.value = await response.json();
+  } catch (err) {
+    console.error('Error fetching user prefixes:', err);
+    prefixesError.value = err instanceof Error ?
+      err.message :
+      'Unable to fetch prefix information. Please try again later.';
+    userPrefixes.value = null;
+  } finally {
+    prefixesLoading.value = false;
+  }
+};
+
 // Function to retry fetching usage
 const retryFetchusage = () => {
   if (accessToken.value) {
     fetchUserUsage(accessToken.value);
+    fetchUserPrefixes(accessToken.value);
   } else {
     usageError.value = "No access token available. Please log in again.";
   }
@@ -296,10 +356,66 @@ const formatRate = (rate: number): string => {
   return `${rate}pps`;
 };
 
+// Function to get user prefixes for a specific agent
+const getUserPrefixesForAgent = (agentId: string): string[] => {
+  if (!userPrefixes.value || !userPrefixes.value.agents) {
+    return [];
+  }
+
+  const agentData = userPrefixes.value.agents.find((agent: any) => agent.agent_id === agentId);
+  if (!agentData || !agentData.prefixes) {
+    return [];
+  }
+
+  return agentData.prefixes.map((prefix: any) => prefix.user_prefix);
+};
+
+// Setup refresh intervals
+const startRefreshIntervals = () => {
+  // Refresh token every 30 minutes (1800000 ms)
+  tokenRefreshInterval.value = setInterval(() => {
+    fetchAccessToken();
+  }, 1800000);
+
+  // Refresh usage every 5 minutes (300000 ms)
+  usageRefreshInterval.value = setInterval(() => {
+    if (accessToken.value) {
+      fetchUserUsage(accessToken.value);
+      fetchUserPrefixes(accessToken.value);
+    }
+  }, 300000);
+
+  // Refresh agents every 2 minutes (120000 ms)
+  agentsRefreshInterval.value = setInterval(() => {
+    fetchAgents();
+  }, 120000);
+};
+
+// Clear refresh intervals
+const clearRefreshIntervals = () => {
+  if (tokenRefreshInterval.value) {
+    clearInterval(tokenRefreshInterval.value);
+    tokenRefreshInterval.value = null;
+  }
+  if (usageRefreshInterval.value) {
+    clearInterval(usageRefreshInterval.value);
+    usageRefreshInterval.value = null;
+  }
+  if (agentsRefreshInterval.value) {
+    clearInterval(agentsRefreshInterval.value);
+    agentsRefreshInterval.value = null;
+  }
+};
+
 // onMounted() is now called earlier in the code
 onMounted(() => {
   fetchAccessToken();
   fetchAgents();
+  startRefreshIntervals();
+});
+
+onUnmounted(() => {
+  clearRefreshIntervals();
 });
 
 interface AgentConfig {
@@ -310,8 +426,8 @@ interface AgentConfig {
   max_ttl: number | null;
   integrity_check: boolean;
   interface: string;
-  src_ipv4_addr: string | null;
-  src_ipv6_addr: string | null;
+  src_ipv4_prefix: string | null;
+  src_ipv6_prefix: string | null;
   packets: number;
   probing_rate: number;
   rate_limiting_method: string;
@@ -567,10 +683,20 @@ const error = ref<string | null>(null);
   font-size: 0.8rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  min-width: 60px;
 }
 
 .copy-button:hover {
   background-color: #1976d2;
+}
+
+.copy-button-copied {
+  background-color: #4caf50 !important;
+  cursor: default;
+}
+
+.copy-button-copied:hover {
+  background-color: #4caf50 !important;
 }
 
 .token-error {
@@ -617,5 +743,23 @@ const error = ref<string | null>(null);
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--color-text-muted);
+}
+
+/* Prefix display styles */
+.loading-text {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+.error-text {
+  color: #e53935;
+  font-size: 0.9em;
+}
+
+.no-prefixes {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9em;
 }
 </style>
