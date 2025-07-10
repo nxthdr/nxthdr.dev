@@ -104,7 +104,7 @@
                 <th>Agent ID</th>
                 <th>Status</th>
                 <th>Last Seen</th>
-                <th>Source IPv6 Prefix</th>
+                <th>Your IPv6 Prefixes</th>
                 <th>Probing Rate</th>
                 <th>Min TTL</th>
                 <th>Max TTL</th>
@@ -120,8 +120,15 @@
                 </td>
                 <td>{{ formatDate(agent.last_seen) }}</td>
                 <td>
-                  <div v-for="(config, index) in agent.config" :key="index">
-                    {{ config.src_ipv6_prefix || 'N/A' }}
+                  <div v-if="prefixesLoading" class="loading-text">Loading...</div>
+                  <div v-else-if="prefixesError" class="error-text">Error loading prefixes</div>
+                  <div v-else>
+                    <div v-for="(prefix, index) in getUserPrefixesForAgent(agent.id)" :key="index">
+                      {{ prefix }}
+                    </div>
+                    <div v-if="getUserPrefixesForAgent(agent.id).length === 0" class="no-prefixes">
+                      No prefixes available
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -171,6 +178,11 @@ const usage = ref<{ used: number; limit: number } | null>(null);
 const usageLoading = ref(false);
 const usageError = ref<string | null>(null);
 
+// User prefixes tracking
+const userPrefixes = ref<any | null>(null);
+const prefixesLoading = ref(false);
+const prefixesError = ref<string | null>(null);
+
 // Refresh intervals
 const tokenRefreshInterval = ref<number | null>(null);
 const usageRefreshInterval = ref<number | null>(null);
@@ -216,6 +228,7 @@ const fetchAccessToken = async () => {
     // Once we have the token, fetch usage
     if (token) {
       fetchUserUsage(token);
+      fetchUserPrefixes(token);
     }
   } catch (error) {
     console.error('Error fetching access token:', error);
@@ -230,7 +243,7 @@ const fetchUserUsage = async (token: string) => {
   usageError.value = null;
 
   try {
-    const response = await fetch('/api/saimiris/user/usage', {
+    const response = await fetch('/api/saimiris/user/me', {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -253,10 +266,40 @@ const fetchUserUsage = async (token: string) => {
   }
 };
 
+// Function to fetch user prefixes
+const fetchUserPrefixes = async (token: string) => {
+  prefixesLoading.value = true;
+  prefixesError.value = null;
+
+  try {
+    const response = await fetch('/api/saimiris/user/prefixes', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    userPrefixes.value = await response.json();
+  } catch (err) {
+    console.error('Error fetching user prefixes:', err);
+    prefixesError.value = err instanceof Error ?
+      err.message :
+      'Unable to fetch prefix information. Please try again later.';
+    userPrefixes.value = null;
+  } finally {
+    prefixesLoading.value = false;
+  }
+};
+
 // Function to retry fetching usage
 const retryFetchusage = () => {
   if (accessToken.value) {
     fetchUserUsage(accessToken.value);
+    fetchUserPrefixes(accessToken.value);
   } else {
     usageError.value = "No access token available. Please log in again.";
   }
@@ -313,6 +356,20 @@ const formatRate = (rate: number): string => {
   return `${rate}pps`;
 };
 
+// Function to get user prefixes for a specific agent
+const getUserPrefixesForAgent = (agentId: string): string[] => {
+  if (!userPrefixes.value || !userPrefixes.value.agents) {
+    return [];
+  }
+
+  const agentData = userPrefixes.value.agents.find((agent: any) => agent.agent_id === agentId);
+  if (!agentData || !agentData.prefixes) {
+    return [];
+  }
+
+  return agentData.prefixes.map((prefix: any) => prefix.user_prefix);
+};
+
 // Setup refresh intervals
 const startRefreshIntervals = () => {
   // Refresh token every 30 minutes (1800000 ms)
@@ -324,6 +381,7 @@ const startRefreshIntervals = () => {
   usageRefreshInterval.value = setInterval(() => {
     if (accessToken.value) {
       fetchUserUsage(accessToken.value);
+      fetchUserPrefixes(accessToken.value);
     }
   }, 300000);
 
@@ -685,5 +743,23 @@ const error = ref<string | null>(null);
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--color-text-muted);
+}
+
+/* Prefix display styles */
+.loading-text {
+  font-style: italic;
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+.error-text {
+  color: #e53935;
+  font-size: 0.9em;
+}
+
+.no-prefixes {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9em;
 }
 </style>

@@ -11,17 +11,7 @@
         <p>All data produced by <strong>nxthdr</strong> and <strong>as215011</strong> are publicly available and freely usable under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Data Commons Open Database License (ODbL)</a>.</p>
       </div>
       <p>Here is a working example you can try in your terminal:</p>
-      <pre class="code-block">
-echo """
-     WITH concat(prefix_addr, '/', prefix_len) AS prefix
-     SELECT prefix,
-            max(length(communities)) AS n_communities
-     FROM bmp.updates
-     GROUP BY prefix
-     ORDER BY n_communities DESC
-     LIMIT 5 FORMAT PRETTY
-     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \
-          --data-binary @-</pre>
+      <CopyableCodeBlock :code="exampleQuery" />
       <pre class="code-block">
    ┏━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
    ┃ PREFIX             ┃ n_communities ┃
@@ -85,6 +75,22 @@ echo """
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
+
+const exampleQuery = `echo """
+     WITH concat(prefix_addr, '/', prefix_len) AS prefix
+     SELECT prefix,
+            max(length(communities)) AS n_communities
+     FROM bmp.updates
+     WHERE time_received_ns >= now() - INTERVAL 1 DAY
+     GROUP BY prefix
+     ORDER BY n_communities DESC
+     LIMIT 5 FORMAT PRETTY
+     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
+          --data-binary @-`;
+</script>
 
 <style scoped>
 code {
