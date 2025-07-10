@@ -20,10 +20,29 @@
         }
     }
 
-    # Handle API requests for user usage
-    handle /api/saimiris/user/usage {
+    # Handle API requests for user info
+    handle /api/saimiris/user/me {
         # Strip the /api/saimiris part and add /api
-        rewrite * /api/user/usage
+        rewrite * /api/user/me
+
+        # Forward to the target server
+        reverse_proxy https://saimiris.nxthdr.dev {
+            header_up Host {http.reverse_proxy.upstream.hostport}
+            header_up Accept "application/json"
+            # Pass authorization header through
+            header_up Authorization {http.request.header.Authorization}
+
+            # Add CORS headers
+            header_down Access-Control-Allow-Origin "*"
+            header_down Access-Control-Allow-Methods "GET, OPTIONS"
+            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization"
+        }
+    }
+
+    # Handle API requests for user prefixes
+    handle /api/saimiris/user/prefixes {
+        # Strip the /api/saimiris part and add /api
+        rewrite * /api/user/prefixes
 
         # Forward to the target server
         reverse_proxy https://saimiris.nxthdr.dev {
