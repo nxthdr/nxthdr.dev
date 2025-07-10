@@ -8,7 +8,7 @@
         <strong>Saimiris</strong> is the measurement pipeline powering the <strong>nxthdr</strong> probing platform. Written in Rust, it provides a scalable and efficient solution for conducting active internet measurements across multiple vantage points.
       </p>
       <p>
-        The platform is designed to handle large-scale measurement campaigns while maintaining high performance and reliability. Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway API, allows to interact with the agents.
+        The platform is designed to handle large-scale measurement campaigns while maintaining high performance and reliability. Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway API allows to easily interact with the agents.
       </p>
       <p>
         Saimiris agents are deployed globally on our probing <router-link to="/docs/infrastructure">infrastructure</router-link> using the <router-link to="/docs/as215011">as215011</router-link> network. This allows measurements to be performed from addresses controlled by our autonomous system.
@@ -71,7 +71,7 @@
 
       <h3 class="section-title">Retrieve measurement results</h3>
       <p>
-        Once your probes have been executed, you can query the results using the source IP address you specified in the metadata. The results are stored in our ClickHouse database and can be accessed using the same credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
+        Once your probes have been executed, you can query the replies after few seconds or minutes using the source IP address you specified in the metadata. The replies are stored in our ClickHouse database and can be accessed using the same public credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
       </p>
       <CopyableCodeBlock :code="retrieveResultsCommand" />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
@@ -261,7 +261,7 @@ const exampleAgent = computed(() => {
 const verifyTokenCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl https://saimiris.nxthdr.dev/api/user/me \\
+  return `curl -s https://saimiris.nxthdr.dev/api/user/me \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -269,7 +269,7 @@ const verifyTokenCommand = computed(() => {
 const fetchPrefixesCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl https://saimiris.nxthdr.dev/api/saimiris/user/prefixes \\
+  return `curl -s https://saimiris.nxthdr.dev/api/user/prefixes \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -279,7 +279,7 @@ const sendProbesCommand = computed(() => {
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
   const agent = exampleAgent.value;
 
-  return `curl -X POST "https://saimiris.nxthdr.dev/api/probes" \\
+  return `curl -s -X POST "https://saimiris.nxthdr.dev/api/probes" \\
      -H "Content-Type: application/json" \\
      -H "Authorization: Bearer ${token}" \\
      -d '{
@@ -302,10 +302,18 @@ const retrieveResultsCommand = computed(() => {
   const agent = exampleAgent.value;
 
   return `echo """
-    SELECT *
+    SELECT
+      probe_src_addr,
+      probe_dst_addr,
+      probe_protocol,
+      probe_ttl,
+      reply_src_addr
     FROM saimiris.replies
-    WHERE probe_src_addr = toIPv6('${agent.ip}')
-    AND time_received_ns >= now() - INTERVAL 1 HOUR
+    WHERE
+      time_received_ns >= now() - INTERVAL 1 HOUR
+      AND probe_src_addr = toIPv6('${agent.ip}')
+    ORDER BY time_received_ns DESC
+    FORMAT Pretty
     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
         --data-binary @-`;
 });
