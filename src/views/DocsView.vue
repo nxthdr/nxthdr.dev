@@ -9,30 +9,7 @@
       />
 
       <div class="docs-content">
-        <router-view v-if="$route.path !== '/docs'" />
-        <div v-else class="docs-landing docs-page-content">
-          <h1 class="docs-title">Documentation</h1>
-          <div class="main-subtitle">Find guides and references for using the platform.</div>
-
-          <div class="section-container">
-            <div class="quick-links">
-              <router-link to="/docs/measurements" class="quick-link">
-                <span class="quick-link-title">Measurements</span>
-                <span class="quick-link-desc">Internet measurements platform</span>
-              </router-link>
-
-              <router-link to="/docs/datasets" class="quick-link">
-                <span class="quick-link-title">Datasets</span>
-                <span class="quick-link-desc">Available datasets</span>
-              </router-link>
-
-              <router-link to="/docs/infrastructure" class="quick-link">
-                <span class="quick-link-title">Infrastructure</span>
-                <span class="quick-link-desc">Platform architecture & networks</span>
-              </router-link>
-            </div>
-          </div>
-        </div>
+        <router-view />
       </div>
     </main>
     <AppFooter />
@@ -43,10 +20,8 @@
 import AppHeader from '@/components/AppHeader.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 
-const route = useRoute();
 const isSidebarOpen = ref(false);
 
 // Define the sidebar sections
@@ -127,39 +102,6 @@ function updateSidebarState(isOpen: boolean) {
     padding-top: 1.5rem;
     min-height: auto; /* Remove min-height constraint on mobile */
   }
-
-  /* Better spacing for docs landing page content on mobile */
-  .docs-landing {
-    padding: 0 0.5rem;
-    animation: fadeInUp 0.6s ease-out;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .docs-landing .docs-title {
-    font-size: 2rem !important;
-    margin-bottom: 0.5rem;
-  }
-
-  .docs-landing .main-subtitle {
-    font-size: 1rem !important;
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
-  }
-
-  .section-container {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -167,18 +109,6 @@ function updateSidebarState(isOpen: boolean) {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     padding-top: 1rem;
-  }
-
-  .docs-landing {
-    padding: 0 0.25rem;
-  }
-
-  .docs-landing .docs-title {
-    font-size: 1.8rem !important;
-  }
-
-  .docs-landing .main-subtitle {
-    font-size: 0.95rem !important;
   }
 }
 </style>

@@ -5,26 +5,37 @@
 
     <div class="section-container">
       <p>
-        <strong>Saimiris</strong> is the measurement pipeline powering the <strong>nxthdr</strong> probing platform. Written in Rust, it provides a scalable and efficient solution for conducting active internet measurements across multiple vantage points.
+        <strong>Saimiris</strong> is the measurement pipeline powering the <strong>nxthdr</strong> probing platform.
+        Written in Rust, it provides a scalable and efficient solution for conducting active internet measurements across multiple vantage points.
       </p>
       <p>
-        The platform is designed to handle large-scale measurement campaigns while maintaining high performance and reliability. Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway API allows to easily interact with the agents.
+        The platform is designed to handle large-scale measurement campaigns while maintaining high performance and reliability.
+        Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway API allows to easily interact with the agents.
       </p>
       <p>
-        Saimiris agents are deployed globally on our probing <router-link to="/docs/infrastructure">infrastructure</router-link> using the <router-link to="/docs/as215011">as215011</router-link> network. This allows measurements to be performed from addresses controlled by our autonomous system.
+        Saimiris agents are deployed globally on our probing <router-link to="/docs/infrastructure">infrastructure</router-link> using the <router-link to="/docs/as215011">as215011</router-link> network.
+        This allows measurements to be performed from addresses controlled by our autonomous system.
       </p>
+    </div>
+
+    <div v-if="!isAuthenticated" class="alert alert-info">
+       <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to get examples with your actual token and own prefixes.
     </div>
 
     <h2 class="subheading">Get started</h2>
     <div class="section-container">
-      <p v-if="!isAuthenticated">
-        The very first step is to register yourself on the nxthdr platform. Once done, you should be able to access to your <router-link to="/dashboard">dashboard</router-link>.
+      <p>
+        On your <router-link to="/dashboard">dashboard</router-link>, you will see how many probe credits you have available for the day.
+        Currently, each user is allocated <code>10000</code> credits per day, which allows you to send <code>10000</code> individual probes.
+        Please <a href="mailto:admin@nxthdr.dev">contact us</a> if you need more.
       </p>
       <p>
-        On your <router-link to="/dashboard">dashboard</router-link>, you will see how many probes credits you have available for the day. Currenly, each user is allocated <code>10000</code> credits per day, which allows you to send <code>10000</code> individual probes. Please <a href="mailto:admin@nxthdr.dev">contact us</a> if you need more.
+        You will also find your <strong>Access Token</strong> on the dashboard.
+        This token is necessary to authenticate your requests to the Saimiris Gateway API.
       </p>
       <p>
-        Also, you will find your <strong>Access Token</strong>. This token is necessary to authenticate your requests to the Saimiris Gateway API. You can use it to send measurements from your own scripts or applications. We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
+        You can use your token to send measurements from your own scripts or applications.
+        We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
       </p>
 
       <h3 class="section-title">Verify your token</h3>
@@ -33,7 +44,8 @@
       </p>
       <CopyableCodeBlock :code="verifyTokenCommand" />
       <p v-if="!isAuthenticated || !userToken">
-        Replace <code>YOUR_ACCESS_TOKEN</code> with the actual token from your dashboard. This will return your current credit balance and daily limit.
+        Replace <code>YOUR_ACCESS_TOKEN</code> with the actual token from your dashboard.
+        This will return your current credit balance and daily limit.
       </p>
       <p v-else>
         This example uses your actual access token. It will return your current credit balance and daily limit.
@@ -41,7 +53,8 @@
 
       <h3 class="section-title">Check your available agents</h3>
       <p>
-        Before sending probes, you need to know which agents are available to you and their corresponding source IP prefixes. Each user is allocated a /80 IPv6 source prefix for each agent, and you can query your available prefixes with this request:
+        Before sending probes, you need to know which agents are available to you and their corresponding source IP prefixes.
+        Each user is allocated a /80 IPv6 source prefix for each agent, and you can query your available prefixes with this request:
       </p>
       <CopyableCodeBlock :code="fetchPrefixesCommand" />
       <p v-if="!isAuthenticated || !userToken">
@@ -51,34 +64,65 @@
         This example uses your actual access token and will show your allocated agents and IPv6 prefixes.
       </p>
       <p>
-        The response will show each agent with its ID and the IPv6 source prefixes allocated to you. You'll need to use one of these agent IDs and an IP address from your allocated prefix when sending probes.
+        The response will show each agent with its ID and the IPv6 source prefixes allocated to you.
+        You'll need to use one of these agent IDs and an IP address from your allocated prefix when sending probes.
       </p>
+
+      <h3 class="section-title">Understanding probes</h3>
+      <p>
+        A <strong>probe</strong> is a network packet sent from a measurement agent to a target destination to test connectivity, measure latency, or trace network paths.
+        Saimiris follows the <a href="https://dioptra-io.github.io/caracal/usage/" target="_blank" rel="noopener">Caracal probe specification</a>, which defines a standardized format for network measurement probes.
+      </p>
+      <div class="callout">
+        <p><strong>Important:</strong> At the moment, we don't support IPv4 probes, since we only operate on IPv6 prefixes.</p>
+      </div>
+      <p>
+        Each probe is defined by five parameters that specify exactly how the network packet should be constructed and sent:
+      </p>
+      <ul>
+        <li><strong>destination address</strong>: The destination address, which can be an IPv4-mapped IPv6 address (e.g., <code>::ffff:8.8.8.8</code>) or an IPv6 address (e.g., <code>2001:4860:4860::8888</code>)</li>
+        <li><strong>source port</strong>: Source port number (0-65535). For UDP probes, this is encoded in the UDP header. For ICMP probes, it's encoded in the ICMP checksum to vary the flow-id</li>
+        <li><strong>destination port</strong>: Destination port number (0-65535), encoded directly in the UDP header for UDP probes</li>
+        <li><strong>TTL</strong>: Time-to-Live value, which limits how many network hops the packet can traverse before being discarded</li>
+        <li><strong>protocol</strong>: The protocol type, which can be <code>icmpv6</code>, or <code>udp</code></li>
+      </ul>
 
       <h3 class="section-title">Send your first probes</h3>
       <p>
-        Once your token is verified, you can send some test probes to see the system in action. You can check the available agents and their IP addresses on your <router-link to="/dashboard">dashboard</router-link>. Here's an example that sends 4 probes to popular DNS servers:
+        Let's send some probes to see the system in action.
+        You can check the available agents and their IP addresses on your <router-link to="/dashboard">dashboard</router-link>.
+        Here's an example that sends 4 probes from as215011:
       </p>
       <CopyableCodeBlock :code="sendProbesCommand" />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
-        This will send 4 probes (2 ICMP and 2 UDP) to Cloudflare and Google's IPv6 DNS servers. Replace <code>YOUR_ACCESS_TOKEN</code> with your actual token and <code>vltcdg01</code>/<code>2a0e:97c0:8a0::50</code> with an actual agent ID and IP address from your dashboard. The <code>"ip_address"</code> field is required and must specify the exact agent IP address you want to use for the measurement.
+        This example demonstrates the Caracal probe format by sending 4 network probes to test connectivity with popular DNS servers.
+        The probes target Cloudflare (<code>2606:4700:4700::1111</code> and <code>2606:4700:4700::1001</code>) and Google (<code>2001:4860:4860::8888</code> and <code>2001:4860:4860::8844</code>) using both ICMPv6 and UDP protocols.
+        Replace <code>YOUR_ACCESS_TOKEN</code> with your dashboard token and update the agent details (<code>vltcdg01</code> and <code>2a0e:97c0:8a0::50</code>) with values from your dashboard.
       </p>
       <p v-else>
-        This will send 4 probes (2 ICMP and 2 UDP) to Cloudflare and Google's IPv6 DNS servers using your actual access token and a real agent from your allocated prefix. The <code>"ip_address"</code> field specifies the exact agent source IP address for the measurement.
+        This example demonstrates the Caracal probe format by sending 4 network probes to test connectivity with popular DNS servers.
+        The probes target Cloudflare (<code>2606:4700:4700::1111</code> and <code>2606:4700:4700::1001</code>) and Google (<code>2001:4860:4860::8888</code> and <code>2001:4860:4860::8844</code>) using both ICMPv6 and UDP protocols.
+        The command uses your actual access token and agent details automatically.
       </p>
       <p>
-        The API will return a confirmation that your probes have been accepted for processing. After running this command, go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page - you should see that your used credits have increased by 4.
+        The API will return a confirmation that your probes have been accepted for processing.
+        After running this command, go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page: you should see that your used credits have increased by 4.
       </p>
 
       <h3 class="section-title">Retrieve measurement results</h3>
       <p>
-        Once your probes have been executed, you can query the replies after few seconds or minutes using the source IP address you specified in the metadata. The replies are stored in our ClickHouse database and can be accessed using the same public credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
+        Once your probes have been executed, you can query the replies after few seconds or minutes using the source IP address you specified in the metadata.
+        The replies are stored in our ClickHouse database and can be accessed using the same public credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
       </p>
       <CopyableCodeBlock :code="retrieveResultsCommand" />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
-        Replace <code>2a0e:97c0:8a0::50</code> with the actual IP address you used in your probe request metadata. The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
+        Replace <code>2a0e:97c0:8a0::50</code> with the actual IP address you used in your probe request metadata.
+        The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
       </p>
       <p v-else>
-        This example uses the same agent source IP address from the probe example above. The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
+        This example uses the same agent source IP address from the probe example above.
+        Use the source IP address you specified in the metadata to retrieve the corresponding replies.
+        The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
       </p>
       <p>
         <strong>Important note:</strong> all measurements data collected by Saimiris is made freely available for everyone, without registration.
@@ -92,12 +136,17 @@ import { ref, computed, onMounted } from 'vue';
 import { useLogto } from '@logto/vue';
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
 
-const { isAuthenticated, getAccessToken } = useLogto();
+const { isAuthenticated, getAccessToken, signIn } = useLogto();
 
 // User data
 const userToken = ref<string | null>(null);
 const userPrefixes = ref<any | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
+
+// Handle login
+function handleLogin() {
+  signIn(window.location.origin + '/callback');
+}
 
 // Fetch user token and prefixes
 const fetchUserData = async () => {

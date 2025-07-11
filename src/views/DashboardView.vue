@@ -22,8 +22,8 @@
           <h1 class="dashboard-title">Dashboard</h1>
           <div class="main-subtitle">Manage your measurements across the network.</div>
 
-          <div class="help-section">
-            <p>New to nxthdr? Check out the <router-link to="/docs/measurements" class="docs-link">documentation</router-link> to learn how to send your first probes.</p>
+          <div class="alert alert-info">
+            <strong>New to nxthdr?</strong> Check out the <router-link to="/docs/measurements" class="docs-link">documentation</router-link> to learn how to send your first probes.
           </div>
 
             <!-- usage Section -->

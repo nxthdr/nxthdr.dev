@@ -17,7 +17,7 @@
               During my PhD, I had the opportunity to work in a well-known lab alongside amazing well-known researchers in the community. This gave me the chance to connect with people and gain access to datasets and platforms. But unfortunately, that such opportunities may not be as easily available to those working independently or in smaller labs.
             </p>
             <p>
-              nxthdr and as215011 are built on ideas that have existed for a long time, such as a BGP testbed <sup>[1]</sup> and a high-speed probing platform <sup>[2]</sup>. The real edge lies in combining these ideas into a single platform and making it open, accessible to everyone, and provides openly licensed data without delay.
+              nxthdr and as215011 are built on ideas that have existed for a long time, such as a BGP testbed <sup><a href="#ref-1" class="ref-link">[1]</a></sup> and a high-speed probing platform <sup><a href="#ref-2" class="ref-link">[2]</a></sup>. The real edge lies in combining these ideas into a single platform and making it open, accessible to everyone, and provides openly licensed data without delay.
             </p>
             <p>
               This project is a personal initiative, maintained independently during my free time. It is not affiliated with my current employer. I receive no compensation, funding, or income from this project, and it is operated on a voluntary, non-commercial basis.
@@ -45,4 +45,65 @@
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 </script>
+
+<style scoped>
+/* Ensure reference styles are applied */
+.references-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+}
+
+.references-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: reference-counter;
+}
+
+.references-list li {
+  counter-increment: reference-counter;
+  position: relative;
+  padding: 0.5rem 0 0.5rem 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.references-list li::before {
+  content: "[" counter(reference-counter) "]";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  width: 2rem;
+}
+
+.references-list li a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.references-list li a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* Reference links in text */
+:deep(.ref-link) {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+:deep(.ref-link:hover) {
+  color: var(--color-accent-hover);
+  transform: scale(1.05);
+}
+</style>
 

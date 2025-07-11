@@ -35,6 +35,11 @@
 
   /* Page spacing */
   --section-gap: 160px;
+
+  /* HomeView specific colors */
+  --color-background-soft: rgba(255, 255, 255, 0.05);
+  --color-background-mute: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(45, 212, 191, 0.3);
 }
 
 /* ====== Base Styles ====== */
@@ -259,6 +264,19 @@ h1 + .main-subtitle + .content-section {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
+}
+
+/* Callout styles */
+.callout {
+  background-color: transparent;
+  border-left: 4px solid var(--color-accent);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
 }
 
 /* Common Link Styling - Applied globally */
@@ -1388,4 +1406,297 @@ html::-webkit-scrollbar-thumb {
 
 .agents-table tr:hover td:first-child {
   color: #ffffff;
+}
+
+/* ====== Callout Styling ====== */
+.callout {
+  background-color: transparent;
+  border-left: 4px solid var(--color-accent);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* References styles */
+.references-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+}
+
+.references-section .subheading {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.references-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: reference-counter;
+}
+
+.references-list li {
+  counter-increment: reference-counter;
+  position: relative;
+  padding: 0.5rem 0 0.5rem 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.references-list li::before {
+  content: "[" counter(reference-counter) "]";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  width: 2rem;
+}
+
+.references-list li a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.references-list li a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* Reference links in text */
+.ref-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.ref-link:hover {
+  color: var(--color-accent-hover);
+  transform: scale(1.05);
+}
+
+/* Mobile responsiveness for references */
+@media (max-width: 768px) {
+  .references-list li {
+    padding: 0.4rem 0 0.4rem 2.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .references-list li::before {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+    top: 0.4rem;
+  }
+
+  .references-list li a {
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+
+  .ref-link {
+    font-size: 0.7rem;
+    padding: 0.05rem 0.25rem;
+  }
+}
+
+/* Dataset schema styles */
+.schema-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  margin: 1.5rem 0 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.25rem;
+}
+
+.example-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.schema-details {
+  margin: 1rem 0 1.5rem 0;
+}
+
+.schema-field {
+  margin-bottom: 1.2rem;
+  padding: 0;
+}
+
+.schema-field code {
+  font-weight: 400;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.field-type {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.schema-field p {
+  margin: 0.4rem 0 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.schema-link {
+  text-align: right;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.schema-link a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.schema-link a:hover {
+  color: var(--color-text);
+}
+
+/* ====== HomeView Specific Styles ====== */
+/* Styles for the new home page components added without affecting existing styles */
+
+/* Home page quick access section */
+.quick-access-section {
+  margin: 1rem 0 2.5rem 0;
+  padding: 0;
+}
+
+.quick-access-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Home page principles section */
+.principles-section {
+  margin: 3rem 0;
+}
+
+.principles-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.principle-card {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.principle-card h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.principle-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Mobile responsiveness for home page components */
+@media (max-width: 768px) {
+  .quick-access-section {
+    margin: 2rem 0;
+    padding: 1.5rem 0;
+  }
+
+  .quick-access-title,
+  .principles-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .principle-card {
+    padding: 0;
+  }
+
+  .principle-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .principle-card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-access-section {
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+  }
+
+  .principles-section {
+    margin: 2rem 0;
+  }
+
+  .quick-access-title,
+  .principles-title {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .principles-grid {
+    gap: 0.8rem;
+  }
+
+  .principle-card {
+    padding: 0;
+  }
+
+  .principle-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .principle-card p {
+    font-size: 0.85rem;
+  }
 }

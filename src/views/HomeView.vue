@@ -8,16 +8,30 @@
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
             <p>
-              nxthdr, pronounced "next header", is an initiative to offer metrology capabilities to researchers and students to study and learn about the Internet.
+              nxthdr combines a high-performance measurement platform with a peering platform connected to multiple Internet exchange points. We provide researchers, students, and enthusiasts with tools to study Internet routing and connectivity from a dedicated autonomous system.
             </p>
             <p>
-              It integrates high-speed probing capabilities together with peering control, offering the community a unique platform. The nxthdr <router-link to="/docs/infrastructure">infrastructure</router-link> enables Internet-scale route tracing while managing and collecting BGP advertisements from diverse vantage points and multiple IXPs, powered by the <router-link to="/docs/as215011">as215011</router-link> network.
+              Browse our datasets freely — no registration required. Want to send your own measurements? Sign up to access our global measurement infrastructure.
             </p>
           </div>
 
           <div class="alert alert-important">
-            <p v-if="!isAuthenticated">The nxthdr probing pipeline is in <span class="beta-text">beta</span>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
-            <p v-else>The nxthdr probing pipeline is in <span class="beta-text">beta</span>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
+            <p v-if="!isAuthenticated">The probing pipeline is in <span class="beta-text">beta</span>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
+            <p v-else>The probing pipeline is in <span class="beta-text">beta</span>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
+          </div>
+
+          <div class="quick-access-section">
+            <h2 class="quick-access-title">Start Exploring Now</h2>
+            <div class="quick-links">
+              <router-link to="/docs/measurements" class="quick-link">
+                <span class="quick-link-title">Send Measurements</span>
+                <span class="quick-link-desc">Learn how to use our measurement platform and send your own probes</span>
+              </router-link>
+              <router-link to="/docs/datasets" class="quick-link">
+                <span class="quick-link-title">Browse Datasets</span>
+                <span class="quick-link-desc">Network probes, BGP routing data, and traffic flows — query directly with SQL</span>
+              </router-link>
+            </div>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>
@@ -42,17 +56,22 @@
             </p>
           </div>
 
-          <h2 class="subheading">Values</h2>
+          <h2 class="subheading">Our Principles</h2>
           <div class="content-section">
-            <p>Every aspect of nxthdr is open, transparent and participatory:</p>
-            <ul class="values-list">
-              <li>The <router-link to="/docs/datasets">datasets</router-link> collected is freely accessible under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">ODbL</a> license, with no restrictions, delay, authentication, or need for justification.</li>
-              <li>The <a href="https://github.com/nxthdr" target="_blank" rel="noopener">tools</a> powering the platform are all open-source, such as <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a> and <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a>. You can use them, contribute to them, or even run your own instance.</li>
-              <li>The <a href="https://github.com/nxthdr/infrastructure" target="_blank" rel="noopener">infrastructure</a> is managed entirely as open-source code. You can see the configuration of the servers and routers, the services running, the monitoring setup, the database tables and more.</li>
-              <li>The <a href="https://grafana.nxthdr.dev/dashboards" target="_blank" rel="noopener">observability</a> is public, with Grafana dashboards providing real-time insights into the platform's health.</li>
-              <li>The <a href="https://github.com/orgs/nxthdr/projects/1" target="_blank" rel="noopener">roadmap</a> of the project is public and participatory, inviting ideas and contributions.</li>
-              <li>The <a href="https://docs.google.com/spreadsheets/d/1fguIDaXn4DuEexZrudJjzn2Sucpy8Qx5bACcYEH1ie4/edit?usp=sharing" target="_blank" rel="noopener">bookkeeping</a> is complete and publicly available. It includes the financial transactions, the donations received and the budget forecast.</li>
-            </ul>
+            <div class="principles-grid">
+              <div class="principle-card">
+                <h3>Open Data</h3>
+                <p>All <router-link to="/docs/datasets">datasets</router-link> are freely accessible under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">ODbL</a> license — no restrictions, delays, or authentication required.</p>
+              </div>
+              <div class="principle-card">
+                <h3>Open Source</h3>
+                <p>Every <a href="https://github.com/nxthdr" target="_blank" rel="noopener">applications</a> and piece of <a href="https://github.com/nxthdr/infrastructure" target="_blank" rel="noopener">infrastructure</a> is open source. Use them, contribute, or run your own instance.</p>
+              </div>
+              <div class="principle-card">
+                <h3>Radically Transparent</h3>
+                <p>Our <a href="https://grafana.nxthdr.dev/dashboards" target="_blank" rel="noopener">monitoring</a>, <a href="https://github.com/orgs/nxthdr/projects/1" target="_blank" rel="noopener">roadmap</a>, and <a href="https://docs.google.com/spreadsheets/d/1fguIDaXn4DuEexZrudJjzn2Sucpy8Qx5bACcYEH1ie4/edit?usp=sharing" target="_blank" rel="noopener">finances</a> are completely public.</p>
+              </div>
+            </div>
           </div>
 
           <h2 class="subheading">Get Involved</h2>

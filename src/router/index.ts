@@ -31,6 +31,10 @@ const router = createRouter({
       component: DocsView,
       children: [
         {
+          path: '',
+          redirect: '/docs/measurements'
+        },
+        {
           path: 'infrastructure',
           name: 'docs-infrastructure',
           component: () => import('../views/docs/InfrastructureView.vue')
