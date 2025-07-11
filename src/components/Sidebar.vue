@@ -251,12 +251,15 @@ onBeforeUnmount(() => {
     width: auto;
     max-width: 120px;
     margin: 0.75rem 1rem;
-    border-radius: 4px;
+    border-radius: 6px;
     position: sticky;
     top: calc(var(--header-height) + 0.5rem); /* Position below header with some spacing */
     z-index: 5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
+    font-size: 0.9rem;
+    /* Improve touch target */
+    min-height: 44px;
   }
 
   .mobile-sidebar-toggle:hover,
@@ -264,6 +267,11 @@ onBeforeUnmount(() => {
     background: var(--color-primary);
     color: white;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .mobile-sidebar-toggle:active {
+    transform: translateY(0);
   }
 
   .menu-icon {
@@ -271,7 +279,18 @@ onBeforeUnmount(() => {
   }
 
   .sidebar-link {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    /* Improve touch targets on mobile */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-title {
     padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
   }
 
   /* Backdrop for the mobile sidebar */
@@ -307,6 +326,35 @@ onBeforeUnmount(() => {
   .sidebar-close-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-accent);
+  }
+}
+
+/* Very small mobile improvements */
+@media (max-width: 480px) {
+  .app-sidebar {
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .mobile-sidebar-toggle {
+    margin: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
+    max-width: 100px;
+    font-size: 0.85rem;
+  }
+
+  .sidebar-link {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-title {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .sidebar-content {
+    padding-bottom: 1rem;
   }
 }
 </style>

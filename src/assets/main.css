@@ -556,6 +556,7 @@ th, td {
     padding-right: 0.5rem;
     margin-left: 0;
     text-shadow: none;
+    line-height: 1.2;
   }
 
   .main-subtitle,
@@ -569,10 +570,21 @@ th, td {
     margin-bottom: 1.5rem;
     margin-top: 0.2rem;
     margin-left: 0;
+    line-height: 1.4;
   }
 
   .main-content h1 {
     font-size: 2.2rem;
+  }
+
+  /* Better responsive docs page content */
+  .docs-page-content {
+    padding: 0 0.5rem;
+  }
+
+  .section-container {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -590,6 +602,41 @@ th, td {
     margin-bottom: 1rem;
     margin-left: 0;
     padding: 0 0.25rem;
+  }
+
+  /* Better mobile typography */
+  .main-content h1,
+  .content-card h1,
+  .docs-title,
+  .dashboard-title,
+  .about-title,
+  .home-title {
+    font-size: 1.8rem;
+    padding-left: 0.5rem;
+    padding-right: 0.25rem;
+    line-height: 1.1;
+  }
+
+  .main-subtitle,
+  .docs-subtitle,
+  .dashboard-subtitle,
+  .about-subtitle,
+  .home-subtitle {
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+    padding-right: 0.25rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.3;
+  }
+
+  /* Improve docs page content spacing */
+  .docs-page-content {
+    padding: 0 0.25rem;
+  }
+
+  .section-container {
+    margin-top: 0.8rem;
+    margin-bottom: 1.2rem;
   }
 
   /* References improvements for small screens */
@@ -767,6 +814,52 @@ html::-webkit-scrollbar-thumb {
 .quick-link-desc {
   font-size: 0.95rem;
   color: var(--color-text-muted);
+}
+
+/* Mobile improvements for quick links */
+@media (max-width: 768px) {
+  .quick-links {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .quick-link {
+    padding: 1.2rem;
+    border-radius: 6px;
+  }
+
+  .quick-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .quick-link-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .quick-link-desc {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-links {
+    gap: 0.8rem;
+  }
+
+  .quick-link {
+    padding: 1rem;
+  }
+
+  .quick-link-title {
+    font-size: 1rem;
+  }
+
+  .quick-link-desc {
+    font-size: 0.85rem;
+  }
 }
 
 /* Documentation code blocks */

@@ -104,6 +104,7 @@ function updateSidebarState(isOpen: boolean) {
   min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
   padding-top: 2rem; /* Increased top padding for better spacing with titles */
   padding-bottom: 2rem; /* Add bottom padding to ensure content doesn't touch footer */
+  transition: padding 0.3s ease; /* Smooth transition for responsive changes */
 }
 
 /* Quick links have been moved to DocsContentStyle component */
@@ -121,9 +122,63 @@ function updateSidebarState(isOpen: boolean) {
   }
 
   .docs-content {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem;
     min-height: auto; /* Remove min-height constraint on mobile */
+  }
+
+  /* Better spacing for docs landing page content on mobile */
+  .docs-landing {
+    padding: 0 0.5rem;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .docs-landing .docs-title {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem;
+  }
+
+  .docs-landing .main-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .section-container {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .docs-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 1rem;
+  }
+
+  .docs-landing {
+    padding: 0 0.25rem;
+  }
+
+  .docs-landing .docs-title {
+    font-size: 1.8rem !important;
+  }
+
+  .docs-landing .main-subtitle {
+    font-size: 0.95rem !important;
   }
 }
 </style>
