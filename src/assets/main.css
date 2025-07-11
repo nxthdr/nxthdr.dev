@@ -262,7 +262,9 @@ h1 + .main-subtitle + .content-section {
 }
 
 /* Common Link Styling - Applied globally */
-a {
+/* Buttons that should look like links - extend anchor styles */
+a,
+button.link-style {
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
@@ -270,7 +272,17 @@ a {
   transition: all 0.2s ease;
 }
 
-a:hover {
+button.link-style {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+a:hover,
+button.link-style:hover {
   filter: brightness(1.2);
   text-decoration: underline;
 }
@@ -282,12 +294,12 @@ a:hover {
 
 /* Make code elements stand out better */
 code {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--color-code-bg);
+  color: var(--color-text);
   padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-size: 0.9em;
-  color: var(--color-accent);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9rem;
 }
 
 /* Improve alert styling */
@@ -764,11 +776,6 @@ html::-webkit-scrollbar-thumb {
   border-radius: 4px;
   overflow-x: auto;
   margin: 1.5rem 0;
-}
-
-.docs-page-content code {
-  font-family: 'Fira Code', monospace;
-  font-size: 0.9rem;
 }
 
 /* Global code block styling for consistency across all docs pages */

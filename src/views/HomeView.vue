@@ -16,7 +16,8 @@
           </div>
 
           <div class="alert alert-important">
-            <p>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/saimiris">documentation</router-link> to send your first probes from as215011!</p>
+            <p v-if="!isAuthenticated">The nxthdr probing pipeline is in <strong>beta</strong>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
+            <p v-else>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/saimiris">documentation</router-link> to send your first probes from as215011!</p>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>
@@ -71,8 +72,12 @@ import AppFooter from '@/components/AppFooter.vue';
 import { ref, onMounted } from 'vue';
 import { useLogto, type IdTokenClaims } from '@logto/vue';
 
-const { isAuthenticated, getIdTokenClaims } = useLogto();
+const { isAuthenticated, getIdTokenClaims, signIn } = useLogto();
 const user = ref<IdTokenClaims>();
+
+function handleLogin() {
+  signIn(window.location.origin + '/callback');
+}
 
 onMounted(async () => {
   if (isAuthenticated.value) {
@@ -81,4 +86,6 @@ onMounted(async () => {
   }
 });
 </script>
+
+
 

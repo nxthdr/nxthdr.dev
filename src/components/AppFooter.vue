@@ -35,7 +35,7 @@
 
           <div class="footer-section">
             <h3 class="footer-section-title">Resources</h3>
-            <router-link to="/blog" class="footer-link">Blog</router-link>
+            <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="footer-link">Blog</a>
             <a href="https://github.com/nxthdr" target="_blank" rel="noopener" class="footer-link">GitHub</a>
             <router-link to="/about" class="footer-link">About</router-link>
           </div>

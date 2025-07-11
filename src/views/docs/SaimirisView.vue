@@ -81,7 +81,7 @@
         This example uses the same agent source IP address from the probe example above. The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
       </p>
       <p>
-        <strong>Important note:</strong> all measurements data collected by Saimiris is made freely available for everyone, without any authentication.
+        <strong>Important note:</strong> all measurements data collected by Saimiris is made freely available for everyone, without registration.
       </p>
     </div>
   </div>
@@ -355,14 +355,5 @@ ul {
 li {
   margin: 0.5rem 0;
   line-height: 1.6;
-}
-
-code {
-  background-color: var(--color-code-bg);
-  color: var(--color-text);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.9rem;
 }
 </style>

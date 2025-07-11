@@ -8,7 +8,7 @@
         The datasets are accessible from ClickHouse using our HTTP proxy. In the future, we might offer other ways to access the data.
       </p>
       <div class="callout">
-        <p>All data produced by <strong>nxthdr</strong> and <strong>as215011</strong> are publicly available and freely usable under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Data Commons Open Database License (ODbL)</a>.</p>
+        <p>All data produced by nxthdr and as215011 are publicly available and freely usable under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Data Commons Open Database License (ODbL)</a>.</p>
       </div>
       <p>Here is a working example you can try in your terminal:</p>
       <CopyableCodeBlock :code="exampleQuery" />
@@ -56,7 +56,7 @@
         The raw peering dataset is available in the <code>bmp.updates</code> table. The schema is described in our <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/bmp/bmp.sql" target="_blank" rel="noopener">infrastructure</a> repository.
       </p>
       <p>
-        Each router of <strong>as215011</strong> sends BMP messages to <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, which records the updates in a ClickHouse database.
+        Each router of as215011 sends BMP messages to <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, which records the updates in a ClickHouse database.
       </p>
       <p>
         Each raw corresponds to an update or a withdraw, capturing prefixes, AS paths, communities, and other attributes.
@@ -70,7 +70,7 @@
         The raw traffic dataset is available in the <code>flows.records</code> table. The schema is described in our <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/flows/flows.sql" target="_blank" rel="noopener">infrastructure</a> repository.
       </p>
       <p>
-        Each router of <strong>as215011</strong> sends sflow messages to <a href="https://github.com/netsampler/goflow2" target="_blank" rel="noopener">goflow2</a>, which records the flow samples in a ClickHouse database.
+        Each router of as215011 sends sflow messages to <a href="https://github.com/netsampler/goflow2" target="_blank" rel="noopener">goflow2</a>, which records the flow samples in a ClickHouse database.
       </p>
     </div>
   </div>
@@ -93,14 +93,6 @@ const exampleQuery = `echo """
 </script>
 
 <style scoped>
-code {
-  font-family: monospace;
-  background-color: var(--color-code-bg);
-  padding: 0.1rem 0.3rem;
-  border-radius: 3px;
-  font-size: 0.95em;
-}
-
 .callout {
   background-color: rgba(var(--color-accent-rgb), 0.1);
   border-left: 4px solid var(--color-accent);

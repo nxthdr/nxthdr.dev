@@ -27,6 +27,10 @@
           <h1 class="dashboard-title">Dashboard</h1>
           <div class="main-subtitle">Manage your measurements across the network.</div>
 
+          <div class="help-section">
+            <p>New to nxthdr? Check out the <router-link to="/docs/saimiris" class="docs-link">documentation</router-link> to learn how to send your first probes.</p>
+          </div>
+
             <!-- usage Section -->
             <div class="auth-status">
               <div v-if="usageLoading" class="token-loading">
@@ -601,6 +605,33 @@ const error = ref<string | null>(null);
 }
 
 /* Dashboard specific styles */
+
+/* Help section styles */
+.help-section {
+  background-color: rgba(var(--color-accent-rgb, 45, 212, 191), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb, 45, 212, 191), 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.help-section p {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.docs-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.docs-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
 
 /* Token display styles */
 .auth-status {
