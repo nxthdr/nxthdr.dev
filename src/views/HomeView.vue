@@ -16,8 +16,8 @@
           </div>
 
           <div class="alert alert-important">
-            <p v-if="!isAuthenticated">The nxthdr probing pipeline is in <strong>beta</strong>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
-            <p v-else>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
+            <p v-if="!isAuthenticated">The nxthdr probing pipeline is in <span class="beta-text">beta</span>! <strong><button @click="handleLogin" class="link-style">Join the beta</button></strong> to send your first probes from as215011!</p>
+            <p v-else>The nxthdr probing pipeline is in <span class="beta-text">beta</span>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>
