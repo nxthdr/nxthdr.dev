@@ -489,12 +489,88 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1.5rem;
+  background: var(--color-content-bg);
 }
 
 th, td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background: var(--color-sidebar-bg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ====== Responsive Table Styles ====== */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: var(--color-content-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem 0;
+}
+
+.table-container table {
+  margin-bottom: 0;
+  width: 100%;
+  min-width: 700px; /* Reduced since we removed TTL columns */
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-container th {
+  background: var(--color-sidebar-bg);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table-container td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.table-container tr:last-child td {
+  border-bottom: none;
+}
+
+.table-container tr:hover {
+  background: rgba(45, 212, 191, 0.05);
+}
+
+/* Mobile table improvements */
+@media (max-width: 768px) {
+  .table-container {
+    margin: 1rem -1rem; /* Extend to screen edges on mobile */
+    border-radius: 0;
+    box-shadow: none;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .table-container table {
+    min-width: 650px; /* Adjusted for removed columns */
+    border-radius: 0;
+  }
+
+  .table-container th,
+  .table-container td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .table-container th {
+    font-size: 0.8rem;
+  }
 }
 
 /* ====== Header Styles ====== */
@@ -1212,3 +1288,104 @@ html::-webkit-scrollbar-thumb {
 
 /* ====== Mobile Page Layout Adjustments ====== */
 /* No extra padding needed since header maintains fixed height with hamburger menu */
+
+/* ====== Table Status Indicators ====== */
+.status-healthy {
+  color: #10b981;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-healthy::before {
+  content: '●';
+  margin-right: 0.5rem;
+  color: #10b981;
+}
+
+.status-unhealthy {
+  color: #ef4444;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-unhealthy::before {
+  content: '●';
+  margin-right: 0.5rem;
+  color: #ef4444;
+}
+
+.no-prefixes {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.loading-text {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+/* Table row styling for unhealthy agents */
+.table-container tr.unhealthy {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.table-container tr.unhealthy:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ====== Agents Section Styling ====== */
+.section-container {
+  margin: 2.5rem 0;
+}
+
+.section-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.agents-table {
+  font-size: 0.9rem;
+}
+
+.agents-table th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.agents-table td {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.agents-table td > div {
+  margin-bottom: 0.25rem;
+}
+
+.agents-table td > div:last-child {
+  margin-bottom: 0;
+}
+
+/* ====== Agent ID Column Highlighting ====== */
+.agents-table td:first-child {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+}
+
+.agents-table tr:hover td:first-child {
+  color: #ffffff;
+}

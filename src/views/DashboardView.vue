@@ -95,20 +95,22 @@
                 <p>Fetching access token...</p>
               </div>
             </div>
+          </div>
 
-          <h2>Agents</h2>
-          <table class="agents-table">
-            <thead>
-              <tr>
-                <th>Agent ID</th>
-                <th>Status</th>
-                <th>Last Seen</th>
-                <th>Your IPv6 Prefixes</th>
-                <th>Probing Rate</th>
-                <th>Min TTL</th>
-                <th>Max TTL</th>
-              </tr>
-            </thead>
+          <!-- Agents Section -->
+          <div class="section-container">
+            <h2>Agents</h2>
+          <div class="table-container">
+            <table class="agents-table">
+              <thead>
+                <tr>
+                  <th>Agent ID</th>
+                  <th>Status</th>
+                  <th>Last Seen</th>
+                  <th>Your IPv6 Prefixes</th>
+                  <th>Probing Rate</th>
+                </tr>
+              </thead>
             <tbody>
               <tr v-for="agent in agents" :key="agent.id" :class="{ 'unhealthy': !agent.health.healthy }">
                 <td>{{ agent.id }}</td>
@@ -135,19 +137,10 @@
                     {{ formatRate(config.probing_rate) }}
                   </div>
                 </td>
-                <td>
-                  <div v-for="(config, index) in agent.config" :key="index">
-                    {{ config.min_ttl || 'Default' }}
-                  </div>
-                </td>
-                <td>
-                  <div v-for="(config, index) in agent.config" :key="index">
-                    {{ config.max_ttl || 'Default' }}
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>
+          </div>
           </div>
         </div>
       </div>
@@ -502,54 +495,6 @@ const error = ref<string | null>(null);
   display: flex;
   justify-content: center;
   gap: 10px;
-}
-
-.agents-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 0.9em;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.agents-table thead tr {
-  background-color: #222;
-  color: #ccc;
-  text-align: left;
-}
-
-.agents-table th,
-.agents-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #333;
-}
-
-.agents-table tbody tr {
-  border-bottom: 1px solid #333;
-}
-
-.agents-table tbody tr:nth-of-type(even) {
-  background-color: #1a1a1a;
-}
-
-.agents-table tbody tr:last-of-type {
-  border-bottom: 2px solid #222;
-}
-
-.status-healthy {
-  color: #4caf50;
-  font-weight: bold;
-}
-
-.status-unhealthy {
-  color: #e53935;
-  font-weight: bold;
-}
-
-.unhealthy {
-  background-color: rgba(229, 57, 53, 0.1) !important;
 }
 
 /* Dashboard specific styles */
