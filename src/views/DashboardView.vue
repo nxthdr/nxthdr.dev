@@ -1,13 +1,8 @@
 <template>
   <div class="page-root dashboard-page-root">
     <AppHeader />
-    <main class="main-content dashboard-layout">
-      <Sidebar
-        :initial-sidebar-state="isSidebarOpen"
-        :sections="sidebarSections"
-        @update:is-sidebar-open="updateSidebarState"
-      />
-      <div class="dashboard-content">
+    <main class="main-content">
+      <div class="content-wrapper">
         <div v-if="loading" class="loading-container">
           <p>Loading dashboard data...</p>
         </div>
@@ -28,7 +23,7 @@
           <div class="main-subtitle">Manage your measurements across the network.</div>
 
           <div class="help-section">
-            <p>New to nxthdr? Check out the <router-link to="/docs/saimiris" class="docs-link">documentation</router-link> to learn how to send your first probes.</p>
+            <p>New to nxthdr? Check out the <router-link to="/docs/measurements" class="docs-link">documentation</router-link> to learn how to send your first probes.</p>
           </div>
 
             <!-- usage Section -->
@@ -456,34 +451,6 @@ const error = ref<string | null>(null);
 </script>
 
 <style scoped>
-/* Additional style for dashboard page-root */
-:deep(.dashboard-page-root) {
-  display: flex;
-  flex-direction: column;
-}
-
-.dashboard-layout {
-  display: flex;
-  gap: 0;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
-}
-
-.dashboard-content {
-  flex: 1;
-  padding-left: 300px; /* Account for sidebar width */
-  padding-right: 1.5rem;
-  width: 100%;
-  max-width: 100%;
-  min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
-  padding-top: 2rem; /* Increased top padding for better spacing with titles */
-  padding-bottom: 2rem; /* Add bottom padding to ensure content doesn't touch footer */
-}
-
 .loading-container, .error-container {
   padding: 20px;
   text-align: center;
@@ -492,25 +459,6 @@ const error = ref<string | null>(null);
 .error-container {
   padding: 20px;
   width: 100%;
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .dashboard-content {
-    padding-left: 260px; /* Account for narrower sidebar on medium screens */
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-layout {
-    flex-direction: column;
-  }
-
-  .dashboard-content {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    min-height: auto; /* Remove min-height constraint on mobile */
-  }
 }
 
 .error-message {

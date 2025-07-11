@@ -1,7 +1,7 @@
 <template>
   <div class="docs-page-content">
     <h1 class="docs-title">Infrastructure</h1>
-    <p class="docs-subtitle">The nxthdr infrastructure is built to support internet measurements at scale</p>
+    <p class="docs-subtitle">Built to support internet measurements at scale</p>
 
     <div class="section-container">
       <p>

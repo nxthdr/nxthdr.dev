@@ -1,7 +1,7 @@
 <template>
   <div class="docs-page-content">
     <h1 class="docs-title">as215011</h1>
-    <p class="docs-subtitle">The autonomous system powering nxthdr's global measurement platform</p>
+    <p class="docs-subtitle">The Autonomous System powering nxthdr</p>
 
     <div class="section-container">
       <p>

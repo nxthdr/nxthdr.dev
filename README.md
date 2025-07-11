@@ -1,7 +1,6 @@
 # nxthdr.dev
 
-> [!WARNING]
-> Currently in early-stage development.
+Main website. Check out the [nxthdr](https://nxthdr.dev) project for more information.
 
 ## Development
 

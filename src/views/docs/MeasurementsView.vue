@@ -1,7 +1,7 @@
 <template>
   <div class="docs-page-content">
-    <h1 class="docs-title">Saimiris</h1>
-    <p class="docs-subtitle">High-performance internet measurement platform</p>
+    <h1 class="docs-title">Measurements</h1>
+    <p class="docs-subtitle">High-performance Internet measurements platform</p>
 
     <div class="section-container">
       <p>

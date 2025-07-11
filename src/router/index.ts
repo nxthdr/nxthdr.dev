@@ -46,9 +46,9 @@ const router = createRouter({
           component: () => import('../views/docs/DatasetsView.vue')
         },
         {
-          path: 'saimiris',
-          name: 'docs-saimiris',
-          component: () => import('../views/docs/SaimirisView.vue')
+          path: 'measurements',
+          name: 'docs-measurements',
+          component: () => import('../views/docs/MeasurementsView.vue')
         },
       ]
     },

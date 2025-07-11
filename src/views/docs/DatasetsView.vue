@@ -1,7 +1,7 @@
 <template>
   <div class="docs-page-content">
     <h1 class="docs-title">Datasets</h1>
-    <p class="docs-subtitle">Freely accessible data collected by the nxthdr platform</p>
+    <p class="docs-subtitle">Freely accessible data collected by anyone for everyone</p>
 
     <div class="section-container">
       <p>

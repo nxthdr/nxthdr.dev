@@ -12,15 +12,13 @@
         <router-view v-if="$route.path !== '/docs'" />
         <div v-else class="docs-landing docs-page-content">
           <h1 class="docs-title">Documentation</h1>
-          <div class="main-subtitle">Here you'll find guides and references for using the platform.</div>
+          <div class="main-subtitle">Find guides and references for using the platform.</div>
 
           <div class="section-container">
-            <p>Please select a topic from the sidebar to get started:</p>
-
             <div class="quick-links">
-              <router-link to="/docs/saimiris" class="quick-link">
-                <span class="quick-link-title">Saimiris</span>
-                <span class="quick-link-desc">Internet measurement platform & probing agents</span>
+              <router-link to="/docs/measurements" class="quick-link">
+                <span class="quick-link-title">Measurements</span>
+                <span class="quick-link-desc">Internet measurements platform</span>
               </router-link>
 
               <router-link to="/docs/datasets" class="quick-link">
@@ -30,7 +28,7 @@
 
               <router-link to="/docs/infrastructure" class="quick-link">
                 <span class="quick-link-title">Infrastructure</span>
-                <span class="quick-link-desc">Platform architecture & as215011 network</span>
+                <span class="quick-link-desc">Platform architecture & networks</span>
               </router-link>
             </div>
           </div>
@@ -56,7 +54,7 @@ const sidebarSections = [
   {
     title: 'MEASUREMENTS',
     links: [
-      { to: '/docs/saimiris', text: 'Saimiris' }
+      { to: '/docs/measurements', text: 'Overview' }
     ]
   },
   {

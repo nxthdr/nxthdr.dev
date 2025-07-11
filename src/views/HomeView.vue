@@ -8,7 +8,7 @@
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
             <p>
-              nxthdr, pronounced "Next Header", is an initiative to offer metrology capabilities to researchers and students to study and learn about the Internet.
+              nxthdr, pronounced "next header", is an initiative to offer metrology capabilities to researchers and students to study and learn about the Internet.
             </p>
             <p>
               It integrates high-speed probing capabilities together with peering control, offering the community a unique platform. The nxthdr <router-link to="/docs/infrastructure">infrastructure</router-link> enables Internet-scale route tracing while managing and collecting BGP advertisements from diverse vantage points and multiple IXPs, powered by the <router-link to="/docs/as215011">as215011</router-link> network.
@@ -17,7 +17,7 @@
 
           <div class="alert alert-important">
             <p v-if="!isAuthenticated">The nxthdr probing pipeline is in <strong>beta</strong>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
-            <p v-else>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/saimiris">documentation</router-link> to send your first probes from as215011!</p>
+            <p v-else>The nxthdr probing pipeline is in <strong>beta</strong>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
           </div>
 
           <h2 class="subheading">Flagship Projects</h2>
