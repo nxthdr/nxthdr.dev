@@ -34,7 +34,7 @@
         This token is necessary to authenticate your requests to the Saimiris Gateway API.
       </p>
       <p>
-        You can use your token to send measurements from your own scripts or applications.
+        You can use your token to send measurements from your own scripts, notebooks or applications.
         We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
       </p>
 

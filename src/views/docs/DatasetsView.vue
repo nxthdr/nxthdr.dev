@@ -32,7 +32,6 @@
         <li><strong>Command line:</strong> curl with SQL queries (examples below)</li>
         <li><strong>ClickHouse client:</strong> Official CLI tool with native protocol</li>
         <li><strong>Programming languages:</strong> HTTP libraries in Python, R, JavaScript, etc.</li>
-        <li><strong>Database tools:</strong> DBeaver, DataGrip, or other SQL clients</li>
         <li><strong>Analytics platforms:</strong> Jupyter notebooks, R Studio, or custom applications</li>
       </ul>
       <p>

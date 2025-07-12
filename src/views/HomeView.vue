@@ -24,7 +24,7 @@
             <h2 class="quick-access-title">Start Exploring Now</h2>
             <div class="quick-links">
               <router-link to="/docs/measurements" class="quick-link">
-                <span class="quick-link-title">Send Measurements</span>
+                <span class="quick-link-title">Perform Measurements</span>
                 <span class="quick-link-desc">Learn how to use our measurement platform and send your own probes</span>
               </router-link>
               <router-link to="/docs/datasets" class="quick-link">
