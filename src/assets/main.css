@@ -1584,12 +1584,13 @@ html::-webkit-scrollbar-thumb {
 }
 
 .quick-access-title {
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--color-heading);
-  margin-bottom: 1rem;
-  text-align: center;
   letter-spacing: 0.5px;
+  margin-bottom: 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 0.3rem;
 }
 
 /* Home page principles section */
