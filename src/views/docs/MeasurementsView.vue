@@ -95,12 +95,12 @@
       </p>
       <CopyableCodeBlock :code="sendProbesCommand" />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
-        This example demonstrates the Caracal probe format by sending 4 network probes to test connectivity with popular DNS servers.
+        This example demonstrates the Caracal probe format by sending 4 network probes to popular DNS servers from one of our probing agents.
         The probes target Cloudflare (<code>2606:4700:4700::1111</code> and <code>2606:4700:4700::1001</code>) and Google (<code>2001:4860:4860::8888</code> and <code>2001:4860:4860::8844</code>) using both ICMPv6 and UDP protocols.
         Replace <code>YOUR_ACCESS_TOKEN</code> with your dashboard token and update the agent details (<code>vltcdg01</code> and <code>2a0e:97c0:8a0::50</code>) with values from your dashboard.
       </p>
       <p v-else>
-        This example demonstrates the Caracal probe format by sending 4 network probes to test connectivity with popular DNS servers.
+        This example demonstrates the Caracal probe format by sending 4 network probes to popular DNS servers from one of our probing agents.
         The probes target Cloudflare (<code>2606:4700:4700::1111</code> and <code>2606:4700:4700::1001</code>) and Google (<code>2001:4860:4860::8888</code> and <code>2001:4860:4860::8844</code>) using both ICMPv6 and UDP protocols.
         The command uses your actual access token and agent details automatically.
       </p>

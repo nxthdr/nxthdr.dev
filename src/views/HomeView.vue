@@ -8,7 +8,8 @@
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
             <p>
-              nxthdr combines a high-performance measurement platform with a peering platform connected to multiple Internet exchange points. We provide researchers, students, and enthusiasts with tools to study Internet routing and connectivity from a dedicated autonomous system.
+              nxthdr combines a high-performance measurement platform with a peering platform connected to multiple Internet exchange points.
+              We provide researchers, students, and enthusiasts with tools to study Internet routing and connectivity from a dedicated autonomous system.
             </p>
             <p>
               Browse our datasets freely — no registration required. Want to send your own measurements? Sign up to access our global measurement infrastructure.
@@ -29,7 +30,7 @@
               </router-link>
               <router-link to="/docs/datasets" class="quick-link">
                 <span class="quick-link-title">Browse Datasets</span>
-                <span class="quick-link-desc">Network probes, BGP routing data, and traffic flows — query directly with SQL</span>
+                <span class="quick-link-desc">Measurements results, BGP routing data and traffic flows</span>
               </router-link>
             </div>
           </div>
@@ -39,20 +40,26 @@
           <div class="content-section">
             <h3 class="section-title">Peering Platform</h3>
             <p>
-              The peering platform is built around an autonomous system, <router-link to="/docs/as215011">as215011</router-link>, which advertises multiple IPv6 prefixes. This network is designed to support researchers and students in conducting Internet-scale experiments on routing and peering.
+              The peering platform is built around an autonomous system, <router-link to="/docs/as215011">as215011</router-link>, which advertises multiple IPv6 prefixes.
+              This network is designed to support researchers and students in conducting Internet-scale experiments on routing and peering.
             </p>
             <p>
-              BGP data is collected using <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a> BGP Monitoring Protocol (BMP) collector. Each as215011 router sends BMP messages to risotto, which stores the updates in a ClickHouse database. By maintaining a state, risotto ensures accurate and comprehensive BGP data, which is made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
+              BGP data is collected using <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a> BGP Monitoring Protocol (BMP) collector.
+              Each as215011 router sends BMP messages to risotto, which stores the updates in a ClickHouse database.
+              By maintaining a state, risotto ensures accurate and comprehensive BGP data, which is made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
             </p>
           </div>
 
           <div class="content-section">
             <h3 class="section-title">Probing Platform</h3>
             <p>
-              The probing platform consists of multiple servers distributed worldwide. These servers can perform high-speed traceroute-like and ping-like measurements. They advertise <router-link to="/docs/as215011">as215011</router-link> IPv6 prefixes, allowing measurements using both source unicast and anycast addresses.
+              The probing platform consists of multiple servers distributed worldwide.
+              These servers can perform high-speed traceroute-like and ping-like measurements.
+              They advertise <router-link to="/docs/as215011">as215011</router-link> IPv6 prefixes, allowing measurements using both source unicast and anycast addresses.
             </p>
             <p>
-              <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> is a high-speed probing pipeline that provides the essential plumbing for users to perform active measurements from the probing servers. The measurements results are stored in a ClickHouse database and made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
+              <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> is a high-speed probing pipeline that provides the essential plumbing for users to perform active measurements from the probing servers.
+              The measurements results are stored in a ClickHouse database and made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
             </p>
           </div>
 

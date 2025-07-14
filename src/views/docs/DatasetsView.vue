@@ -5,7 +5,8 @@
 
     <div class="section-container">
       <p>
-        Our datasets are freely accessible to researchers, students, network operators, and anyone interested in studying Internet infrastructure. The data is served through a ClickHouse HTTP proxy, making it easy to query from any programming language or analysis tool.
+        Our datasets are freely accessible to researchers, students, network operators, and anyone interested in studying Internet infrastructure.
+        The data is served through a ClickHouse HTTP proxy, making it easy to query from any programming language or analysis tool.
       </p>
       <div class="callout">
         <p>All data produced by nxthdr and as215011 are publicly available and freely usable under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Data Commons Open Database License (ODbL)</a>.</p>
@@ -21,7 +22,8 @@
         <strong>Password:</strong> <code>read</code>
       </p>
       <p>
-        These credentials are intentionally public and can be freely shared. Authentication exists solely to prevent automated scraping while allowing legitimate access.
+        These credentials are intentionally public and can be freely shared.
+        Authentication exists solely to prevent automated scraping while allowing legitimate access.
       </p>
 
       <h3>How to Use</h3>
@@ -35,7 +37,8 @@
         <li><strong>Analytics platforms:</strong> Jupyter notebooks, R Studio, or custom applications</li>
       </ul>
       <p>
-        All queries must be compatible with <a href="https://clickhouse.com/" target="_blank" rel="noopener">ClickHouse SQL</a>. See the examples below for each dataset to get started.
+        All queries must be compatible with <a href="https://clickhouse.com/" target="_blank" rel="noopener">ClickHouse SQL</a>.
+        See the examples below for each dataset to get started.
       </p>
     </div>
 
@@ -44,10 +47,12 @@
     <div class="section-container">
       <p>
         The probing dataset is available in the <code>saimiris.replies</code> table.
-        Active measurements using <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a>, whether scheduled via cron jobs or performed on demand by the users, are stored in a ClickHouse database. This data consists of traceroute-like and ping-like measurement results collected from multiple vantage points.
+        Active measurements using <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a>, whether scheduled via cron jobs or performed on demand by the users, are stored in a ClickHouse database.
+        This data consists of traceroute-like and ping-like measurement results collected from multiple vantage points.
       </p>
       <p>
-        Each row corresponds to a measurement result, capturing the source and destination IP addresses of the sent packet, the reply, the hop count, and other relevant attributes. This dataset is ideal for network topology discovery, latency analysis, and path characterization.
+        Each row corresponds to a measurement result, capturing the source and destination IP addresses of the sent packet, the reply, the hop count, and other relevant attributes.
+        This dataset is ideal for network topology discovery, latency analysis, and path characterization.
       </p>
 
       <h3 class="schema-heading">Key Schema Fields</h3>
@@ -91,10 +96,12 @@
 
     <div class="section-container">
       <p>
-        The peering dataset is available in the <code>bmp.updates</code> table. Each router of as215011, including those inside IXPs, sends BMP messages to <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, which records the updates in a ClickHouse database.
+        The peering dataset is available in the <code>bmp.updates</code> table.
+        Each router of as215011, including those inside IXPs, sends BMP messages to <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, which records the updates in a ClickHouse database.
       </p>
       <p>
-        Each row corresponds to an update or a withdraw, capturing prefixes, AS paths, communities, and other attributes. This dataset is perfect for analyzing BGP routing dynamics, prefix announcements, and AS relationship studies.
+        Each row corresponds to an update or a withdraw, capturing prefixes, AS paths, communities, and other attributes.
+        This dataset is perfect for analyzing BGP routing dynamics, prefix announcements, and AS relationship studies.
       </p>
 
       <h3 class="schema-heading">Key Schema Fields</h3>
@@ -142,10 +149,12 @@
 
     <div class="section-container">
       <p>
-        The traffic dataset is available in the <code>flows.records</code> table. Each router of as215011 sends sFlow messages to <a href="https://github.com/netsampler/goflow2" target="_blank" rel="noopener">goflow2</a>, which records the flow samples in a ClickHouse database.
+        The traffic dataset is available in the <code>flows.records</code> table.
+        Each router of as215011 sends sFlow messages to <a href="https://github.com/netsampler/goflow2" target="_blank" rel="noopener">goflow2</a>, which records the flow samples in a ClickHouse database.
       </p>
       <p>
-        Each row represents a sampled network flow, capturing traffic statistics between source and destination endpoints. This dataset is more useful for internal troubleshooting, but is public for transparency and possible research use cases.
+        Each row represents a sampled network flow, capturing traffic statistics between source and destination endpoints.
+        This dataset is more useful for internal troubleshooting, but is public for transparency and possible research use cases.
       </p>
 
       <h3 class="schema-heading">Key Schema Fields</h3>
