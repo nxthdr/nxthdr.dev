@@ -35,6 +35,32 @@
             </div>
           </div>
 
+          <h2 class="subheading">Applications</h2>
+          <div class="content-section">
+            <div class="use-cases-list-alt">
+              <div class="use-case-item">
+                <div class="use-case-title">Internet Topology & Performance Research</div>
+                <div class="use-case-desc">Analyze BGP dynamics, CDN behavior, routing patterns, and global connectivity using comprehensive real-world measurement data.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Measurement Tooling & Algorithm Development</div>
+                <div class="use-case-desc">Build, test, and benchmark innovative measurement techniques and algorithms leveraging our global high-speed infrastructure.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Data Science & Ethics Research</div>
+                <div class="use-case-desc">Explore best practices in large-scale data collection, privacy-preserving techniques, ethical measurement design, and advanced visualization methods.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Reproducible Research</div>
+                <div class="use-case-desc">Validate and reproduce prior studies with access to consistent, open datasets and standardized measurement infrastructure.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Education & Learning</div>
+                <div class="use-case-desc">Enhance networking courses, workshops, and hands-on learning experiences with real Internet data and measurement capabilities.</div>
+              </div>
+            </div>
+          </div>
+
           <h2 class="subheading">Flagship Projects</h2>
 
           <div class="content-section">
@@ -112,6 +138,37 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style scoped>
+.use-cases-list-alt {
+  margin: 1.2rem 0 0 0;
+  padding: 0;
+}
+.use-case-item {
+  background: transparent;
+  margin-bottom: 1.2rem;
+  padding: 1.5rem 0;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  line-height: 1.7;
+  position: relative;
+}
+.use-case-title {
+  color: var(--color-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.use-case-desc {
+  color: var(--color-text);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  font-weight: 400;
+}
+</style>
 
 
 
