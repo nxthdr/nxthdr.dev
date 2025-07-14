@@ -191,7 +191,7 @@ html, body {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 1.8rem 0 0.75rem;
-  color: #A0AEC0; /* Muted blue-gray tone that's less flashy but still distinct */
+  color: var(--color-heading); /* Use the same white as other section titles */
   letter-spacing: 0.01em;
 }
 
