@@ -23,6 +23,13 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/saimiris/, '/api'),
         secure: false
+      },
+      // Proxy ClickHouse requests to avoid CORS issues
+      '/api/clickhouse': {
+        target: 'https://clickhouse.nxthdr.dev',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/clickhouse/, ''),
+        secure: true
       }
     }
   }

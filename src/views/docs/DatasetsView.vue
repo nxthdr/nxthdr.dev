@@ -85,7 +85,12 @@
 
       <h3 class="example-heading">Example Query</h3>
       <p>Find the top 10 destinations with the highest average RTT from the CDG agent in the last hour:</p>
-      <CopyableCodeBlock :code="probingExampleQuery" />
+      <CopyableCodeBlock
+        :code="probingExampleQuery"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
 
       <p class="schema-link">
         <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/saimiris/saimiris.sql" target="_blank" rel="noopener">View complete schema →</a>
@@ -138,7 +143,12 @@
 
       <h3 class="example-heading">Example Query</h3>
       <p>Find prefixes with the most BGP communities in the last 24 hours:</p>
-      <CopyableCodeBlock :code="peeringExampleQuery" />
+      <CopyableCodeBlock
+        :code="peeringExampleQuery"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
 
       <p class="schema-link">
         <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/bmp/bmp.sql" target="_blank" rel="noopener">View complete schema →</a>
@@ -191,7 +201,12 @@
 
       <h3 class="example-heading">Example Query</h3>
       <p>Find the top 10 destination IP addresses by average bandwidth in the last 24 hours:</p>
-      <CopyableCodeBlock :code="trafficExampleQuery" />
+      <CopyableCodeBlock
+        :code="trafficExampleQuery"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
 
       <p class="schema-link">
         <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/flows/flows.sql" target="_blank" rel="noopener">View complete schema →</a>
@@ -203,42 +218,42 @@
 <script setup lang="ts">
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
 
-const probingExampleQuery = `echo """
-     SELECT probe_dst_addr,
-            count(*) as measurements,
-            round(avg(rtt), 2) as avg_rtt_us
-     FROM saimiris.replies
-     WHERE time_received_ns >= now() - INTERVAL 1 HOUR
-       AND agent_id = 'vltcdg01'
-     GROUP BY probe_dst_addr
-     ORDER BY avg_rtt_us DESC
-     LIMIT 10 FORMAT PRETTY
-     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
-          --data-binary @-`;
+const probingExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+  -u "read:read" \\
+  -H "Content-Type: text/plain" \\
+  -d "SELECT probe_dst_addr,
+       count(*) as measurements,
+       round(avg(rtt), 2) as avg_rtt_us
+FROM saimiris.replies
+WHERE time_received_ns >= now() - INTERVAL 1 HOUR
+  AND agent_id = 'vltcdg01'
+GROUP BY probe_dst_addr
+ORDER BY avg_rtt_us DESC
+LIMIT 10 FORMAT CSVWithNames"`;
 
-const peeringExampleQuery = `echo """
-     WITH concat(prefix_addr, '/', prefix_len) AS prefix
-     SELECT prefix,
-            max(length(communities)) AS n_communities
-     FROM bmp.updates
-     WHERE time_received_ns >= now() - INTERVAL 1 DAY
-     GROUP BY prefix
-     ORDER BY n_communities DESC
-     LIMIT 5 FORMAT PRETTY
-     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
-          --data-binary @-`;
+const peeringExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+  -u "read:read" \\
+  -H "Content-Type: text/plain" \\
+  -d "WITH concat(prefix_addr, '/', prefix_len) AS prefix
+SELECT prefix,
+       max(length(communities)) AS n_communities
+FROM bmp.updates
+WHERE time_received_ns >= now() - INTERVAL 1 DAY
+GROUP BY prefix
+ORDER BY n_communities DESC
+LIMIT 5 FORMAT CSVWithNames"`;
 
-const trafficExampleQuery = `echo """
-     SELECT
-       dst_addr,
-       sum(bytes * sampling_rate) / (24 * 3600) as avg_bytes_per_second,
-       count(*) as flow_records,
-       sum(bytes * sampling_rate) as total_estimated_bytes
-     FROM flows.records
-     WHERE time_flow_start_ns >= now() - INTERVAL 1 DAY
-     GROUP BY dst_addr
-     ORDER BY avg_bytes_per_second DESC
-     LIMIT 10 FORMAT PRETTY
-     """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
-          --data-binary @-`;
+const trafficExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+  -u "read:read" \\
+  -H "Content-Type: text/plain" \\
+  -d "SELECT
+  dst_addr,
+  sum(bytes * sampling_rate) / (24 * 3600) as avg_bytes_per_second,
+  count(*) as flow_records,
+  sum(bytes * sampling_rate) as total_estimated_bytes
+FROM flows.records
+WHERE time_flow_start_ns >= now() - INTERVAL 1 DAY
+GROUP BY dst_addr
+ORDER BY avg_bytes_per_second DESC
+LIMIT 10 FORMAT CSVWithNames"`;
 </script>

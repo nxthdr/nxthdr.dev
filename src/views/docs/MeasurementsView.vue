@@ -10,7 +10,7 @@
       </p>
       <p>
         The platform is designed to handle large-scale measurement campaigns while maintaining high performance and reliability.
-        Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway API allows to easily interact with the agents.
+        Saimiris agents are deployed on probing servers worldwide, and the Saimiris Gateway allows to easily interact with the agents.
       </p>
       <p>
         Saimiris agents are deployed globally on our probing <router-link to="/docs/infrastructure">infrastructure</router-link> using the <router-link to="/docs/as215011">as215011</router-link> network.
@@ -31,24 +31,11 @@
       </p>
       <p>
         You will also find your <strong>Access Token</strong> on the dashboard.
-        This token is necessary to authenticate your requests to the Saimiris Gateway API.
+        This token is necessary to authenticate your requests to the Saimiris Gateway.
       </p>
       <p>
         You can use your token to send measurements from your own scripts, notebooks or applications.
         We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
-      </p>
-
-      <h3 class="section-title">Verify your token</h3>
-      <p>
-        To verify that your token is working correctly, you can check your available credits with this simple request:
-      </p>
-      <CopyableCodeBlock :code="verifyTokenCommand" />
-      <p v-if="!isAuthenticated || !userToken">
-        Replace <code>YOUR_ACCESS_TOKEN</code> with the actual token from your dashboard.
-        This will return your current credit balance and daily limit.
-      </p>
-      <p v-else>
-        This example uses your actual access token. It will return your current credit balance and daily limit.
       </p>
 
       <h3 class="section-title">Check your available agents</h3>
@@ -56,7 +43,12 @@
         Before sending probes, you need to know which agents are available to you and their corresponding source IP prefixes.
         Each user is allocated a /80 IPv6 source prefix for each agent, and you can query your available prefixes with this request:
       </p>
-      <CopyableCodeBlock :code="fetchPrefixesCommand" />
+      <CopyableCodeBlock
+        :code="fetchPrefixesCommand"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
       <p v-if="!isAuthenticated || !userToken">
         Replace <code>YOUR_ACCESS_TOKEN</code> with your actual token. This will return a list of agents available to you, along with their IDs and your allocated IPv6 prefixes.
       </p>
@@ -93,7 +85,12 @@
         You can check the available agents and their IP addresses on your <router-link to="/dashboard">dashboard</router-link>.
         Here's an example that sends 4 probes from as215011:
       </p>
-      <CopyableCodeBlock :code="sendProbesCommand" />
+      <CopyableCodeBlock
+        :code="sendProbesCommand"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
         This example demonstrates the Caracal probe format by sending 4 network probes to popular DNS servers from one of our probing agents.
         The probes target Cloudflare (<code>2606:4700:4700::1111</code> and <code>2606:4700:4700::1001</code>) and Google (<code>2001:4860:4860::8888</code> and <code>2001:4860:4860::8844</code>) using both ICMPv6 and UDP protocols.
@@ -114,7 +111,12 @@
         Once your probes have been executed, you can query the replies after few seconds or minutes using the source IP address you specified in the metadata.
         The replies are stored in our ClickHouse database and can be accessed using the same public credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
       </p>
-      <CopyableCodeBlock :code="retrieveResultsCommand" />
+      <CopyableCodeBlock
+        :code="retrieveResultsCommand"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
         Replace <code>2a0e:97c0:8a0::50</code> with the actual IP address you used in your probe request metadata.
         The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
@@ -350,8 +352,10 @@ const sendProbesCommand = computed(() => {
 const retrieveResultsCommand = computed(() => {
   const agent = exampleAgent.value;
 
-  return `echo """
-    SELECT
+  return `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+  -u "read:read" \\
+  -H "Content-Type: text/plain" \\
+  -d "SELECT
       probe_src_addr,
       probe_dst_addr,
       probe_protocol,
@@ -362,9 +366,7 @@ const retrieveResultsCommand = computed(() => {
       time_received_ns >= now() - INTERVAL 1 HOUR
       AND probe_src_addr = toIPv6('${agent.ip}')
     ORDER BY time_received_ns DESC
-    FORMAT Pretty
-    """ | curl 'https://clickhouse.nxthdr.dev/?user=read&password=read' \\
-        --data-binary @-`;
+    FORMAT CSVWithNames"`;
 });
 
 // Fetch data when component mounts or auth status changes
