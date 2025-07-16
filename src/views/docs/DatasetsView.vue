@@ -17,7 +17,7 @@
         To access the data, use basic HTTP authentication with the following public credentials:
       </p>
       <p>
-        <strong>Endpoint:</strong> <code>https://clickhouse.nxthdr.dev/</code><br>
+        <strong>Endpoint:</strong> <code>{{ baseUrl }}/api/query/</code><br>
         <strong>Username:</strong> <code>read</code><br>
         <strong>Password:</strong> <code>read</code>
       </p>
@@ -218,7 +218,9 @@
 <script setup lang="ts">
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
 
-const probingExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
+
+const probingExampleQuery = `curl -X POST "${baseUrl}/api/query/" \\
   -u "read:read" \\
   -H "Content-Type: text/plain" \\
   -d "SELECT probe_dst_addr,
@@ -231,7 +233,7 @@ GROUP BY probe_dst_addr
 ORDER BY avg_rtt_us DESC
 LIMIT 10 FORMAT CSVWithNames"`;
 
-const peeringExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+const peeringExampleQuery = `curl -X POST "${baseUrl}/api/query/" \\
   -u "read:read" \\
   -H "Content-Type: text/plain" \\
   -d "WITH concat(prefix_addr, '/', prefix_len) AS prefix
@@ -243,7 +245,7 @@ GROUP BY prefix
 ORDER BY n_communities DESC
 LIMIT 5 FORMAT CSVWithNames"`;
 
-const trafficExampleQuery = `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+const trafficExampleQuery = `curl -X POST "${baseUrl}/api/query/" \\
   -u "read:read" \\
   -H "Content-Type: text/plain" \\
   -d "SELECT

@@ -144,6 +144,7 @@ const { isAuthenticated, getAccessToken, signIn } = useLogto();
 const userToken = ref<string | null>(null);
 const userPrefixes = ref<any | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
+const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
 
 // Handle login
 function handleLogin() {
@@ -160,7 +161,7 @@ const fetchUserData = async () => {
 
     if (token) {
       // Fetch user prefixes
-      const response = await fetch('/api/saimiris/user/prefixes', {
+      const response = await fetch('/api/user/prefixes', {
         headers: {
           'Accept': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -312,7 +313,7 @@ const exampleAgent = computed(() => {
 const verifyTokenCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl -s https://saimiris.nxthdr.dev/api/user/me \\
+  return `curl -s ${baseUrl}/api/user/me \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -320,7 +321,7 @@ const verifyTokenCommand = computed(() => {
 const fetchPrefixesCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl -s https://saimiris.nxthdr.dev/api/user/prefixes \\
+  return `curl -s ${baseUrl}/api/user/prefixes \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -330,7 +331,7 @@ const sendProbesCommand = computed(() => {
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
   const agent = exampleAgent.value;
 
-  return `curl -s -X POST "https://saimiris.nxthdr.dev/api/probes" \\
+  return `curl -s -X POST "${baseUrl}/api/probes" \\
      -H "Content-Type: application/json" \\
      -H "Authorization: Bearer ${token}" \\
      -d '{
@@ -352,7 +353,7 @@ const sendProbesCommand = computed(() => {
 const retrieveResultsCommand = computed(() => {
   const agent = exampleAgent.value;
 
-  return `curl -X POST "https://clickhouse.nxthdr.dev/" \\
+  return `curl -X POST "${baseUrl}/api/query/" \\
   -u "read:read" \\
   -H "Content-Type: text/plain" \\
   -d "SELECT

@@ -235,7 +235,7 @@ const fetchUserUsage = async (token: string) => {
   usageError.value = null;
 
   try {
-    const response = await fetch('/api/saimiris/user/me', {
+    const response = await fetch('/api/user/me', {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -264,7 +264,7 @@ const fetchUserPrefixes = async (token: string) => {
   prefixesError.value = null;
 
   try {
-    const response = await fetch('/api/saimiris/user/prefixes', {
+    const response = await fetch('/api/user/prefixes', {
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -304,7 +304,7 @@ const fetchAgents = async () => {
     error.value = null;
 
     // Using the proxy endpoint that's configured in vite.config.ts
-    const response = await fetch('/api/saimiris/agents', {
+    const response = await fetch('/api/agents', {
       headers: {
         'Accept': 'application/json'
       }
@@ -319,7 +319,7 @@ const fetchAgents = async () => {
     console.error('Error fetching agent data:', err);
     error.value = err instanceof Error ?
       err.message :
-      'Unable to connect to the Saimiris API. Please check your network connection.';
+      'Unable to connect to the Saimiris Gateway. Please check your network connection.';
   } finally {
     loading.value = false;
   }

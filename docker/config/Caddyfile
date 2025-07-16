@@ -3,67 +3,12 @@
 }
 
 :80 {
-    # Handle API requests first - explicitly only for the agents endpoint
-    handle /api/saimiris/agents {
-        # Strip the /api/saimiris part and add /api
-        rewrite * /api/agents
-
-        # Forward to the target server
-        reverse_proxy https://saimiris.nxthdr.dev {
-            header_up Host {http.reverse_proxy.upstream.hostport}
-            header_up Accept "application/json"
-
-            # Add CORS headers
-            header_down Access-Control-Allow-Origin "*"
-            header_down Access-Control-Allow-Methods "GET, OPTIONS"
-            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization"
-        }
-    }
-
-    # Handle API requests for user info
-    handle /api/saimiris/user/me {
-        # Strip the /api/saimiris part and add /api
-        rewrite * /api/user/me
-
-        # Forward to the target server
-        reverse_proxy https://saimiris.nxthdr.dev {
-            header_up Host {http.reverse_proxy.upstream.hostport}
-            header_up Accept "application/json"
-            # Pass authorization header through
-            header_up Authorization {http.request.header.Authorization}
-
-            # Add CORS headers
-            header_down Access-Control-Allow-Origin "*"
-            header_down Access-Control-Allow-Methods "GET, OPTIONS"
-            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization"
-        }
-    }
-
-    # Handle API requests for user prefixes
-    handle /api/saimiris/user/prefixes {
-        # Strip the /api/saimiris part and add /api
-        rewrite * /api/user/prefixes
-
-        # Forward to the target server
-        reverse_proxy https://saimiris.nxthdr.dev {
-            header_up Host {http.reverse_proxy.upstream.hostport}
-            header_up Accept "application/json"
-            # Pass authorization header through
-            header_up Authorization {http.request.header.Authorization}
-
-            # Add CORS headers
-            header_down Access-Control-Allow-Origin "*"
-            header_down Access-Control-Allow-Methods "GET, OPTIONS"
-            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization"
-        }
-    }
-
-    # Handle ClickHouse API requests
-    handle /api/clickhouse* {
-        # Strip the /api/clickhouse part
+    # Handle ClickHouse API requests (must come first - more specific)
+    handle /api/query* {
+        # Strip the /api/query part
         rewrite * {path}
-        rewrite /api/clickhouse /
-        rewrite /api/clickhouse/* /{1}
+        rewrite /api/query /
+        rewrite /api/query/* /{1}
 
         # Forward to ClickHouse server
         reverse_proxy https://clickhouse.nxthdr.dev {
@@ -76,6 +21,23 @@
             # Add CORS headers
             header_down Access-Control-Allow-Origin "*"
             header_down Access-Control-Allow-Methods "GET, POST, OPTIONS"
+            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization, Origin"
+        }
+    }
+
+    # Handle all Saimiris API requests
+    handle /api/* {
+        # Forward to the target server
+        reverse_proxy https://saimiris.nxthdr.dev {
+            header_up Host {http.reverse_proxy.upstream.hostport}
+            header_up Accept {http.request.header.Accept}
+            header_up Content-Type {http.request.header.Content-Type}
+            # Pass authorization header through
+            header_up Authorization {http.request.header.Authorization}
+
+            # Add CORS headers
+            header_down Access-Control-Allow-Origin "*"
+            header_down Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
             header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization, Origin"
         }
     }

@@ -158,14 +158,6 @@ const executeCommand = async () => {
       throw new Error('Could not parse command');
     }
 
-    // Debug logging
-    console.log('Parsed request:', {
-      url: request.url,
-      method: request.method,
-      headers: request.headers,
-      body: request.body
-    });
-
     // Add Origin header for CORS compliance in production
     const fetchHeaders = {
       ...request.headers,
@@ -364,18 +356,6 @@ const parseCurlCommand = (curlCommand: string) => {
     }
 
     if (!url) return null;
-
-    // Use proxy in development to avoid CORS issues
-    if (url.includes('clickhouse.nxthdr.dev') && import.meta.env.DEV) {
-      url = url.replace('https://clickhouse.nxthdr.dev', '/api/clickhouse');
-    }
-    if (url.includes('saimiris.nxthdr.dev') && import.meta.env.DEV) {
-      const originalUrl = url;
-      url = url.replace('https://saimiris.nxthdr.dev/api', '/api/saimiris');
-      console.log('Rewriting Saimiris URL:', originalUrl, '->', url);
-    }
-
-    console.log('Final parsed request:', { url, method, headers: Object.keys(headers), body: body?.substring(0, 100) + (body && body.length > 100 ? '...' : '') });
 
     return { url, method, headers, body };
   } catch (err) {
