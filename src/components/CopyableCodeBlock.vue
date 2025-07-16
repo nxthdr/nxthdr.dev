@@ -503,10 +503,10 @@ const parseCurlCommand = (curlCommand: string) => {
   font-size: 0.85rem;
   line-height: 1.5;
   overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-all;
-  max-height: 400px;
   overflow-y: auto;
+  white-space: pre;
+  word-break: normal;
+  max-height: 400px;
   background: #1e1e1e;
   color: #e6e6e6;
 }
@@ -522,7 +522,9 @@ const parseCurlCommand = (curlCommand: string) => {
 /* CSV table styling - consistent with dark theme */
 .csv-container {
   background: #1e1e1e;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
 }
 
 .csv-table {

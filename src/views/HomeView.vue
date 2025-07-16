@@ -13,7 +13,7 @@
                 Our platform offers flexible worldwide active measurements from our own autonomous system and peering capabilities through multiple Internet exchanges.
               </p>
               <p class="intro-secondary">
-                All datasets are shared in public domain, every tool and systems are open source, and the entire infrastructure is designed for maximum flexibility and ease of use.
+                All datasets are shared in the public domain, every tool and systems are open source, and the entire infrastructure is designed rapid experimentation and reproducibility.
               </p>
             </div>
           </div>
