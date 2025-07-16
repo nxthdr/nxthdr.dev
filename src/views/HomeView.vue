@@ -7,13 +7,15 @@
           <h1 class="home-title">A Wide-Open Window to the Internet</h1>
           <div class="main-subtitle">Internet Measurements — Open, Ethical, and For Everyone</div>
           <div class="content-section">
-            <p>
-              nxthdr combines a high-performance measurement platform with a peering platform connected to multiple Internet exchange points.
-              We provide researchers, students, and enthusiasts with tools to study Internet routing and connectivity from a dedicated autonomous system.
-            </p>
-            <p>
-              Browse our datasets freely — no registration required. Want to send your own measurements? Sign up to access our global measurement infrastructure.
-            </p>
+            <div class="intro-highlight">
+              <p class="intro-main">
+                <strong>nxthdr</strong> operates a global network infrastructure designed specifically for Internet research and education.
+                Our platform offers flexible worldwide active measurements from our own autonomous system and peering capabilities through multiple Internet exchanges.
+              </p>
+              <p class="intro-secondary">
+                All datasets are shared in public domain, every tool and systems are open source, and the entire infrastructure is designed for maximum flexibility and ease of use.
+              </p>
+            </div>
           </div>
 
           <div class="alert alert-important">
@@ -30,7 +32,7 @@
               </router-link>
               <router-link to="/docs/datasets" class="quick-link">
                 <span class="quick-link-title">Browse Datasets</span>
-                <span class="quick-link-desc">Measurements results, BGP routing data and traffic flows</span>
+                <span class="quick-link-desc">Access public domain BGP routing data, measurement results, and traffic flows</span>
               </router-link>
             </div>
           </div>
@@ -94,7 +96,7 @@
             <div class="principles-grid">
               <div class="principle-card">
                 <h3>Open Data</h3>
-                <p>All <router-link to="/docs/datasets">datasets</router-link> are freely accessible under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">ODbL</a> license — no restrictions, delays, or authentication required.</p>
+                <p>All <router-link to="/docs/datasets">datasets</router-link> are public domain under <a href="https://opendatacommons.org/licenses/pddl/" target="_blank" rel="noopener">PDDL</a> license — no restrictions, delays, or authentication required.</p>
               </div>
               <div class="principle-card">
                 <h3>Open Source</h3>
@@ -140,15 +142,42 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.intro-highlight {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.intro-main {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.intro-secondary {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary, var(--color-text));
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .intro-highlight {
+    padding: 1.5rem;
+  }
+}
+
 .use-cases-list-alt {
   margin: 1.2rem 0 0 0;
   padding: 0;
 }
 .use-case-item {
   background: transparent;
-  margin-bottom: 1.2rem;
-  padding: 1.5rem 0;
-  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+  padding: 0.8rem 0;
   color: var(--color-text);
   line-height: 1.7;
   position: relative;
@@ -164,7 +193,6 @@ onMounted(async () => {
 }
 .use-case-desc {
   color: var(--color-text);
-  font-size: 1.05rem;
   line-height: 1.65;
   font-weight: 400;
 }

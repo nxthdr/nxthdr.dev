@@ -8,8 +8,8 @@
         Our datasets are freely accessible to researchers, students, network operators, and anyone interested in studying Internet infrastructure.
         The data is served through a ClickHouse HTTP proxy, making it easy to query from any programming language or analysis tool.
       </p>
-      <div class="callout">
-        <p>All data produced by nxthdr and as215011 are publicly available and freely usable under <a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">Open Data Commons Open Database License (ODbL)</a>.</p>
+      <div class="alert alert-info">
+        <p>These datasets are made available under the <strong>Public Domain Dedication and License v1.0</strong> whose full text can be found at: <a href="http://opendatacommons.org/licenses/pddl/1.0/" target="_blank" rel="noopener">http://opendatacommons.org/licenses/pddl/1.0/</a>.</p>
       </div>
 
       <h3>Access & Authentication</h3>
