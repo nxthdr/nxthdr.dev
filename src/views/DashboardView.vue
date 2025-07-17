@@ -106,7 +106,6 @@
                 <tr>
                   <th>Agent ID</th>
                   <th>Status</th>
-                  <th>Last Seen</th>
                   <th>Your IPv6 Prefixes</th>
                   <th>Probing Rate</th>
                 </tr>
@@ -119,22 +118,27 @@
                     {{ agent.health.healthy ? 'Healthy' : 'Unhealthy' }}
                   </span>
                 </td>
-                <td>{{ formatDate(agent.last_seen) }}</td>
                 <td>
                   <div v-if="prefixesLoading" class="loading-text">Loading...</div>
                   <div v-else-if="prefixesError" class="error-text">Error loading prefixes</div>
                   <div v-else>
-                    <div v-for="(prefix, index) in getUserPrefixesForAgent(agent.id)" :key="index">
-                      {{ prefix }}
+                    <!-- Show each config with its corresponding user prefix -->
+                    <div v-for="(config, configIndex) in agent.config" :key="configIndex" class="prefix-line">
+                      <span v-if="config.name" class="config-name-inline">[{{ config.name }}]</span>
+                      {{ getUserPrefixesForAgent(agent.id)[configIndex] || 'No prefix available' }}
                     </div>
-                    <div v-if="getUserPrefixesForAgent(agent.id).length === 0" class="no-prefixes">
-                      No prefixes available
+                    <div v-if="agent.config.length === 0" class="no-prefixes">
+                      No configuration available
                     </div>
                   </div>
                 </td>
                 <td>
-                  <div v-for="(config, index) in agent.config" :key="index">
+                  <!-- Show probing rates aligned with configs -->
+                  <div v-for="(config, configIndex) in agent.config" :key="configIndex" class="rate-line">
                     {{ formatRate(config.probing_rate) }}
+                  </div>
+                  <div v-if="agent.config.length === 0" class="no-config">
+                    No configuration
                   </div>
                 </td>
               </tr>
@@ -329,15 +333,6 @@ const retryFetch = () => {
   fetchAgents();
 };
 
-const formatDate = (dateString: string) => {
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleString();
-  } catch (e) {
-    return dateString;
-  }
-};
-
 const formatRate = (rate: number): string => {
   if (rate >= 1000) {
     const kRate = rate / 1000;
@@ -411,6 +406,7 @@ onUnmounted(() => {
 });
 
 interface AgentConfig {
+  name?: string;
   batch_size: number;
   instance_id: number;
   dry_run: boolean;
@@ -678,6 +674,69 @@ const error = ref<string | null>(null);
 
 .error-text {
   color: #e53935;
+  font-size: 0.9em;
+}
+
+.no-prefixes {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* Configuration and prefix display styles */
+.config-prefix-group {
+  margin-bottom: 0.4rem;
+}
+
+.config-prefix-group:last-child {
+  margin-bottom: 0;
+}
+
+.config-rate-group {
+  margin-bottom: 0.4rem;
+}
+
+.config-rate-group:last-child {
+  margin-bottom: 0;
+}
+
+.prefix-line {
+  margin-bottom: 0.1rem;
+  line-height: 1.3;
+  padding: 0.1rem 0;
+  min-height: 1.3em;
+  font-size: 0.9em;
+}
+
+.prefix-line:last-child {
+  margin-bottom: 0;
+}
+
+.rate-line {
+  margin-bottom: 0.1rem;
+  line-height: 1.3;
+  padding: 0.1rem 0;
+  font-size: 0.9em;
+  min-height: 1.3em;
+}
+
+.rate-line:last-child {
+  margin-bottom: 0;
+}
+
+.config-name-inline {
+  font-weight: 600;
+  font-size: 0.85em;
+  color: var(--color-text-secondary);
+  margin-right: 0.5rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  display: inline-block;
+  min-width: 4em;
+}
+
+.no-config {
+  color: var(--color-text-muted);
+  font-style: italic;
   font-size: 0.9em;
 }
 
