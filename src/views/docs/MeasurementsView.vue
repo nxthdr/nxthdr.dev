@@ -26,7 +26,7 @@
     <div class="section-container">
       <p>
         On your <router-link to="/dashboard">dashboard</router-link>, you will see how many probe credits you have available for the day.
-        Currently, each user is allocated <code>10000</code> credits per day, which allows you to send <code>10000</code> individual probes.
+        Currently, each user is allocated <code>10,000</code> credits per day, which allows you to send <code>10,000</code> individual probes.
         Please <a href="mailto:admin@nxthdr.dev">contact us</a> if you need more.
       </p>
       <p>
