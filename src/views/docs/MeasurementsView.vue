@@ -103,10 +103,34 @@
       </p>
       <p>
         The API will return a confirmation that your probes have been accepted for processing.
-        After running this command, go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page: you should see that your used credits have increased by 4.
+        Copy the <code>id</code> value from this response, you'll need it to check the measurement status on the next step.
+      </p>
+
+      <h3 class="section-title">Check measurement status</h3>
+      <p>
+        Before retrieving the actual measurement results, you can check the status of your measurement using the measurement ID returned from the previous command.
+        Replace <code>MEASUREMENT_ID</code> in the command below with the actual ID from your probe submission response:
+      </p>
+      <CopyableCodeBlock
+        :code="checkStatusCommand"
+        :executable="true"
+        :collapsible="true"
+        :default-collapsed="false"
+      />
+      <p v-if="!isAuthenticated || !userToken">
+        Replace <code>YOUR_ACCESS_TOKEN</code> with your actual token and <code>MEASUREMENT_ID</code> with the ID returned from the probe submission.
+        This will show you the current status of your measurement and whether the probes have been executed.
+      </p>
+      <p v-else>
+        This example uses your actual access token. Replace <code>MEASUREMENT_ID</code> with the ID returned from your probe submission.
+        The status endpoint will show you whether your measurement has been completed and is ready for data retrieval.
       </p>
 
       <h3 class="section-title">Retrieve measurement results</h3>
+      <div class="alert alert-warning">
+        <strong>Important note</strong> All measurements data collected by Saimiris is made freely available for everyone, without registration.
+        However, there is no way to know which user sent which probes since we don't store any user identifiers with the measurement results.
+      </div>
       <p>
         Once your probes have been executed, you can query the replies after few seconds or minutes using the source IP address you specified in the metadata.
         The replies are stored in our ClickHouse database and can be accessed using the same public credentials as our other <router-link to="/docs/datasets">datasets</router-link>:
@@ -127,7 +151,7 @@
         The <code>time_received_ns</code> filter helps narrow down results to recent measurements.
       </p>
       <p>
-        <strong>Important note:</strong> all measurements data collected by Saimiris is made freely available for everyone, without registration.
+        Finally, you can go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page: you should see that your used credits have increased by 4.
       </p>
     </div>
   </div>
@@ -348,6 +372,15 @@ const sendProbesCommand = computed(() => {
              ["2001:4860:4860::8844", 24000, 33434, 30, "udp"]
          ]
      }'`;
+});
+
+const checkStatusCommand = computed(() => {
+  // Always show dummy token if not authenticated or no token available
+  const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
+
+  return `curl -s "${baseUrl}/api/measurements/MEASUREMENT_ID/status" \\
+     -H "Content-Type: application/json" \\
+     -H "Authorization: Bearer ${token}"`;
 });
 
 const retrieveResultsCommand = computed(() => {
