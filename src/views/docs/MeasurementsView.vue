@@ -90,6 +90,7 @@
         :executable="true"
         :collapsible="true"
         :default-collapsed="false"
+        @execution-complete="handleProbeExecution"
       />
       <p v-if="!isAuthenticated || !userToken || !userPrefixes">
         This example demonstrates the Caracal probe format by sending 4 network probes to popular DNS servers from one of our probing agents.
@@ -103,13 +104,13 @@
       </p>
       <p>
         The API will return a confirmation that your probes have been accepted for processing.
-        Copy the <code>id</code> value from this response, you'll need it to check the measurement status on the next step.
+        The measurement ID will be included in the response, which you can use to check the status of your measurement.
       </p>
 
       <h3 class="section-title">Check measurement status</h3>
       <p>
         Before retrieving the actual measurement results, you can check the status of your measurement using the measurement ID returned from the previous command.
-        Replace <code>MEASUREMENT_ID</code> in the command below with the actual ID from your probe submission response:
+        <span v-if="!measurementId">After running the probe command above, the measurement ID will be automatically extracted and used in this command.</span>
       </p>
       <CopyableCodeBlock
         :code="checkStatusCommand"
@@ -118,11 +119,12 @@
         :default-collapsed="false"
       />
       <p v-if="!isAuthenticated || !userToken">
-        Replace <code>YOUR_ACCESS_TOKEN</code> with your actual token and <code>MEASUREMENT_ID</code> with the ID returned from the probe submission.
+        <span v-if="measurementId">This command uses the measurement ID <code>{{ measurementId }}</code> that was extracted from your probe submission.</span>
+        <span v-else>Replace <code>YOUR_ACCESS_TOKEN</code> with your actual token. The measurement ID will be automatically filled when you run the probe command above.</span>
         This will show you the current status of your measurement and whether the probes have been executed.
       </p>
       <p v-else>
-        This example uses your actual access token. Replace <code>MEASUREMENT_ID</code> with the ID returned from your probe submission.
+        <span v-if="measurementId">This example uses your actual access token and the measurement ID <code>{{ measurementId }}</code> from your probe submission.</span>
         The status endpoint will show you whether your measurement has been completed and is ready for data retrieval.
       </p>
 
@@ -167,12 +169,27 @@ const { isAuthenticated, getAccessToken, signIn } = useLogto();
 // User data
 const userToken = ref<string | null>(null);
 const userPrefixes = ref<any | null>(null);
+const measurementId = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
 
 // Handle login
 function handleLogin() {
   signIn(window.location.origin + '/callback');
+}
+
+// Handle probe execution completion
+function handleProbeExecution(result: { output: string; error: string | null; success: boolean }) {
+  if (result.success && result.output) {
+    try {
+      const response = JSON.parse(result.output);
+      if (response.id) {
+        measurementId.value = response.id;
+      }
+    } catch (error) {
+      console.error('Failed to parse probe response:', error);
+    }
+  }
 }
 
 // Fetch user token and prefixes
@@ -377,8 +394,9 @@ const sendProbesCommand = computed(() => {
 const checkStatusCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
+  const id = measurementId.value || 'MEASUREMENT_ID';
 
-  return `curl -s "${baseUrl}/api/measurements/MEASUREMENT_ID/status" \\
+  return `curl -s "${baseUrl}/api/measurement/${id}/status" \\
      -H "Content-Type: application/json" \\
      -H "Authorization: Bearer ${token}"`;
 });
@@ -440,5 +458,14 @@ ul {
 li {
   margin: 0.5rem 0;
   line-height: 1.6;
+}
+
+.alert.alert-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
 }
 </style>

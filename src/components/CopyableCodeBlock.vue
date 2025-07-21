@@ -71,6 +71,13 @@ const props = withDefaults(defineProps<Props>(), {
   executable: false,
 });
 
+// Emits interface
+interface Emits {
+  executionComplete: [result: { output: string; error: string | null; success: boolean }];
+}
+
+const emit = defineEmits<Emits>();
+
 // Reactive state
 const copied = ref(false);
 const executing = ref(false);
@@ -181,8 +188,22 @@ const executeCommand = async () => {
     } else {
       output.value = await response.text();
     }
+
+    // Emit execution complete event with success
+    emit('executionComplete', {
+      output: output.value,
+      error: null,
+      success: true
+    });
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'An unknown error occurred';
+
+    // Emit execution complete event with error
+    emit('executionComplete', {
+      output: '',
+      error: error.value,
+      success: false
+    });
   } finally {
     executing.value = false;
   }
