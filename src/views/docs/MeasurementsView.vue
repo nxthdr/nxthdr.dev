@@ -22,7 +22,7 @@
        <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to get examples with your actual token and own prefixes.
     </div>
 
-    <h2 class="subheading">Get started</h2>
+    <h2 class="subheading">Getting started</h2>
     <div class="section-container">
       <p>
         On your <router-link to="/dashboard">dashboard</router-link>, you will see how many probe credits you have available for the day.
