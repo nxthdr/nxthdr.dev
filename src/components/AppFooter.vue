@@ -28,16 +28,15 @@
         <div class="footer-links">
           <div class="footer-section">
             <h3 class="footer-section-title">Platform</h3>
-            <router-link to="/docs/infrastructure" class="footer-link">Infrastructure</router-link>
-            <router-link to="/docs/as215011" class="footer-link">as215011</router-link>
+            <router-link to="/docs/measurements" class="footer-link">Measurements</router-link>
             <router-link to="/docs/datasets" class="footer-link">Datasets</router-link>
           </div>
 
           <div class="footer-section">
             <h3 class="footer-section-title">Resources</h3>
+            <a href="https://docs.nxthdr.dev" target="_blank" rel="noopener" class="footer-link">Docs</a>
             <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="footer-link">Blog</a>
             <a href="https://github.com/nxthdr" target="_blank" rel="noopener" class="footer-link">GitHub</a>
-            <router-link to="/about" class="footer-link">About</router-link>
           </div>
 
           <div class="footer-section">

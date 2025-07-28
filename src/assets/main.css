@@ -517,7 +517,7 @@ th, td {
 }
 
 th {
-  background: var(--color-sidebar-bg);
+  background: var(--color-content-bg);
   font-weight: 600;
   color: var(--color-text);
 }
@@ -540,7 +540,7 @@ th {
 }
 
 .table-container th {
-  background: var(--color-sidebar-bg);
+  background: var(--color-content-bg);
   color: var(--color-text);
   font-weight: 600;
   font-size: 0.875rem;
@@ -825,7 +825,8 @@ th {
 
   /* Better responsive docs page content */
   .docs-page-content {
-    padding: 0 0.5rem;
+    padding: 1.5rem 1rem 3rem;
+    max-width: 100%;
   }
 
   .section-container {
@@ -877,7 +878,8 @@ th {
 
   /* Improve docs page content spacing */
   .docs-page-content {
-    padding: 0 0.25rem;
+    padding: 1rem 0.75rem 3rem;
+    max-width: 100%;
   }
 
   .section-container {
@@ -958,9 +960,10 @@ html::-webkit-scrollbar-thumb {
 /* ====== Documentation and Dashboard shared styles ====== */
 .docs-page-content,
 .dashboard-page-content {
-  max-width: 800px;
-  padding-bottom: 3rem;
-  padding: 0 1rem 3rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 2rem 3rem;
 }
 
 /* Use the same title styling for all views */

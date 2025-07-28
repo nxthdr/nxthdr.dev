@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CallbackView from '../views/CallbackView.vue'
 import DashboardView from '../views/DashboardView.vue'
-import DocsView from '../views/DocsView.vue'
 import AboutView from '../views/AboutView.vue'
 import { useLogto } from '@logto/vue';
 
@@ -26,35 +25,14 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/docs',
-      name: 'docs',
-      component: DocsView,
-      children: [
-        {
-          path: '',
-          redirect: '/docs/measurements'
-        },
-        {
-          path: 'infrastructure',
-          name: 'docs-infrastructure',
-          component: () => import('../views/docs/InfrastructureView.vue')
-        },
-        {
-          path: 'as215011',
-          name: 'docs-as215011',
-          component: () => import('../views/docs/AS215011View.vue')
-        },
-        {
-          path: 'datasets',
-          name: 'docs-datasets',
-          component: () => import('../views/docs/DatasetsView.vue')
-        },
-        {
-          path: 'measurements',
-          name: 'docs-measurements',
-          component: () => import('../views/docs/MeasurementsView.vue')
-        },
-      ]
+      path: '/docs/measurements',
+      name: 'docs-measurements',
+      component: () => import('../views/docs/MeasurementsView.vue')
+    },
+    {
+      path: '/docs/datasets',
+      name: 'docs-datasets',
+      component: () => import('../views/docs/DatasetsView.vue')
     },
     {
       path: '/about',

@@ -1,7 +1,10 @@
 <template>
-  <div class="docs-page-content">
-    <h1 class="docs-title">Datasets</h1>
-    <p class="docs-subtitle">Freely accessible data collected by anyone for everyone</p>
+  <div class="page-root">
+    <AppHeader />
+    <main class="main-content">
+      <div class="docs-page-content">
+        <h1 class="docs-title">Datasets</h1>
+        <p class="docs-subtitle">Freely accessible data collected by anyone for everyone</p>
 
     <div class="section-container">
       <p>
@@ -213,13 +216,16 @@
       </p>
     </div>
 
-    <DocsNavigation />
+      </div>
+    </main>
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
-import DocsNavigation from '@/components/DocsNavigation.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
 

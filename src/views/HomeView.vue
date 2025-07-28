@@ -68,7 +68,7 @@
           <div class="content-section">
             <h3 class="section-title">Peering Platform</h3>
             <p>
-              The peering platform is built around an autonomous system, <router-link to="/docs/as215011">as215011</router-link>, which advertises multiple IPv6 prefixes.
+              The peering platform is built around an autonomous system, as215011, which advertises multiple IPv6 prefixes.
               This network is designed to support researchers and students in conducting Internet-scale experiments on routing and peering.
             </p>
             <p>
@@ -83,7 +83,7 @@
             <p>
               The probing platform consists of multiple servers distributed worldwide.
               These servers can perform high-speed traceroute-like and ping-like measurements.
-              They advertise <router-link to="/docs/as215011">as215011</router-link> IPv6 prefixes, allowing measurements using both source unicast and anycast addresses.
+              They advertise as215011 IPv6 prefixes, allowing measurements using both source unicast and anycast addresses.
             </p>
             <p>
               <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> is a high-speed probing pipeline that provides the essential plumbing for users to perform active measurements from the probing servers.

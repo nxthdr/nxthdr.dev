@@ -8,9 +8,9 @@
           class="header-link"
           to="/dashboard"
         >Dashboard</RouterLink>
-        <RouterLink class="header-link" to="/docs">Docs</RouterLink>
-        <RouterLink class="header-link" to="/about">About</RouterLink>
+        <a href="https://docs.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Docs</a>
         <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Blog</a>
+        <RouterLink class="header-link" to="/about">About</RouterLink>
       </nav>
     </div>
     <div class="header-actions">
@@ -48,7 +48,7 @@
       >Dashboard</RouterLink>
       <RouterLink
         class="mobile-nav-link"
-        to="/docs"
+        to="/docs/measurements"
         @click="closeMenu"
       >Docs</RouterLink>
       <RouterLink
