@@ -8,7 +8,7 @@
           class="header-link"
           to="/dashboard"
         >Dashboard</RouterLink>
-        <a href="https://docs.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Docs</a>
+        <a href="https://docs.nxthdr.dev/docs" target="_blank" rel="noopener" class="header-link">Docs</a>
         <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Blog</a>
         <RouterLink class="header-link" to="/about">About</RouterLink>
       </nav>

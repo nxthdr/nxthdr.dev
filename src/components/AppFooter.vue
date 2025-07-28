@@ -34,7 +34,7 @@
 
           <div class="footer-section">
             <h3 class="footer-section-title">Resources</h3>
-            <a href="https://docs.nxthdr.dev" target="_blank" rel="noopener" class="footer-link">Docs</a>
+            <a href="https://docs.nxthdr.dev/docs" target="_blank" rel="noopener" class="footer-link">Docs</a>
             <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="footer-link">Blog</a>
             <a href="https://github.com/nxthdr" target="_blank" rel="noopener" class="footer-link">GitHub</a>
           </div>
@@ -84,7 +84,7 @@ const currentYear = computed(() => new Date().getFullYear());
   min-height: var(--footer-height); /* Match footer height variable */
   box-sizing: border-box; /* Include padding in the height calculation */
   position: relative; /* Ensure proper stacking context */
-  z-index: 5; /* Higher than sidebar to ensure it's always on top */
+  z-index: 5;
 }
 
 .footer-content {

@@ -157,11 +157,9 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import Sidebar from '@/components/Sidebar.vue';
 import { useLogto } from '@logto/vue';
 
 const { getAccessToken } = useLogto();
-const isSidebarOpen = ref(false);
 const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
@@ -183,20 +181,6 @@ const prefixesError = ref<string | null>(null);
 const tokenRefreshInterval = ref<number | null>(null);
 const usageRefreshInterval = ref<number | null>(null);
 const agentsRefreshInterval = ref<number | null>(null);
-
-// Define the sidebar sections
-const sidebarSections = [
-  {
-    title: 'SAIMIRIS',
-    links: [
-      { to: '/dashboard', text: 'Overview' }
-    ]
-  }
-];
-
-function updateSidebarState(isOpen: boolean) {
-  isSidebarOpen.value = isOpen;
-}
 
 // Function to copy token to clipboard
 const copyToClipboard = (text: string) => {
