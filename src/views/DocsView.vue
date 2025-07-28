@@ -59,8 +59,16 @@ function updateSidebarState(isOpen: boolean) {
   flex-direction: column;
 }
 
+/* Override main-content behavior for docs pages */
+:deep(.docs-page-root .main-content) {
+  flex-direction: row; /* Change from column to row for sidebar layout */
+  padding-left: 0; /* Remove default padding */
+  padding-right: 0; /* Remove default padding */
+}
+
 .docs-layout {
   display: flex;
+  flex-direction: row; /* Explicitly set to row for sidebar + content layout */
   gap: 0;
   padding: 0;
   margin: 0;
@@ -68,39 +76,82 @@ function updateSidebarState(isOpen: boolean) {
   width: 100%;
   max-width: 100%;
   min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
+  align-items: stretch; /* Make sidebar and content same height */
 }
 
 .docs-content {
   flex: 1;
-  padding-left: 300px; /* Account for sidebar width */
-  padding-right: 1.5rem;
   width: 100%;
-  max-width: 100%;
+  min-width: 0; /* Allow content to shrink below its natural width */
+  max-width: none; /* Remove max-width constraint on docs content */
   min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* Adjust for header and footer */
-  padding-top: 2rem; /* Increased top padding for better spacing with titles */
-  padding-bottom: 2rem; /* Add bottom padding to ensure content doesn't touch footer */
+  padding: 2rem 2.5rem; /* Same padding as main-content */
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
   transition: padding 0.3s ease; /* Smooth transition for responsive changes */
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.docs-content > * {
+  width: 100%;
+  max-width: min(900px, 100%); /* Responsive max-width that doesn't exceed container */
+  margin: 0 auto; /* Center the content */
 }
 
 /* Quick links have been moved to DocsContentStyle component */
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
+/* Desktop - sidebar is visible and pushes content */
+@media (min-width: 1025px) {
+  .docs-layout {
+    display: flex; /* Sidebar and content side by side */
+  }
+  
   .docs-content {
-    padding-left: 260px; /* Account for narrower sidebar on medium screens */
+    padding-left: 2rem; /* Reduced from 2.5rem to give more content space */
+    padding-right: 2rem;
+  }
+}
+
+/* Transition breakpoint - gradually reduce content padding */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .docs-content {
+    padding-left: 1.5rem; /* Further reduced for tighter spaces */
+    padding-right: 1.5rem;
+  }
+}
+
+/* Intermediate breakpoint for very tight spaces */
+@media (max-width: 1100px) and (min-width: 1025px) {
+  .docs-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .docs-content > * {
+    max-width: min(800px, 100%); /* Smaller max-width for tighter layouts */
+  }
+}
+
+/* Mobile - sidebar becomes overlay, content takes full width */
+@media (max-width: 1024px) {
+  .docs-layout {
+    flex-direction: column; /* Stack vertically on mobile */
+  }
+
+  .docs-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.5rem;
+    min-height: auto; /* Remove min-height constraint on mobile */
   }
 }
 
 @media (max-width: 768px) {
-  .docs-layout {
-    flex-direction: column;
-  }
-
   .docs-content {
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-top: 1.5rem;
-    min-height: auto; /* Remove min-height constraint on mobile */
+    padding-top: 1rem;
   }
 }
 

@@ -1,13 +1,11 @@
 <template>
   <div>
     <!-- Mobile sidebar toggle -->
-    <button class="mobile-sidebar-toggle" @click="toggleSidebar">
-      <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
+    <button class="mobile-sidebar-toggle" :class="{ 'open': isSidebarOpen }" @click="toggleSidebar">
+      <span>{{ isSidebarOpen ? 'Hide Menu' : 'Menu' }}</span>
+      <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6,9 12,15 18,9"></polyline>
       </svg>
-      {{ isSidebarOpen ? 'Hide Menu' : 'Menu' }}
     </button>
 
     <!-- Backdrop overlay (mobile only) -->
@@ -123,17 +121,18 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
   background: rgba(26, 28, 29, 0.97);
   border-right: 1px solid var(--color-border);
-  position: fixed;
-  left: 0;
-  top: var(--header-height); /* Position exactly below the header */
-  bottom: 0; /* Extend to the bottom of the viewport */
-  padding: 1.5rem 0; /* Consistent padding */
-  padding-bottom: 0; /* We'll handle the footer spacing differently */
+  position: relative; /* Use relative positioning on desktop to push content */
+  top: 0;
+  padding: 1.5rem 0;
+  padding-bottom: 0;
   overflow-y: auto;
-  z-index: 4; /* Below header but above other content */
+  z-index: 4;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+  transition: left 0.3s ease;
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
 }
 
 .sidebar-open {
@@ -179,9 +178,151 @@ onBeforeUnmount(() => {
 /* Mobile elements - all hidden on desktop */
 .mobile-sidebar-toggle,
 .sidebar-backdrop,
-.sidebar-mobile-header,
-.sidebar-close-btn {
-  display: none; /* Hide all mobile elements on desktop */
+.sidebar-mobile-header {
+  display: none;
+}
+
+/* Desktop styles - sidebar is part of flex layout */
+@media (min-width: 1025px) {
+  .app-sidebar {
+    position: relative; /* Part of document flow */
+    display: flex;
+    width: 280px; /* Keep consistent width on all desktop sizes */
+  }
+  
+  /* Hide mobile elements on desktop */
+  .mobile-sidebar-toggle,
+  .sidebar-backdrop,
+  .sidebar-mobile-header {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mobile-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between text and icon */
+    padding: 1rem 1.5rem;
+    background: rgba(30, 32, 33, 0.6); /* Match the docs styling */
+    color: var(--color-text);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    width: calc(100% - 3rem); /* Full width minus margins */
+    max-width: none; /* Remove max-width constraint */
+    margin: 1.5rem 1.5rem 1.5rem 1.5rem; /* Add top margin for spacing from header */
+    border-radius: 8px; /* Rounded corners like other UI elements */
+    position: sticky;
+    top: calc(var(--header-height) + 1rem); /* Increased spacing from header */
+    z-index: 5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    min-height: 48px; /* Better touch target */
+    backdrop-filter: blur(8px); /* Subtle blur effect */
+  }
+
+  .mobile-sidebar-toggle:hover,
+  .mobile-sidebar-toggle:focus {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .mobile-sidebar-toggle:active {
+    transform: translateY(0);
+  }
+
+  .menu-icon {
+    margin-right: 0; /* Remove right margin since we're using space-between */
+    margin-left: 0.5rem; /* Small left margin */
+    transition: transform 0.2s ease;
+  }
+  
+  /* Rotate icon when sidebar is open */
+  .mobile-sidebar-toggle.open .menu-icon {
+    transform: rotate(180deg); /* Flip the arrow upside down when open */
+  }
+  
+  /* Backdrop for the mobile sidebar */
+  .sidebar-backdrop {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    background-color: rgba(0, 0, 0, 0.7); /* Darker for better contrast */
+    z-index: 9;
+    transition: opacity 0.3s ease;
+    display: block; /* Show on mobile */
+  }
+
+  /* Switch to fixed positioning on mobile */
+  .app-sidebar {
+    width: 85%; /* Not full width to allow some content visibility */
+    max-width: 300px;
+    height: calc(100vh - var(--header-height));
+    position: fixed; /* Use fixed positioning on mobile */
+    top: var(--header-height);
+    left: -100%; /* Start off-screen */
+    bottom: 0;
+    padding: 1rem 0;
+    border-right: 1px solid var(--color-border);
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    z-index: 10; /* Higher z-index to appear above content */
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar-footer-spacer {
+    display: none; /* Hide the spacer on mobile */
+  }
+
+  .app-sidebar.sidebar-open {
+    left: 0; /* Slide in from left */
+  }
+
+  /* Show the mobile header only when sidebar is open on mobile */
+  .app-sidebar.sidebar-open .sidebar-mobile-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-link {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    /* Improve touch targets on mobile */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-title {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent);
+  }
 }
 
 /* Keep the original desktop sidebar structure */
