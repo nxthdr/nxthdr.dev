@@ -212,11 +212,14 @@
         <a href="https://github.com/nxthdr/infrastructure/blob/main/clickhouse-tables/flows/flows.sql" target="_blank" rel="noopener">View complete schema →</a>
       </p>
     </div>
+
+    <DocsNavigation />
   </div>
 </template>
 
 <script setup lang="ts">
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
+import DocsNavigation from '@/components/DocsNavigation.vue';
 
 const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
 

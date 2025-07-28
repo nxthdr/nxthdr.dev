@@ -189,7 +189,7 @@ onBeforeUnmount(() => {
     display: flex;
     width: 280px; /* Keep consistent width on all desktop sizes */
   }
-  
+
   /* Hide mobile elements on desktop */
   .mobile-sidebar-toggle,
   .sidebar-backdrop,
@@ -240,12 +240,12 @@ onBeforeUnmount(() => {
     margin-left: 0.5rem; /* Small left margin */
     transition: transform 0.2s ease;
   }
-  
+
   /* Rotate icon when sidebar is open */
   .mobile-sidebar-toggle.open .menu-icon {
     transform: rotate(180deg); /* Flip the arrow upside down when open */
   }
-  
+
   /* Backdrop for the mobile sidebar */
   .sidebar-backdrop {
     position: fixed;

@@ -156,6 +156,8 @@
         Finally, you can go back to your <router-link to="/dashboard">dashboard</router-link> and refresh the page: you should see that your used credits have increased by 4.
       </p>
     </div>
+
+    <DocsNavigation />
   </div>
 </template>
 
@@ -163,6 +165,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useLogto } from '@logto/vue';
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
+import DocsNavigation from '@/components/DocsNavigation.vue';
 
 const { isAuthenticated, getAccessToken, signIn } = useLogto();
 

@@ -64,8 +64,14 @@ NL-IX  - Amsterdam</pre>
        We gratefully acknowledge the support of individuals affiliated with the <a href="https://www.cnrs.fr/en" target="_blank" rel="noopener">CNRS</a> for facilitating access to servers at the NL-IX IXP in Amsterdam.
       </p>
     </div>
+
+    <DocsNavigation />
   </div>
 </template>
+
+<script setup lang="ts">
+import DocsNavigation from '@/components/DocsNavigation.vue';
+</script>
 
 <style scoped>
 </style>

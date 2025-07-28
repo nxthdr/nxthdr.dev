@@ -77,8 +77,14 @@
         All nxthdr domains have both A and AAAA records: the A records point to the IPv4 proxy service, and the AAAA records point to the core services directly.
       </p>
     </div>
+
+    <DocsNavigation />
   </div>
 </template>
+
+<script setup lang="ts">
+import DocsNavigation from '@/components/DocsNavigation.vue';
+</script>
 
 <style scoped>
 .infrastructure-image {

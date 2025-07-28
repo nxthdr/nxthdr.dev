@@ -20,7 +20,7 @@
 import AppHeader from '@/components/AppHeader.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 
 const isSidebarOpen = ref(false);
 
@@ -46,6 +46,9 @@ const sidebarSections = [
     ]
   }
 ];
+
+// Provide sidebarSections to child components
+provide('sidebarSections', sidebarSections);
 
 function updateSidebarState(isOpen: boolean) {
   isSidebarOpen.value = isOpen;
@@ -106,7 +109,7 @@ function updateSidebarState(isOpen: boolean) {
   .docs-layout {
     display: flex; /* Sidebar and content side by side */
   }
-  
+
   .docs-content {
     padding-left: 2rem; /* Reduced from 2.5rem to give more content space */
     padding-right: 2rem;
@@ -127,7 +130,7 @@ function updateSidebarState(isOpen: boolean) {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .docs-content > * {
     max-width: min(800px, 100%); /* Smaller max-width for tighter layouts */
   }
