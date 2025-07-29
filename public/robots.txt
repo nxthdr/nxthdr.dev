@@ -1,0 +1,19 @@
+# Robots.txt for nxthdr.dev
+# This file helps search engines understand how to crawl the site
+
+# Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Disallow crawling of potential sensitive or internal paths
+# (uncomment and modify as needed based on your site structure)
+# Disallow: /admin/
+# Disallow: /api/
+# Disallow: /query/
