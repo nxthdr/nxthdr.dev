@@ -19,8 +19,8 @@
           </div>
 
           <div class="alert alert-important">
-            <p v-if="!isAuthenticated">The probing pipeline is in <span class="beta-text">beta</span>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from as215011!</p>
-            <p v-else>The probing pipeline is in <span class="beta-text">beta</span>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from as215011!</p>
+            <p v-if="!isAuthenticated">The probing platform is in <span class="beta-text">beta</span>! <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from our network!</p>
+            <p v-else>The probing platform is in <span class="beta-text">beta</span>! Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from our network!</p>
           </div>
 
           <div class="quick-access-section">
