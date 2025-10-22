@@ -176,8 +176,13 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
+  .title-glow-wrapper {
+    animation: none; /* Disable animation on mobile to prevent blinking */
+  }
+
   .home-title {
     font-size: 2.5rem !important;
+    filter: drop-shadow(0 0 15px rgba(45, 212, 191, 0.4)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.3)); /* Static, softer glow on mobile */
   }
 
   .main-subtitle {

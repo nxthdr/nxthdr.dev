@@ -439,6 +439,12 @@ Usage examples:
   }
 }
 
+/* Ensure long URLs in alerts wrap properly */
+.alert a {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
 /* Mobile improvements for alerts */
 @media (max-width: 768px) {
   .alert {
@@ -446,6 +452,11 @@ Usage examples:
     padding: 1rem 1.2rem;
     font-size: 1rem;
     line-height: 1.5;
+  }
+
+  .alert a {
+    display: inline-block;
+    max-width: 100%;
   }
 }
 
