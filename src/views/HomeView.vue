@@ -4,13 +4,15 @@
     <main class="main-content">
       <div class="content-wrapper">
         <div class="content-card">
-          <h1 class="home-title">A Wide-Open Window to the Internet</h1>
-          <div class="main-subtitle">Internet Measurements — Open, Ethical, and for Everyone</div>
+          <div class="title-glow-wrapper">
+            <h1 class="home-title">nxthdr</h1>
+          </div>
+          <div class="main-subtitle">A Wide-Open Window to the Internet</div>
           <div class="content-section">
             <div class="intro-highlight">
               <p class="intro-main">
-                <strong>nxthdr</strong> operates a global network infrastructure designed specifically for Internet research and education.
-                Our platform offers flexible worldwide active measurements from our own autonomous system and peering capabilities through multiple Internet exchanges.
+                <strong>nxthdr</strong> is a non-profit platform for Internet research and education.
+                We operate a global network infrastructure that offers flexible worldwide active measurements from our own autonomous system and peering capabilities through multiple Internet exchanges.
               </p>
               <p class="intro-secondary">
                 All datasets are shared in the public domain, every tool and systems are open source, and the entire infrastructure is designed rapid experimentation and reproducibility.
@@ -142,6 +144,47 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.title-glow-wrapper {
+  text-align: center;
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
+  position: relative;
+  animation: title-glow 3s ease-in-out infinite;
+}
+
+.home-title {
+  font-size: 3.5rem !important;
+  text-align: center;
+  display: block !important;
+  margin-bottom: 0 !important;
+  filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
+}
+
+@keyframes title-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(45, 212, 191, 0.7)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.6));
+  }
+}
+
+.main-subtitle {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .home-title {
+    font-size: 2.5rem !important;
+  }
+
+  .main-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
 .intro-highlight {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
   border: 1px solid rgba(59, 130, 246, 0.1);

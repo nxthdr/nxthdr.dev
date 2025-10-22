@@ -21,7 +21,7 @@
             </a>
           </div>
         </div>
-        <p class="footer-tagline">Internet Measurements — Open, Ethical, and for Everyone</p>
+        <p class="footer-tagline">A Wide-Open Window to the Internet</p>
       </div>
 
       <div class="footer-center">
