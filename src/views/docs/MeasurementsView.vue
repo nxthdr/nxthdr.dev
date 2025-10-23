@@ -168,11 +168,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useLogto } from '@logto/vue';
+import { createApiClient } from '@/utils/api';
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 
-const { isAuthenticated, getAccessToken, signIn } = useLogto();
+const logto = useLogto();
+const { isAuthenticated, getAccessToken, signIn } = logto;
 
 // User data
 const userToken = ref<string | null>(null);
@@ -180,6 +182,9 @@ const userPrefixes = ref<any | null>(null);
 const measurementId = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
 const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
+
+// Create API client with automatic token refresh
+const apiClient = createApiClient(logto, resourceUrl);
 
 // Handle login
 function handleLogin() {
@@ -209,13 +214,8 @@ const fetchUserData = async () => {
     userToken.value = token || null;
 
     if (token) {
-      // Fetch user prefixes
-      const response = await fetch('/api/user/prefixes', {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      // Fetch user prefixes using API client with automatic token refresh
+      const response = await apiClient.get('/api/user/prefixes');
 
       if (response.ok) {
         userPrefixes.value = await response.json();

@@ -158,11 +158,16 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { useLogto } from '@logto/vue';
+import { createApiClient } from '@/utils/api';
 
-const { getAccessToken } = useLogto();
+const logto = useLogto();
+const { getAccessToken } = logto;
 const accessToken = ref<string | null>(null);
 const tokenError = ref<string | null>(null);
 const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
+
+// Create API client with automatic token refresh
+const apiClient = createApiClient(logto, resourceUrl);
 
 // Copy state tracking
 const tokenCopied = ref(false);
@@ -207,8 +212,8 @@ const fetchAccessToken = async () => {
 
     // Once we have the token, fetch usage
     if (token) {
-      fetchUserUsage(token);
-      fetchUserPrefixes(token);
+      fetchUserUsage();
+      fetchUserPrefixes();
     }
   } catch (error) {
     console.error('Error fetching access token:', error);
@@ -218,17 +223,12 @@ const fetchAccessToken = async () => {
 };
 
 // Function to fetch user usage
-const fetchUserUsage = async (token: string) => {
+const fetchUserUsage = async () => {
   usageLoading.value = true;
   usageError.value = null;
 
   try {
-    const response = await fetch('/api/user/me', {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await apiClient.get('/api/user/me');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -247,17 +247,12 @@ const fetchUserUsage = async (token: string) => {
 };
 
 // Function to fetch user prefixes
-const fetchUserPrefixes = async (token: string) => {
+const fetchUserPrefixes = async () => {
   prefixesLoading.value = true;
   prefixesError.value = null;
 
   try {
-    const response = await fetch('/api/user/prefixes', {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await apiClient.get('/api/user/prefixes');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -277,12 +272,8 @@ const fetchUserPrefixes = async (token: string) => {
 
 // Function to retry fetching usage
 const retryFetchusage = () => {
-  if (accessToken.value) {
-    fetchUserUsage(accessToken.value);
-    fetchUserPrefixes(accessToken.value);
-  } else {
-    usageError.value = "No access token available. Please log in again.";
-  }
+  fetchUserUsage();
+  fetchUserPrefixes();
 };
 
 // Get initial agents data
@@ -350,10 +341,8 @@ const startRefreshIntervals = () => {
 
   // Refresh usage every 5 minutes (300000 ms)
   usageRefreshInterval.value = setInterval(() => {
-    if (accessToken.value) {
-      fetchUserUsage(accessToken.value);
-      fetchUserPrefixes(accessToken.value);
-    }
+    fetchUserUsage();
+    fetchUserPrefixes();
   }, 300000);
 
   // Refresh agents every 2 minutes (120000 ms)
