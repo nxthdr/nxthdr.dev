@@ -6,41 +6,46 @@
         <div class="content-card">
           <div class="content-section">
             <h1 class="about-title">About</h1>
-            <div class="main-subtitle">nxthdr & as215011</div>
+            <div class="main-subtitle">nxthdr & AS215011</div>
+
             <p>
-              Hey, I'm <a href="https://matthieugouel.name/" target="_blank" rel="noopener">Matthieu Gouel</a>.
-              My <a href="https://theses.hal.science/tel-04164622v1/document" target="_blank" rel="noopener">PhD</a> focused on measuring the Internet using large-scale ping and traceroute data to enhance our understanding of how the Internet operates in practice.
-              But, to be honest, I was more interested in building the tools and platforms than in writing papers.
+              <strong>nxthdr</strong> is a French non-profit organization (association loi 1901) that operates a global network infrastructure designed specifically for Internet research and education.
+              We provide researchers, students, and network operators with the tools and data needed to study Internet topology, routing, and performance.
+            </p>
+
+            <h2 class="subheading">The Problem</h2>
+            <p>
+              The Internet measurement community faces significant barriers to entry.
+              Existing platforms like RIPE Atlas <sup><a href="#ref-1" class="ref-link">[1]</a></sup> and CAIDA Ark <sup><a href="#ref-2" class="ref-link">[2]</a></sup> often require manual approval processes, impose credit systems, or lack self-service capabilities.
+              For newcomers, especially PhD students and independent researchers, accessing measurement infrastructure and fresh datasets remains challenging.
             </p>
             <p>
-              I believe the Internet Measurements community still lacks fundamental tools that enable rapid experimentation and reproducibility of experiments at Internet scale.
-              Many tools and platforms have emerged and disappeared over the years, often driven by researchers and students as part of their academic work.
-              The few production-ready platforms that exist tend to be closed source, outdated, impose intentional publishing delays, or lack self-service features for running experiments.
+              Similarly, conducting routing experiments requires substantial resources: IP prefixes, an autonomous system, and router infrastructure.
+              While testbeds exist <sup><a href="#ref-3" class="ref-link">[3]</a></sup>, they typically don't integrate active measurements with routing experiments, making synchronized studies difficult.
+            </p>
+
+            <h2 class="subheading">Our Approach</h2>
+            <p>
+              Rather than competing with large-scale platforms, nxthdr fills specific gaps by combining active measurements with routing capabilities in a single, accessible platform.
+              We operate AS215011 with multiple IPv6 prefixes, maintain presence at several European Internet exchanges (NL-IX, LocIX, FranceIX), and run probing servers in multiple countries where we control source prefixes and collect BGP data.
             </p>
             <p>
-              During my PhD, I had the opportunity to work in a well-known lab alongside amazing well-known researchers in the community.
-              This gave me the chance to connect with people and gain access to datasets and platforms.
-              But unfortunately, that such opportunities may not be as easily available to those working independently or in smaller labs.
+              Our platform is built on proven concepts, BGP testbeds and high-speed probing platforms, but uniquely integrates them into a self-service platform with comprehensive documentation and open datasets.
             </p>
+
+            <h2 class="subheading">Get Involved</h2>
             <p>
-              nxthdr and as215011 are built on ideas that have existed for a long time, such as a BGP testbed <sup><a href="#ref-1" class="ref-link">[1]</a></sup> and a high-speed probing platform <sup><a href="#ref-2" class="ref-link">[2]</a></sup>.
-              The real edge lies in combining these ideas into a single platform and making it open, accessible to everyone, while providing tools and documentation.
-            </p>
-            <p>
-              This project is a personal initiative, maintained independently during my free time.
-              It is not affiliated with my current employer.
-              I receive no compensation, funding, or income from this project, and it is operated on a voluntary, non-commercial basis.
-            </p>
-            <p>
-              Feel free to join the <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener">Discord</a>, to discuss the project and get involved!
+              We're actively expanding our infrastructure to support more research projects and educational initiatives.
+              Join our <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener">Discord community</a> to discuss the project, or contact us at <a href="mailto:admin@nxthdr.dev">admin@nxthdr.dev</a> to support this initiative.
             </p>
           </div>
 
           <div class="references-section">
             <h2 class="subheading">References</h2>
             <ol class="references-list">
-              <li id="ref-1">PEERING BGP Testbed: <a href="https://peering.ee.columbia.edu/" target="_blank" rel="noopener">https://peering.ee.columbia.edu/</a></li>
-              <li id="ref-2">Iris Probing Platform: <a href="https://iris.dioptra.io/" target="_blank" rel="noopener">https://iris.dioptra.io/</a></li>
+              <li id="ref-1">RIPE Atlas: <a href="https://atlas.ripe.net/" target="_blank" rel="noopener">https://atlas.ripe.net/</a></li>
+              <li id="ref-2">CAIDA Archipelago: <a href="https://www.caida.org/projects/ark/" target="_blank" rel="noopener">https://www.caida.org/projects/ark/</a></li>
+              <li id="ref-3">PEERING BGP Testbed: <a href="https://peering.ee.columbia.edu/" target="_blank" rel="noopener">https://peering.ee.columbia.edu/</a></li>
             </ol>
           </div>
         </div>
