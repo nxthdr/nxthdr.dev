@@ -1,6 +1,9 @@
 # Robots.txt for nxthdr.dev
 # This file helps search engines understand how to crawl the site
 
+# Sitemap location
+Sitemap: https://nxthdr.dev/sitemap.xml
+
 # Allow all web crawlers to access all content
 User-agent: *
 Allow: /
