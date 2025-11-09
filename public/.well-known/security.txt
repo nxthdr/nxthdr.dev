@@ -1,0 +1,9 @@
+Contact: https://discord.gg/KRsVs7jafg
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, fr
+Canonical: https://nxthdr.dev/.well-known/security.txt
+Policy: https://github.com/nxthdr
+Acknowledgments: https://github.com/nxthdr
+
+# nxthdr is a non-profit Internet research platform
+# For security issues, please contact us via Discord
