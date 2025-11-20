@@ -36,7 +36,7 @@
             <h2 class="subheading">Get Involved</h2>
             <p>
               We're actively expanding our infrastructure to support more research projects and educational initiatives.
-              Join our <a href="https://discord.gg/KRsVs7jafg" target="_blank" rel="noopener">Discord community</a> to discuss the project, or contact us at <a href="mailto:admin@nxthdr.dev">admin@nxthdr.dev</a> to support this initiative.
+              Join our <a href="https://discord.gg/KF3RSKXrSp" target="_blank" rel="noopener">Discord community</a> to discuss the project, or contact us at <a href="mailto:admin@nxthdr.dev">admin@nxthdr.dev</a> to support this initiative.
             </p>
           </div>
 

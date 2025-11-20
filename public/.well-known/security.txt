@@ -1,4 +1,4 @@
-Contact: https://discord.gg/KRsVs7jafg
+Contact: https://discord.gg/KF3RSKXrSp
 Expires: 2026-12-31T23:59:59.000Z
 Preferred-Languages: en, fr
 Canonical: https://nxthdr.dev/.well-known/security.txt
