@@ -227,6 +227,18 @@ const fetchUserData = async () => {
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
+
+    // Check if this is a session expiration error
+    if (error instanceof Error && (
+      error.message.includes('invalid_grant') ||
+      error.message.includes('grant request is invalid') ||
+      error.message.includes('Session expired')
+    )) {
+      // Session expired, sign out and redirect to home
+      await logto.signOut(window.location.origin);
+      return;
+    }
+
     // Reset both values on error to ensure dummy values are shown
     userToken.value = null;
     userPrefixes.value = null;

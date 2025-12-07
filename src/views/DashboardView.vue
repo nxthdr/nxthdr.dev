@@ -217,6 +217,19 @@ const fetchAccessToken = async () => {
     }
   } catch (error) {
     console.error('Error fetching access token:', error);
+
+    // Check if this is a session expiration error
+    if (error instanceof Error && (
+      error.message.includes('invalid_grant') ||
+      error.message.includes('grant request is invalid') ||
+      error.message.includes('Session expired')
+    )) {
+      // Session expired, sign out and redirect to home
+      tokenError.value = 'Session expired. Redirecting to sign in...';
+      await logto.signOut(window.location.origin);
+      return;
+    }
+
     tokenError.value = error instanceof Error ? error.message : 'Failed to fetch access token';
     accessToken.value = null;
   }

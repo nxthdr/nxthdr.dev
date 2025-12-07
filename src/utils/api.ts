@@ -22,44 +22,64 @@ export class ApiClient {
    * @returns The fetch response
    */
   async fetch(url: string, options: RequestInit = {}, retryCount = 0): Promise<Response> {
-    // Get a fresh token
-    const token = await this.logtoInstance.getAccessToken(this.resourceUrl);
+    try {
+      // Get a fresh token
+      const token = await this.logtoInstance.getAccessToken(this.resourceUrl);
 
-    // Merge headers with authorization
-    const headers = {
-      'Accept': 'application/json',
-      ...options.headers,
-      'Authorization': `Bearer ${token}`
-    };
-
-    // Make the request
-    const response = await fetch(url, {
-      ...options,
-      headers
-    });
-
-    // If we get a 401 and haven't retried yet, refresh token and retry
-    if (response.status === 401 && retryCount === 0) {
-      console.log('Received 401, refreshing token and retrying...');
-      
-      // Force a fresh token by calling getAccessToken again
-      // Logto SDK should handle the refresh token flow internally
-      const newToken = await this.logtoInstance.getAccessToken(this.resourceUrl);
-      
-      // Retry the request with the new token
-      const retryHeaders = {
+      // Merge headers with authorization
+      const headers = {
         'Accept': 'application/json',
         ...options.headers,
-        'Authorization': `Bearer ${newToken}`
+        'Authorization': `Bearer ${token}`
       };
 
-      return fetch(url, {
+      // Make the request
+      const response = await fetch(url, {
         ...options,
-        headers: retryHeaders
+        headers
       });
-    }
 
-    return response;
+      // If we get a 401 and haven't retried yet, refresh token and retry
+      if (response.status === 401 && retryCount === 0) {
+        console.log('Received 401, refreshing token and retrying...');
+
+        try {
+          // Force a fresh token by calling getAccessToken again
+          // Logto SDK should handle the refresh token flow internally
+          const newToken = await this.logtoInstance.getAccessToken(this.resourceUrl);
+
+          // Retry the request with the new token
+          const retryHeaders = {
+            'Accept': 'application/json',
+            ...options.headers,
+            'Authorization': `Bearer ${newToken}`
+          };
+
+          return fetch(url, {
+            ...options,
+            headers: retryHeaders
+          });
+        } catch (refreshError) {
+          // If token refresh fails (e.g., refresh token expired), sign out and redirect to home
+          console.error('Token refresh failed, signing out:', refreshError);
+          await this.logtoInstance.signOut(window.location.origin);
+          throw new Error('Session expired. Please sign in again.');
+        }
+      }
+
+      return response;
+    } catch (error) {
+      // If getAccessToken fails initially (e.g., refresh token expired), sign out
+      if (error instanceof Error && (
+        error.message.includes('invalid_grant') ||
+        error.message.includes('grant request is invalid')
+      )) {
+        console.error('Session expired, signing out:', error);
+        await this.logtoInstance.signOut(window.location.origin);
+        throw new Error('Session expired. Please sign in again.');
+      }
+      throw error;
+    }
   }
 
   /**
