@@ -18,8 +18,8 @@
             </div>
           </div>
         </div>
-        <div v-else class="peering-page-content">
-          <h1 class="peering-title">Peering</h1>
+        <div v-else class="dashboard-page-content">
+          <h1 class="dashboard-title">Peering</h1>
           <div class="main-subtitle">Connect to real Internet Exchange Points.</div>
 
           <div class="alert alert-info">
