@@ -3,7 +3,7 @@ import { useHandleSignInCallback } from '@logto/vue';
 import router from '@/router';
 
 const { isLoading } = useHandleSignInCallback(() => {
-    router.push('/dashboard');
+    router.push('/probing');
 });
 </script>
 

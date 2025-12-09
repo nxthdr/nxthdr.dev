@@ -6,8 +6,13 @@
         <RouterLink
           v-if="isAuthenticated"
           class="header-link"
-          to="/dashboard"
-        >Dashboard</RouterLink>
+          to="/probing"
+        >Probing</RouterLink>
+        <RouterLink
+          v-if="isAuthenticated"
+          class="header-link"
+          to="/peering"
+        >Peering</RouterLink>
         <a href="https://docs.nxthdr.dev/docs" target="_blank" rel="noopener" class="header-link">Docs</a>
         <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Blog</a>
         <RouterLink class="header-link" to="/about">About</RouterLink>
@@ -43,9 +48,15 @@
       <RouterLink
         v-if="isAuthenticated"
         class="mobile-nav-link"
-        to="/dashboard"
+        to="/probing"
         @click="closeMenu"
-      >Dashboard</RouterLink>
+      >Probing</RouterLink>
+      <RouterLink
+        v-if="isAuthenticated"
+        class="mobile-nav-link"
+        to="/peering"
+        @click="closeMenu"
+      >Peering</RouterLink>
       <RouterLink
         class="mobile-nav-link"
         to="/docs/measurements"

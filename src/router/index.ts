@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CallbackView from '../views/CallbackView.vue'
-import DashboardView from '../views/DashboardView.vue'
+import ProbingView from '../views/ProbingView.vue'
+import PeeringView from '../views/PeeringView.vue'
 import AboutView from '../views/AboutView.vue'
 import { useLogto } from '@logto/vue';
 
@@ -19,9 +20,15 @@ const router = createRouter({
       component: CallbackView,
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: DashboardView,
+      path: '/probing',
+      name: 'probing',
+      component: ProbingView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/peering',
+      name: 'peering',
+      component: PeeringView,
       meta: { requiresAuth: true },
     },
     {

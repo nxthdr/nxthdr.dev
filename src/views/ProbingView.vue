@@ -4,11 +4,11 @@
     <main class="main-content">
       <div class="content-wrapper">
         <div v-if="loading" class="loading-container">
-          <p>Loading dashboard data...</p>
+          <p>Loading probing data...</p>
         </div>
         <div v-else-if="error" class="error-container">
           <div class="error-message">
-            <h3>Unable to load dashboard data</h3>
+            <h3>Unable to load probing data</h3>
             <p>{{ error }}</p>
             <p class="error-help">
               Saimiris Gateway may be unavailable.
@@ -19,7 +19,7 @@
           </div>
         </div>
         <div v-else class="dashboard-page-content">
-          <h1 class="dashboard-title">Dashboard</h1>
+          <h1 class="dashboard-title">Probing</h1>
           <div class="main-subtitle">Manage your measurements across the network.</div>
 
           <div class="alert alert-info">
