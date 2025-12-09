@@ -215,7 +215,7 @@ const fetchUserData = async () => {
 
     if (token) {
       // Fetch user prefixes using API client with automatic token refresh
-      const response = await apiClient.get('/api/user/prefixes');
+      const response = await apiClient.get('/api/saimiris/user/prefixes');
 
       if (response.ok) {
         userPrefixes.value = await response.json();
@@ -374,7 +374,7 @@ const exampleAgent = computed(() => {
 const verifyTokenCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl -s ${baseUrl}/api/user/me \\
+  return `curl -s ${baseUrl}/api/saimiris/user/me \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -382,7 +382,7 @@ const verifyTokenCommand = computed(() => {
 const fetchPrefixesCommand = computed(() => {
   // Always show dummy token if not authenticated or no token available
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
-  return `curl -s ${baseUrl}/api/user/prefixes \\
+  return `curl -s ${baseUrl}/api/saimiris/user/prefixes \\
      -H 'Content-Type: application/json' \\
      -H 'Authorization: Bearer ${token}'`;
 });
@@ -392,7 +392,7 @@ const sendProbesCommand = computed(() => {
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
   const agent = exampleAgent.value;
 
-  return `curl -s -X POST "${baseUrl}/api/probes" \\
+  return `curl -s -X POST "${baseUrl}/api/saimiris/probes" \\
      -H "Content-Type: application/json" \\
      -H "Authorization: Bearer ${token}" \\
      -d '{
@@ -416,7 +416,7 @@ const checkStatusCommand = computed(() => {
   const token = (isAuthenticated.value && userToken.value) ? userToken.value : 'YOUR_ACCESS_TOKEN';
   const id = measurementId.value || 'MEASUREMENT_ID';
 
-  return `curl -s "${baseUrl}/api/measurement/${id}/status" \\
+  return `curl -s "${baseUrl}/api/saimiris/measurement/${id}/status" \\
      -H "Content-Type: application/json" \\
      -H "Authorization: Bearer ${token}"`;
 });

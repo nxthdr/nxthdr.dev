@@ -24,10 +24,18 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/query/, ''),
         secure: true
       },
-      // Proxy API requests to avoid CORS issues
-      '/api': {
+      // Proxy Peerlab API requests
+      '/api/peerlab': {
+        target: 'http://0.0.0.0:8081',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/peerlab/, '/api'),
+        secure: false
+      },
+      // Proxy Saimiris API requests
+      '/api/saimiris': {
         target: 'http://0.0.0.0:8080',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/saimiris/, '/api'),
         secure: false
       }
     }

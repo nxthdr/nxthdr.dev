@@ -141,7 +141,7 @@ const fetchUserInfo = async () => {
   asnError.value = null;
 
   try {
-    const response = await apiClient.get('/api/user/info');
+    const response = await apiClient.get('/api/peerlab/user/info');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -172,7 +172,7 @@ const requestAsn = async () => {
   asnError.value = null;
 
   try {
-    const response = await apiClient.post('/api/user/asn');
+    const response = await apiClient.post('/api/peerlab/user/asn');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

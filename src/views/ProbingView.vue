@@ -241,7 +241,7 @@ const fetchUserUsage = async () => {
   usageError.value = null;
 
   try {
-    const response = await apiClient.get('/api/user/me');
+    const response = await apiClient.get('/api/saimiris/user/me');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -265,7 +265,7 @@ const fetchUserPrefixes = async () => {
   prefixesError.value = null;
 
   try {
-    const response = await apiClient.get('/api/user/prefixes');
+    const response = await apiClient.get('/api/saimiris/user/prefixes');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -296,7 +296,7 @@ const fetchAgents = async () => {
     error.value = null;
 
     // Using the proxy endpoint that's configured in vite.config.ts
-    const response = await fetch('/api/agents', {
+    const response = await fetch('/api/saimiris/agents', {
       headers: {
         'Accept': 'application/json'
       }

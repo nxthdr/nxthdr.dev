@@ -25,9 +25,32 @@
         }
     }
 
-    # Handle all Saimiris API requests
-    handle /api/* {
-        # Forward to the target server
+    # Handle Peerlab API requests
+    handle /api/peerlab/* {
+        # Strip /api/peerlab prefix before forwarding
+        uri replace /api/peerlab /api 1
+
+        # Forward to peerlab-gateway
+        reverse_proxy https://peerlab.nxthdr.dev {
+            header_up Host {http.reverse_proxy.upstream.hostport}
+            header_up Accept {http.request.header.Accept}
+            header_up Content-Type {http.request.header.Content-Type}
+            # Pass authorization header through
+            header_up Authorization {http.request.header.Authorization}
+
+            # Add CORS headers
+            header_down Access-Control-Allow-Origin "*"
+            header_down Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+            header_down Access-Control-Allow-Headers "Accept, Content-Type, Authorization, Origin"
+        }
+    }
+
+    # Handle Saimiris API requests
+    handle /api/saimiris/* {
+        # Strip /api/saimiris prefix before forwarding
+        uri replace /api/saimiris /api 1
+
+        # Forward to saimiris
         reverse_proxy https://saimiris.nxthdr.dev {
             header_up Host {http.reverse_proxy.upstream.hostport}
             header_up Accept {http.request.header.Accept}
