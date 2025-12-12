@@ -80,11 +80,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useLogto } from '@logto/vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { useAuth0 } from '@auth0/auth0-vue';
+import { RouterLink } from 'vue-router';
 
-const router = useRouter();
-const { isAuthenticated, signIn, signOut } = useLogto();
+const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 const isMenuOpen = ref(false);
 
 function toggleMenu() {
@@ -96,13 +95,15 @@ function closeMenu() {
 }
 
 function handleLogin() {
-  // Store the current path in localStorage before redirecting
-  signIn(window.location.origin + '/callback');
+  loginWithRedirect();
 }
 
 function handleLogout() {
-  // Use Vue Router to navigate after logout
-  signOut(window.location.origin + '/');
+  logout({
+    logoutParams: {
+      returnTo: window.location.origin
+    }
+  });
 }
 </script>
 

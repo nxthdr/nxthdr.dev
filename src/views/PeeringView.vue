@@ -107,14 +107,14 @@ make up</code></pre>
 import { ref, onMounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
-import { useLogto } from '@logto/vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 import { createApiClient } from '@/utils/api';
 
-const logto = useLogto();
-const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://peerlab.nxthdr.dev';
+const auth0 = useAuth0();
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE || 'https://peerlab.nxthdr.dev';
 
 // Create API client with automatic token refresh
-const apiClient = createApiClient(logto, resourceUrl);
+const apiClient = createApiClient(auth0, audience);
 
 // State
 const loading = ref(true);

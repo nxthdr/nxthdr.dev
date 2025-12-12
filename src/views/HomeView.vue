@@ -126,20 +126,17 @@
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { ref, onMounted } from 'vue';
-import { useLogto, type IdTokenClaims } from '@logto/vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 
-const { isAuthenticated, getIdTokenClaims, signIn } = useLogto();
-const user = ref<IdTokenClaims>();
+const { isAuthenticated, user, loginWithRedirect } = useAuth0();
 
 function handleLogin() {
-  signIn(window.location.origin + '/callback');
+  loginWithRedirect();
 }
 
 onMounted(async () => {
-  if (isAuthenticated.value) {
-    const claims = await getIdTokenClaims();
-    user.value = claims;
-  }
+  // Auth0 automatically provides user info when authenticated
+  // No need to manually fetch it
 });
 </script>
 
