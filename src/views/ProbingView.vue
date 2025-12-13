@@ -222,10 +222,21 @@ const fetchAccessToken = async () => {
   } catch (error) {
     console.error('Error fetching access token:', error);
 
+    // Check if this is a consent_required error - need to re-authenticate with audience
+    if (error instanceof Error && error.message.includes('consent_required')) {
+      tokenError.value = 'API access requires consent. Please log in again.';
+      // Redirect to login with the audience parameter
+      await auth0.loginWithRedirect({
+        authorizationParams: {
+          audience: audience
+        }
+      });
+      return;
+    }
+
     // Check if this is a session expiration error
     if (error instanceof Error && (
       error.message.includes('login_required') ||
-      error.message.includes('consent_required') ||
       error.message.includes('Session expired')
     )) {
       // Session expired, sign out and redirect to home

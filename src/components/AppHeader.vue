@@ -85,6 +85,7 @@ import { RouterLink } from 'vue-router';
 
 const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 const isMenuOpen = ref(false);
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
@@ -95,7 +96,14 @@ function closeMenu() {
 }
 
 function handleLogin() {
-  loginWithRedirect();
+  // Include audience in login if configured
+  const loginOptions: any = {};
+  if (audience) {
+    loginOptions.authorizationParams = {
+      audience: audience
+    };
+  }
+  loginWithRedirect(loginOptions);
 }
 
 function handleLogout() {
