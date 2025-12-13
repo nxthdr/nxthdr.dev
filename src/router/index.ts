@@ -4,7 +4,7 @@ import CallbackView from '../views/CallbackView.vue'
 import ProbingView from '../views/ProbingView.vue'
 import PeeringView from '../views/PeeringView.vue'
 import AboutView from '../views/AboutView.vue'
-import { useLogto } from '@logto/vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,7 +50,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = useLogto();
+  const { isAuthenticated } = useAuth0();
   if (to.meta.requiresAuth && !isAuthenticated.value) {
     next({ name: 'home' });
   } else {

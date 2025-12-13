@@ -1,17 +1,17 @@
-import type { useLogto } from '@logto/vue';
+import type { useAuth0 } from '@auth0/auth0-vue';
 
-type LogtoInstance = ReturnType<typeof useLogto>;
+type Auth0Instance = ReturnType<typeof useAuth0>;
 
 /**
  * API utility for making authenticated requests with automatic token refresh
  */
 export class ApiClient {
-  private logtoInstance: LogtoInstance;
-  private resourceUrl: string;
+  private auth0Instance: Auth0Instance;
+  private audience: string;
 
-  constructor(logtoInstance: LogtoInstance, resourceUrl: string) {
-    this.logtoInstance = logtoInstance;
-    this.resourceUrl = resourceUrl;
+  constructor(auth0Instance: Auth0Instance, audience: string) {
+    this.auth0Instance = auth0Instance;
+    this.audience = audience;
   }
 
   /**
@@ -24,7 +24,11 @@ export class ApiClient {
   async fetch(url: string, options: RequestInit = {}, retryCount = 0): Promise<Response> {
     try {
       // Get a fresh token
-      const token = await this.logtoInstance.getAccessToken(this.resourceUrl);
+      const token = await this.auth0Instance.getAccessTokenSilently({
+        authorizationParams: {
+          audience: this.audience
+        }
+      });
 
       // Merge headers with authorization
       const headers = {
@@ -44,9 +48,14 @@ export class ApiClient {
         console.log('Received 401, refreshing token and retrying...');
 
         try {
-          // Force a fresh token by calling getAccessToken again
-          // Logto SDK should handle the refresh token flow internally
-          const newToken = await this.logtoInstance.getAccessToken(this.resourceUrl);
+          // Force a fresh token by calling getAccessTokenSilently again
+          // Auth0 SDK should handle the refresh token flow internally
+          const newToken = await this.auth0Instance.getAccessTokenSilently({
+            authorizationParams: {
+              audience: this.audience
+            },
+            cacheMode: 'off' // Force a fresh token
+          });
 
           // Retry the request with the new token
           const retryHeaders = {
@@ -62,20 +71,28 @@ export class ApiClient {
         } catch (refreshError) {
           // If token refresh fails (e.g., refresh token expired), sign out and redirect to home
           console.error('Token refresh failed, signing out:', refreshError);
-          await this.logtoInstance.signOut(window.location.origin);
+          await this.auth0Instance.logout({
+            logoutParams: {
+              returnTo: window.location.origin
+            }
+          });
           throw new Error('Session expired. Please sign in again.');
         }
       }
 
       return response;
     } catch (error) {
-      // If getAccessToken fails initially (e.g., refresh token expired), sign out
+      // If getAccessTokenSilently fails initially (e.g., refresh token expired), sign out
       if (error instanceof Error && (
-        error.message.includes('invalid_grant') ||
-        error.message.includes('grant request is invalid')
+        error.message.includes('login_required') ||
+        error.message.includes('consent_required')
       )) {
         console.error('Session expired, signing out:', error);
-        await this.logtoInstance.signOut(window.location.origin);
+        await this.auth0Instance.logout({
+          logoutParams: {
+            returnTo: window.location.origin
+          }
+        });
         throw new Error('Session expired. Please sign in again.');
       }
       throw error;
@@ -130,6 +147,6 @@ export class ApiClient {
 /**
  * Creates an API client instance
  */
-export function createApiClient(logtoInstance: LogtoInstance, resourceUrl: string): ApiClient {
-  return new ApiClient(logtoInstance, resourceUrl);
+export function createApiClient(auth0Instance: Auth0Instance, audience: string): ApiClient {
+  return new ApiClient(auth0Instance, audience);
 }

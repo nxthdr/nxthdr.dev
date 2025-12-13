@@ -167,28 +167,28 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useLogto } from '@logto/vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 import { createApiClient } from '@/utils/api';
 import CopyableCodeBlock from '@/components/CopyableCodeBlock.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 
-const logto = useLogto();
-const { isAuthenticated, getAccessToken, signIn } = logto;
+const auth0 = useAuth0();
+const { isAuthenticated, getAccessTokenSilently, loginWithRedirect } = auth0;
 
 // User data
 const userToken = ref<string | null>(null);
 const userPrefixes = ref<any | null>(null);
 const measurementId = ref<string | null>(null);
-const resourceUrl = import.meta.env.VITE_LOGTO_RESOURCE_URL || 'https://saimiris.nxthdr.dev';
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE || 'https://saimiris.nxthdr.dev';
 const baseUrl = import.meta.env.VITE_BASE_URL || 'https://nxthdr.dev';
 
 // Create API client with automatic token refresh
-const apiClient = createApiClient(logto, resourceUrl);
+const apiClient = createApiClient(auth0, audience);
 
 // Handle login
 function handleLogin() {
-  signIn(window.location.origin + '/callback');
+  loginWithRedirect();
 }
 
 // Handle probe execution completion
@@ -210,7 +210,11 @@ const fetchUserData = async () => {
   if (!isAuthenticated.value) return;
 
   try {
-    const token = await getAccessToken(resourceUrl);
+    const token = await getAccessTokenSilently({
+      authorizationParams: {
+        audience: audience
+      }
+    });
     userToken.value = token || null;
 
     if (token) {
@@ -228,14 +232,28 @@ const fetchUserData = async () => {
   } catch (error) {
     console.error('Error fetching user data:', error);
 
+    // Check if this is a consent_required error - need to re-authenticate with audience
+    if (error instanceof Error && error.message.includes('consent_required')) {
+      // Redirect to login with the audience parameter
+      await auth0.loginWithRedirect({
+        authorizationParams: {
+          audience: audience
+        }
+      });
+      return;
+    }
+
     // Check if this is a session expiration error
     if (error instanceof Error && (
-      error.message.includes('invalid_grant') ||
-      error.message.includes('grant request is invalid') ||
+      error.message.includes('login_required') ||
       error.message.includes('Session expired')
     )) {
       // Session expired, sign out and redirect to home
-      await logto.signOut(window.location.origin);
+      await auth0.logout({
+        logoutParams: {
+          returnTo: window.location.origin
+        }
+      });
       return;
     }
 
@@ -449,17 +467,12 @@ onMounted(() => {
 });
 
 // Watch for auth changes
-const { isAuthenticated: authWatcher } = useLogto();
-const unwatchAuth = authWatcher.value ? null : () => {};
-if (authWatcher && typeof authWatcher === 'object' && 'value' in authWatcher) {
-  // Re-fetch when authentication status changes
-  const checkAuth = () => {
-    if (isAuthenticated.value && !userToken.value) {
-      fetchUserData();
-    }
-  };
-  setTimeout(checkAuth, 1000); // Check after a delay to ensure auth is stable
-}
+const checkAuth = () => {
+  if (isAuthenticated.value && !userToken.value) {
+    fetchUserData();
+  }
+};
+setTimeout(checkAuth, 1000); // Check after a delay to ensure auth is stable
 </script>
 
 <style scoped>
