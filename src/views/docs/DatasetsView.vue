@@ -163,7 +163,7 @@
     <div class="section-container">
       <p>
         The traffic dataset is available in the <code>flows.records</code> table.
-        Each router of as215011 sends sFlow messages to <a href="https://github.com/netsampler/goflow2" target="_blank" rel="noopener">goflow2</a>, which records the flow samples in a ClickHouse database.
+        Each router of as215011 sends sFlow messages to <a href="https://github.com/nxthdr/pesto" target="_blank" rel="noopener">pesto</a>, which records the flow samples in a ClickHouse database.
       </p>
       <p>
         Each row represents a sampled network flow, capturing traffic statistics between source and destination endpoints.
@@ -173,32 +173,36 @@
       <h3 class="schema-heading">Key Schema Fields</h3>
       <div class="schema-details">
         <div class="schema-field">
-          <code>time_flow_start_ns</code> <span class="field-type">DateTime64(9)</span>
-          <p>Timestamp when the flow started</p>
+          <code>time_received_ns</code> <span class="field-type">DateTime64(9)</span>
+          <p>Timestamp when the flow sample was received</p>
+        </div>
+        <div class="schema-field">
+          <code>sampler_address</code> / <code>sampler_port</code> <span class="field-type">IPv6 / UInt16</span>
+          <p>Address and port of the sFlow agent/sampler</p>
         </div>
         <div class="schema-field">
           <code>src_addr</code> / <code>dst_addr</code> <span class="field-type">IPv6</span>
           <p>Source and destination IP addresses</p>
         </div>
         <div class="schema-field">
-          <code>src_as</code> / <code>dst_as</code> <span class="field-type">UInt32</span>
-          <p>Source and destination Autonomous System Numbers</p>
-        </div>
-        <div class="schema-field">
           <code>src_port</code> / <code>dst_port</code> <span class="field-type">UInt32</span>
           <p>Source and destination port numbers</p>
         </div>
         <div class="schema-field">
-          <code>proto</code> <span class="field-type">UInt32</span>
+          <code>protocol</code> <span class="field-type">UInt32</span>
           <p>IP protocol number (6=TCP, 17=UDP, etc.)</p>
         </div>
         <div class="schema-field">
           <code>bytes</code> / <code>packets</code> <span class="field-type">UInt64</span>
-          <p>Number of bytes and packets in the flow</p>
+          <p>Number of bytes and packets in the sampled flow</p>
         </div>
         <div class="schema-field">
           <code>sampling_rate</code> <span class="field-type">UInt64</span>
           <p>sFlow sampling rate (multiply by this to estimate actual traffic)</p>
+        </div>
+        <div class="schema-field">
+          <code>sequence_num</code> <span class="field-type">UInt32</span>
+          <p>Datagram sequence number from the sFlow agent</p>
         </div>
       </div>
 
@@ -263,7 +267,7 @@ const trafficExampleQuery = `curl -X POST "${baseUrl}/api/query/" \\
   count(*) as flow_records,
   sum(bytes * sampling_rate) as total_estimated_bytes
 FROM flows.records
-WHERE time_flow_start_ns >= now() - INTERVAL 1 DAY
+WHERE time_received_ns >= now() - INTERVAL 1 DAY
 GROUP BY dst_addr
 ORDER BY avg_bytes_per_second DESC
 LIMIT 10 FORMAT CSVWithNames"`;

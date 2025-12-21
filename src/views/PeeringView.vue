@@ -78,9 +78,9 @@ cd peerlab</code></pre>
                 <li>
                   <strong>Start PeerLab:</strong>
                   <pre><code>make setup
-# In another terminal:
+# Authenticate to the platform
 make auth
-# Follow the authentication URL
+# Run the local environment
 make up</code></pre>
                 </li>
                 <li>
