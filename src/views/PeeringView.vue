@@ -57,45 +57,89 @@
             </div>
           </div>
 
-          <!-- Getting Started Section -->
+          <!-- Prefix Lease Section -->
           <div class="section-container">
-            <h2>Getting Started</h2>
-            <div class="getting-started-content">
-              <p>To connect to PeerLab and start learning BGP:</p>
-              <ol class="steps-list">
-                <li>
-                  <strong>Clone the PeerLab repository:</strong>
-                  <pre><code>git clone https://github.com/nxthdr/peerlab.git
-cd peerlab</code></pre>
-                </li>
-                <li>
-                  <strong>Configure your environment:</strong>
-                  <pre><code>cp .env.example .env
-# Edit .env and set:
-# USER_ASN={{ userInfo?.asn || 'YOUR_ASN' }}
-# USER_PREFIXES=  # Leave empty for receive-only mode</code></pre>
-                </li>
-                <li>
-                  <strong>Start PeerLab:</strong>
-                  <pre><code>make setup
-# Authenticate to the platform
-make auth
-# Run the local environment
-make up</code></pre>
-                </li>
-                <li>
-                  <strong>Check BGP status:</strong>
-                  <pre><code>make status</code></pre>
-                </li>
-              </ol>
-              <p class="help-text">
-                For detailed instructions, see the <a href="https://github.com/nxthdr/peerlab" target="_blank" rel="noopener noreferrer" class="docs-link">PeerLab documentation</a>.
+            <h2>IPv6 Prefix Lease</h2>
+            <div class="prefix-lease-content">
+              <p class="info-help">
+                Lease an IPv6 /48 prefix for a specified duration to use with PeerLab.
+                <span v-if="userInfo?.max_leases">You can have up to {{ userInfo.max_leases }} active lease{{ userInfo.max_leases > 1 ? 's' : '' }}.</span>
               </p>
+
+              <!-- Error Message -->
+              <div v-if="prefixError" class="alert alert-error">
+                <p><strong>Error:</strong> {{ prefixError }}</p>
+              </div>
+
+              <!-- Active Leases -->
+              <div v-if="userInfo && userInfo.active_leases.length > 0" class="active-leases">
+                <h3>Active Leases</h3>
+                <div class="leases-list">
+                  <div v-for="lease in userInfo.active_leases" :key="lease.prefix" class="lease-item">
+                    <div class="lease-content">
+                      <div class="lease-prefix">
+                        <span class="prefix-label">Prefix:</span>
+                        <code class="prefix-value">{{ lease.prefix }}</code>
+                      </div>
+                      <div class="lease-times">
+                        <div class="lease-time">
+                          <span class="time-label">Start:</span>
+                          <span class="time-value">{{ formatDateTime(lease.start_time) }}</span>
+                        </div>
+                        <div class="lease-time">
+                          <span class="time-label">Expires:</span>
+                          <span class="time-value">{{ formatDateTime(lease.end_time) }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      class="delete-button"
+                      @click="revokeLease(lease.prefix)"
+                      :disabled="revokingPrefix === lease.prefix"
+                      title="Revoke lease"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18"></path>
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Request New Prefix -->
+              <div class="request-prefix-form">
+                <h3>Request New Prefix</h3>
+                <div class="form-group">
+                  <label for="duration">Lease Duration (hours):</label>
+                  <select
+                    id="duration"
+                    v-model="selectedDuration"
+                    class="duration-select"
+                    :disabled="requestingPrefix"
+                  >
+                    <option :value="1">1 hour</option>
+                    <option :value="2">2 hours</option>
+                    <option :value="4">4 hours</option>
+                    <option :value="8">8 hours</option>
+                    <option :value="12">12 hours</option>
+                    <option :value="24">24 hours</option>
+                  </select>
+                </div>
+                <button
+                  class="request-button"
+                  @click="requestPrefix"
+                  :disabled="requestingPrefix || !userInfo?.asn"
+                >
+                  {{ requestingPrefix ? 'Requesting...' : 'Request Prefix' }}
+                </button>
+                <div v-if="!userInfo?.asn" class="alert alert-warning">
+                  <p><strong>ASN Required:</strong> You need an ASN before requesting a prefix.</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          <!-- Future: Prefix Leases Section -->
-          <!-- This will be implemented in a second phase -->
         </div>
       </div>
     </main>
@@ -123,9 +167,16 @@ const asnLoading = ref(false);
 const asnError = ref<string | null>(null);
 const requestingAsn = ref(false);
 
+// Prefix lease state
+const selectedDuration = ref(4); // Default to 4 hours
+const requestingPrefix = ref(false);
+const prefixError = ref<string | null>(null);
+const revokingPrefix = ref<string | null>(null); // Track which prefix is being revoked
+
 interface UserInfo {
   user_hash: string;
   asn: number | null;
+  max_leases: number | null;
   active_leases: Array<{
     prefix: string;
     start_time: string;
@@ -195,6 +246,71 @@ const requestAsn = async () => {
   } finally {
     requestingAsn.value = false;
   }
+};
+
+// Request prefix lease
+const requestPrefix = async () => {
+  requestingPrefix.value = true;
+  prefixError.value = null;
+
+  try {
+    const response = await apiClient.post('/api/peerlab/user/prefix', {
+      duration_hours: selectedDuration.value
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+    }
+
+    // Refresh user info to show the new lease
+    await fetchUserInfo();
+  } catch (err) {
+    console.error('Error requesting prefix:', err);
+    prefixError.value = err instanceof Error ?
+      err.message :
+      'Unable to request prefix. Please try again later.';
+  } finally {
+    requestingPrefix.value = false;
+  }
+};
+
+// Revoke prefix lease
+const revokeLease = async (prefix: string) => {
+  revokingPrefix.value = prefix;
+  prefixError.value = null;
+
+  try {
+    const response = await apiClient.delete(`/api/peerlab/user/prefix/${encodeURIComponent(prefix)}`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+    }
+
+    // Refresh user info to remove the revoked lease
+    await fetchUserInfo();
+  } catch (err) {
+    console.error('Error revoking prefix:', err);
+    prefixError.value = err instanceof Error ?
+      err.message :
+      'Unable to revoke prefix. Please try again later.';
+  } finally {
+    revokingPrefix.value = null;
+  }
+};
+
+// Format date/time for display
+const formatDateTime = (isoString: string): string => {
+  const date = new Date(isoString);
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  });
 };
 
 const retryFetch = () => {
@@ -345,59 +461,151 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-/* Getting Started Section */
-.getting-started-content {
+/* Prefix Lease Section */
+.prefix-lease-content {
   color: var(--color-text);
 }
 
-.getting-started-content p {
+.active-leases {
+  margin-bottom: 2rem;
+}
+
+.active-leases h3 {
+  font-size: 1rem;
   margin-bottom: 1rem;
-}
-
-.steps-list {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.steps-list li {
-  margin-bottom: 1.5rem;
-}
-
-.steps-list li strong {
-  display: block;
-  margin-bottom: 0.5rem;
   color: var(--color-heading);
 }
 
-.steps-list pre {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  padding: 0.75rem;
-  overflow-x: auto;
-  margin: 0.5rem 0;
+.leases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.steps-list code {
+.lease-item {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lease-content {
+  flex: 1;
+}
+
+.lease-prefix {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.prefix-label {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.prefix-value {
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 0.9em;
+  font-size: 1.1rem;
   color: var(--color-accent);
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
-.help-text {
-  margin-top: 1.5rem;
+.lease-times {
+  display: flex;
+  gap: 2rem;
   font-size: 0.9rem;
+}
+
+.lease-time {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.time-label {
   color: var(--color-text-muted);
 }
 
-.docs-link {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s ease;
+.time-value {
+  color: var(--color-text);
+  font-weight: 500;
 }
 
-.docs-link:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
+.request-prefix-form {
+  margin-top: 1.5rem;
+}
+
+.request-prefix-form h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--color-heading);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.duration-select {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+  color: var(--color-text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.duration-select:hover:not(:disabled) {
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.duration-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  background-color: transparent;
+  border: 1px solid rgba(229, 57, 53, 0.3);
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #e53935;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: rgba(229, 57, 53, 0.1);
+  border-color: rgba(229, 57, 53, 0.5);
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-button svg {
+  display: block;
 }
 </style>
