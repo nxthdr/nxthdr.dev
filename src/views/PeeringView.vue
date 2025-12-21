@@ -20,10 +20,10 @@
         </div>
         <div v-else class="dashboard-page-content">
           <h1 class="dashboard-title">Peering</h1>
-          <div class="main-subtitle">Connect to real Internet Exchange Points.</div>
+          <div class="main-subtitle">Exchange routes with real Internet Exchange Points.</div>
 
           <div class="alert alert-info">
-            <strong>What is PeerLab?</strong> PeerLab allows you to connect to real IXPs and receive the full IPv6 routing table.
+            <strong>What is PeerLab?</strong> Connect to real IXPs and exchange routes with the Internet.
           </div>
 
           <!-- ASN Section -->
@@ -42,7 +42,7 @@
                 <div class="asn-value">AS{{ userInfo.asn }}</div>
               </div>
               <p class="info-help">
-                This is your private ASN for use with PeerLab. Use it to configure your BIRD instance and establish BGP sessions with IXP peers.
+                This is your private ASN for use with <a href="https://github.com/nxthdr/peerlab">PeerLab</a>. Use it to configure your BIRD instance and establish BGP sessions with IXP peers.
               </p>
             </div>
             <div v-else class="asn-container">
@@ -63,7 +63,9 @@
             <div class="prefix-lease-content">
               <p class="info-help">
                 Lease an IPv6 /48 prefix for a specified duration to use with PeerLab.
-                <span v-if="userInfo?.max_leases">You can have up to {{ userInfo.max_leases }} active lease{{ userInfo.max_leases > 1 ? 's' : '' }}.</span>
+                <span v-if="userInfo?.max_leases !== null && userInfo?.max_leases !== undefined">
+                  {{ remainingLeases }} lease{{ remainingLeases !== 1 ? 's' : '' }} remaining.
+                </span>
               </p>
 
               <!-- Error Message -->
@@ -148,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { useAuth0 } from '@auth0/auth0-vue';
@@ -185,6 +187,14 @@ interface UserInfo {
 }
 
 const userInfo = ref<UserInfo | null>(null);
+
+// Computed property for remaining leases
+const remainingLeases = computed(() => {
+  if (!userInfo.value || userInfo.value.max_leases === null) {
+    return 0;
+  }
+  return userInfo.value.max_leases - userInfo.value.active_leases.length;
+});
 
 // Fetch user info from peerlab-gateway
 const fetchUserInfo = async () => {
