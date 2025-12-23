@@ -31,7 +31,8 @@ const auth0Config: any = {
   clientId: clientId,
   authorizationParams: {
     redirect_uri: window.location.origin + '/callback'
-  }
+  },
+  cacheLocation: 'localstorage'
 }
 
 // Only add audience if it's configured
