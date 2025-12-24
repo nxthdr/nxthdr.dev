@@ -106,7 +106,7 @@
               </div>
               <div class="principle-card">
                 <h3>Radically Transparent</h3>
-                <p>Our <a href="https://grafana.nxthdr.dev/dashboards" target="_blank" rel="noopener">monitoring</a>, <a href="https://github.com/orgs/nxthdr/projects/1" target="_blank" rel="noopener">roadmap</a>, and <a href="https://docs.google.com/spreadsheets/d/1fguIDaXn4DuEexZrudJjzn2Sucpy8Qx5bACcYEH1ie4/edit?usp=sharing" target="_blank" rel="noopener">finances</a> are completely public.</p>
+                <p>Our <a href="https://grafana.nxthdr.dev/dashboards" target="_blank" rel="noopener">monitoring</a>, <a href="https://github.com/orgs/nxthdr/projects/1" target="_blank" rel="noopener">roadmap</a>, and <a href="https://docs.google.com/spreadsheets/d/1ptkRO_R6Jgl1gUEaqihGFT23hSMS3msxBi8uUaS5xFo/edit?usp=sharing" target="_blank" rel="noopener">finances</a> are completely public.</p>
               </div>
             </div>
           </div>
