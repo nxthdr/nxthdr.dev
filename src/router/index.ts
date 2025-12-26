@@ -49,8 +49,14 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = useAuth0();
+router.beforeEach(async (to, from, next) => {
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  // Wait for Auth0 to finish loading before checking authentication
+  while (isLoading.value) {
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+
   if (to.meta.requiresAuth && !isAuthenticated.value) {
     next({ name: 'home' });
   } else {
