@@ -15,7 +15,7 @@
                 We operate a global network infrastructure that offers flexible worldwide active measurements from our own autonomous system and peering capabilities through multiple Internet exchanges.
               </p>
               <p class="intro-secondary">
-                All datasets are shared in the public domain, every tool and systems are open source, and the entire infrastructure is designed rapid experimentation and reproducibility.
+                All datasets are shared in the public domain, every tool and systems are open source, and the entire infrastructure is designed rapid experimentation, education and reproducibility.
               </p>
             </div>
           </div>
@@ -30,11 +30,11 @@
             <div class="quick-links">
               <router-link to="/docs/measurements" class="quick-link">
                 <span class="quick-link-title">Perform Measurements</span>
-                <span class="quick-link-desc">Learn how to use our measurement platform and send your own probes</span>
+                <span class="quick-link-desc">Learn how to use our measurement platform and send your own probes.</span>
               </router-link>
               <router-link to="/docs/datasets" class="quick-link">
                 <span class="quick-link-title">Browse Datasets</span>
-                <span class="quick-link-desc">Access public domain BGP routing data, measurement results, and traffic flows</span>
+                <span class="quick-link-desc">Access public domain BGP routing data, measurement results, and traffic flows.</span>
               </router-link>
             </div>
           </div>
@@ -43,53 +43,58 @@
           <div class="content-section">
             <div class="use-cases-list-alt">
               <div class="use-case-item">
+                <div class="use-case-title">BGP & Routing Experiments</div>
+                <div class="use-case-desc">Peer with our IXP servers, lease public IPv6 prefixes, and announce them to the real Internet. Conduct hands-on experiments with BGP policies, traffic engineering, and routing dynamics in production networks.</div>
+              </div>
+              <div class="use-case-item">
                 <div class="use-case-title">Internet Topology & Performance Research</div>
-                <div class="use-case-desc">Analyze BGP dynamics, CDN behavior, routing patterns, and global connectivity using comprehensive real-world measurement data.</div>
+                <div class="use-case-desc">Perform active measurements from multiple global locations and analyze BGP dynamics, CDN behavior, routing patterns, and global connectivity using comprehensive real-world data.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Joint Peering & Probing Studies</div>
+                <div class="use-case-desc">Combine active measurements with your own announced prefixes to conduct unique experiments impossible on other platforms. Study how routing changes affect reachability, latency, and path selection in real-time.</div>
               </div>
               <div class="use-case-item">
                 <div class="use-case-title">Measurement Tooling & Algorithm Development</div>
-                <div class="use-case-desc">Build, test, and benchmark innovative measurement techniques and algorithms leveraging our global high-speed infrastructure.</div>
-              </div>
-              <div class="use-case-item">
-                <div class="use-case-title">Data Science & Ethics Research</div>
-                <div class="use-case-desc">Explore best practices in large-scale data collection, privacy-preserving techniques, ethical measurement design, and advanced visualization methods.</div>
-              </div>
-              <div class="use-case-item">
-                <div class="use-case-title">Reproducible Research</div>
-                <div class="use-case-desc">Validate and reproduce prior studies with access to consistent, open datasets and standardized measurement infrastructure.</div>
+                <div class="use-case-desc">Build, test, and benchmark innovative measurement techniques and algorithms leveraging our global high-speed infrastructure with full control over source addressing.</div>
               </div>
               <div class="use-case-item">
                 <div class="use-case-title">Education & Learning</div>
-                <div class="use-case-desc">Enhance networking courses, workshops, and hands-on learning experiences with real Internet data and measurement capabilities.</div>
+                <div class="use-case-desc">Teach networking courses with real Internet resources. Students can peer with actual IXPs, announce real prefixes, and perform measurements on production networks.</div>
+              </div>
+              <div class="use-case-item">
+                <div class="use-case-title">Reproducible Research</div>
+                <div class="use-case-desc">Validate and reproduce prior studies with access to consistent, open datasets and standardized measurement infrastructure across both passive BGP monitoring and active probing.</div>
               </div>
             </div>
           </div>
 
-          <h2 class="subheading">Flagship Projects</h2>
+          <h2 class="subheading">Our Platforms</h2>
 
           <div class="content-section">
-            <h3 class="section-title">Peering Platform</h3>
+            <h3 class="section-title"><router-link to="/peering">Peering</router-link> Platform</h3>
             <p>
-              The peering platform is built around an autonomous system, as215011, which advertises multiple IPv6 prefixes.
-              This network is designed to support researchers and students in conducting Internet-scale experiments on routing and peering.
+              Peer directly with our IXP servers from anywhere in the world and lease public IPv6 prefixes to announce to the real Internet.
+              Our autonomous system, as215011, operates at multiple Internet exchanges, enabling you to conduct hands-on BGP experiments, test routing policies, and study peering dynamics in production networks.
+              Whether you are researching traffic engineering, validating routing security mechanisms, or teaching students about inter-domain routing, you have full control to announce and withdraw prefixes as needed for your experiments.
             </p>
             <p>
-              BGP data is collected using <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a> BGP Monitoring Protocol (BMP) collector.
-              Each as215011 router sends BMP messages to risotto, which stores the updates in a ClickHouse database.
-              By maintaining a state, risotto ensures accurate and comprehensive BGP data, which is made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
+              All BGP routing data from as215011 is passively collected using <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, our BGP Monitoring Protocol (BMP) collector.
+              Each router sends real-time BMP messages to risotto, which maintains routing state and stores updates in a ClickHouse database.
+              This comprehensive BGP data is made freely <router-link to="/docs/datasets">available</router-link> to everyone, providing visibility into routing behavior across our network and the prefixes you announce.
             </p>
           </div>
 
           <div class="content-section">
-            <h3 class="section-title">Probing Platform</h3>
+            <h3 class="section-title"><router-link to="/probing">Probing</router-link> Platform</h3>
             <p>
-              The probing platform consists of multiple servers distributed worldwide.
-              These servers can perform high-speed traceroute-like and ping-like measurements.
-              They advertise as215011 IPv6 prefixes, allowing measurements using both source unicast and anycast addresses.
+              Perform high-speed active measurements from our globally distributed servers.
+              Send traceroute-like and ping-like probes from multiple locations worldwide, using both unicast and anycast source addresses from as215011 IPv6 prefixes.
+              This enables you to study Internet topology, measure path diversity, analyze CDN behavior, and conduct latency studies from real network infrastructure.
             </p>
             <p>
-              <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> is a high-speed probing pipeline that provides the essential plumbing for users to perform active measurements from the probing servers.
-              The measurements results are stored in a ClickHouse database and made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis.
+              <a href="https://github.com/nxthdr/saimiris" target="_blank" rel="noopener">saimiris</a> is our high-speed probing pipeline that handles the entire measurement workflow from probe scheduling to result collection.
+              All measurement results are stored in a ClickHouse database and made freely <router-link to="/docs/datasets">available</router-link> to everyone for analysis, ensuring reproducibility and enabling large-scale Internet research.
             </p>
           </div>
 
@@ -98,7 +103,7 @@
             <div class="principles-grid">
               <div class="principle-card">
                 <h3>Open Data</h3>
-                <p>All <router-link to="/docs/datasets">datasets</router-link> are public domain under <a href="https://opendatacommons.org/licenses/pddl/" target="_blank" rel="noopener">PDDL</a> license — no restrictions, delays, or authentication required.</p>
+                <p>All <router-link to="/docs/datasets">datasets</router-link> are public domain under <a href="https://opendatacommons.org/licenses/pddl/" target="_blank" rel="noopener">PDDL</a> license. No restrictions, delays, or authentication required.</p>
               </div>
               <div class="principle-card">
                 <h3>Open Source</h3>
