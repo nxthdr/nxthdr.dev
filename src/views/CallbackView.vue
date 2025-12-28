@@ -1,28 +1,19 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { onMounted } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useRouter } from 'vue-router';
 
 const { isLoading, isAuthenticated } = useAuth0();
 const router = useRouter();
 
-// Auth0 SDK automatically handles the callback redirect
-// We just need to watch for when authentication completes and redirect
-watch(isAuthenticated, (authenticated) => {
-  if (authenticated) {
-    // Redirect to probing page after successful authentication
-    router.push('/probing');
+onMounted(async () => {
+  // Wait for Auth0 to finish processing the callback
+  while (isLoading.value) {
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
-});
 
-// Also handle the case where user is already authenticated when landing here
-watch(isLoading, (loading) => {
-  if (!loading && isAuthenticated.value) {
-    router.push('/probing');
-  } else if (!loading && !isAuthenticated.value) {
-    // If not loading and not authenticated, something went wrong
-    router.push('/');
-  }
+  // After loading completes, redirect to home
+  router.push('/');
 });
 </script>
 
