@@ -6,31 +6,41 @@
         <div class="content-card">
           <div class="content-section">
             <h1 class="about-title">About</h1>
-            <div class="main-subtitle">nxthdr & AS215011</div>
+            <div class="main-subtitle">A Wide-Open Window to the Internet</div>
 
             <p>
               <strong>nxthdr</strong> is a French non-profit organization (association loi 1901) that operates a global network infrastructure designed specifically for Internet research and education.
-              We provide researchers, students, and network operators with the tools and data needed to study Internet topology, routing, and performance.
+              We provide researchers, students, and network operators with two integrated platforms: <strong>PeerLab</strong> for BGP and routing experiments, and <strong>Saimiris</strong> for active Internet measurements.
             </p>
 
             <h2 class="subheading">The Problem</h2>
             <p>
-              The Internet measurement community faces significant barriers to entry.
-              Existing platforms like RIPE Atlas <sup><a href="#ref-1" class="ref-link">[1]</a></sup> and CAIDA Ark <sup><a href="#ref-2" class="ref-link">[2]</a></sup> often require manual approval processes, impose credit systems, or lack self-service capabilities.
+              The Internet research community faces significant barriers to entry across two critical areas:
+            </p>
+            <p>
+              <strong>Active Measurements:</strong> Existing platforms like RIPE Atlas <sup><a href="#ref-1" class="ref-link">[1]</a></sup> and CAIDA Ark <sup><a href="#ref-2" class="ref-link">[2]</a></sup> often require manual approval processes, impose credit systems, or lack self-service capabilities.
               For newcomers, especially PhD students and independent researchers, accessing measurement infrastructure and fresh datasets remains challenging.
             </p>
             <p>
-              Similarly, conducting routing experiments requires substantial resources: IP prefixes, an autonomous system, and router infrastructure.
-              While testbeds exist <sup><a href="#ref-3" class="ref-link">[3]</a></sup>, they typically don't integrate active measurements with routing experiments, making synchronized studies difficult.
+              <strong>BGP Experiments:</strong> Conducting routing experiments requires substantial resources: IP prefixes, an autonomous system, and router infrastructure.
+              While testbeds exist <sup><a href="#ref-3" class="ref-link">[3]</a></sup>, they typically don't integrate active measurements with routing experiments, making synchronized control and data plane studies difficult.
             </p>
 
             <h2 class="subheading">Our Approach</h2>
             <p>
-              Rather than competing with large-scale platforms, nxthdr fills specific gaps by combining active measurements with routing capabilities in a single, accessible platform.
-              We operate AS215011 with multiple IPv6 prefixes, maintain presence at several European Internet exchanges (NL-IX, LocIX, FranceIX), and run probing servers in multiple countries where we control source prefixes and collect BGP data.
+              Rather than competing with large-scale platforms, nxthdr fills a specific gap: we're the only platform that integrates both active measurements and BGP experimentation in a single, cohesive environment.
             </p>
             <p>
-              Our platform is built on proven concepts, BGP testbeds and high-speed probing platforms, but uniquely integrates them into a self-service platform with comprehensive documentation and open datasets.
+              <strong>PeerLab (Peering Platform):</strong> Lease IPv6 prefixes and announce them through our network (AS215011) at multiple European Internet exchanges (FranceIX, FogIXP, LocIX, NL-IX).
+              Conduct real BGP experiments with automated Docker-based setup, and access full BGP feeds and traffic data from our network.
+            </p>
+            <p>
+              <strong>Saimiris (Probing Platform):</strong> Send active measurements from multiple global vantage points with full control over probe parameters and source addressing.
+              Unique anycast measurement support enables studies impossible on other platforms.
+            </p>
+            <p>
+              <strong>Integrated Platform:</strong> Announce your own prefixes via PeerLab and immediately measure how routing changes affect reachability and latency using Saimiris.
+              All BGP data, traffic data, and measurement results are available in one place under open licensing (PDDL), with no application or approval process required.
             </p>
 
             <h2 class="subheading">Get Involved</h2>
