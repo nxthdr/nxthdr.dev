@@ -31,7 +31,7 @@
               Rather than competing with large-scale platforms, nxthdr fills a specific gap: we're the only platform that integrates both active measurements and BGP experimentation in a single, cohesive environment.
             </p>
             <p>
-              <strong>PeerLab (Peering Platform):</strong> Lease IPv6 prefixes and announce them through our network (AS215011) at multiple European Internet exchanges (FranceIX, FogIXP, LocIX, NL-IX).
+              <strong>PeerLab (Peering Platform):</strong> Lease IPv6 prefixes and announce them through our network (AS215011) at multiple European Internet exchanges (FogIXP, FranceIX, LocIX, NL-IX).
               Conduct real BGP experiments with automated Docker-based setup, and access full BGP feeds and traffic data from our network.
             </p>
             <p>

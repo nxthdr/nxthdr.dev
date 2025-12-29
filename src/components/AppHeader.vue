@@ -6,13 +6,13 @@
         <RouterLink
           v-if="isAuthenticated"
           class="header-link"
-          to="/probing"
-        >Probing</RouterLink>
+          to="/peering"
+        >Peering</RouterLink>
         <RouterLink
           v-if="isAuthenticated"
           class="header-link"
-          to="/peering"
-        >Peering</RouterLink>
+          to="/probing"
+        >Probing</RouterLink>
         <a href="https://docs.nxthdr.dev/docs" target="_blank" rel="noopener" class="header-link">Docs</a>
         <a href="https://blog.nxthdr.dev" target="_blank" rel="noopener" class="header-link">Blog</a>
         <RouterLink class="header-link" to="/about">About</RouterLink>
@@ -48,15 +48,15 @@
       <RouterLink
         v-if="isAuthenticated"
         class="mobile-nav-link"
-        to="/probing"
-        @click="closeMenu"
-      >Probing</RouterLink>
-      <RouterLink
-        v-if="isAuthenticated"
-        class="mobile-nav-link"
         to="/peering"
         @click="closeMenu"
       >Peering</RouterLink>
+      <RouterLink
+        v-if="isAuthenticated"
+        class="mobile-nav-link"
+        to="/probing"
+        @click="closeMenu"
+      >Probing</RouterLink>
       <RouterLink
         class="mobile-nav-link"
         to="/docs/measurements"
@@ -114,5 +114,3 @@ function handleLogout() {
   });
 }
 </script>
-
-<!-- Styles are now handled by main.css with dark mode only -->
