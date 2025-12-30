@@ -71,12 +71,14 @@ export class ApiClient {
         } catch (refreshError) {
           // If token refresh fails (e.g., refresh token expired), sign out and redirect to home
           console.error('Token refresh failed, signing out:', refreshError);
-          await this.auth0Instance.logout({
+          // Trigger logout which will redirect
+          this.auth0Instance.logout({
             logoutParams: {
               returnTo: window.location.origin
             }
           });
-          throw new Error('Session expired. Please sign in again.');
+          // Return a pending promise to prevent error propagation while redirect happens
+          return new Promise(() => {});
         }
       }
 
@@ -88,12 +90,14 @@ export class ApiClient {
         error.message.includes('consent_required')
       )) {
         console.error('Session expired, signing out:', error);
-        await this.auth0Instance.logout({
+        // Trigger logout which will redirect
+        this.auth0Instance.logout({
           logoutParams: {
             returnTo: window.location.origin
           }
         });
-        throw new Error('Session expired. Please sign in again.');
+        // Return a pending promise to prevent error propagation while redirect happens
+        return new Promise(() => {});
       }
       throw error;
     }
