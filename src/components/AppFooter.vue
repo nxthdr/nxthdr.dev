@@ -64,6 +64,11 @@
     </div>
     <div class="footer-bottom">
       <p class="copyright">&copy; {{ currentYear }} nxthdr. Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.</p>
+      <div class="footer-legal-links">
+        <a href="https://docs.nxthdr.dev/docs/reference/terms/" target="_blank" rel="noopener" class="footer-legal-link">Terms of Service</a>
+        <span class="footer-legal-separator">•</span>
+        <a href="https://docs.nxthdr.dev/docs/reference/privacy/" target="_blank" rel="noopener" class="footer-legal-link">Privacy</a>
+      </div>
     </div>
   </footer>
 </template>
@@ -224,6 +229,40 @@ const currentYear = computed(() => new Date().getFullYear());
   color: var(--color-text-muted);
   font-size: 0.85rem;
   margin: 0;
+}
+
+.copyright a {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.copyright a:hover {
+  color: var(--color-accent);
+}
+
+.footer-legal-links {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.footer-legal-link {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.footer-legal-link:hover {
+  color: var(--color-accent);
+}
+
+.footer-legal-separator {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
 }
 
 @media (max-width: 1200px) {
