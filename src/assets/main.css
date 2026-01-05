@@ -491,7 +491,7 @@ Usage examples:
 
 /* Alternative: styled as text without badge background */
 .beta-text {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #FF6B35 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
