@@ -31,11 +31,8 @@ onBeforeUnmount(() => {
 .app-container {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Prevent any scroll behavior conflicts */
-  overflow-anchor: none;
 }
 </style>
