@@ -154,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { useAuth0 } from '@auth0/auth0-vue';
@@ -182,10 +182,6 @@ const userPrefixes = ref<any | null>(null);
 const prefixesLoading = ref(false);
 const prefixesError = ref<string | null>(null);
 
-// Refresh intervals
-const tokenRefreshInterval = ref<number | null>(null);
-const usageRefreshInterval = ref<number | null>(null);
-const agentsRefreshInterval = ref<number | null>(null);
 
 // Function to copy token to clipboard
 const copyToClipboard = (text: string) => {
@@ -364,50 +360,10 @@ const getUserPrefixesForAgent = (agentId: string): string[] => {
   return agentData.prefixes.map((prefix: any) => prefix.user_prefix);
 };
 
-// Setup refresh intervals
-const startRefreshIntervals = () => {
-  // Refresh token every 30 minutes (1800000 ms)
-  tokenRefreshInterval.value = setInterval(() => {
-    fetchAccessToken();
-  }, 1800000);
 
-  // Refresh usage every 5 minutes (300000 ms)
-  usageRefreshInterval.value = setInterval(() => {
-    fetchUserUsage();
-    fetchUserPrefixes();
-  }, 300000);
-
-  // Refresh agents every 2 minutes (120000 ms)
-  agentsRefreshInterval.value = setInterval(() => {
-    fetchAgents();
-  }, 120000);
-};
-
-// Clear refresh intervals
-const clearRefreshIntervals = () => {
-  if (tokenRefreshInterval.value) {
-    clearInterval(tokenRefreshInterval.value);
-    tokenRefreshInterval.value = null;
-  }
-  if (usageRefreshInterval.value) {
-    clearInterval(usageRefreshInterval.value);
-    usageRefreshInterval.value = null;
-  }
-  if (agentsRefreshInterval.value) {
-    clearInterval(agentsRefreshInterval.value);
-    agentsRefreshInterval.value = null;
-  }
-};
-
-// onMounted() is now called earlier in the code
 onMounted(() => {
   fetchAccessToken();
   fetchAgents();
-  startRefreshIntervals();
-});
-
-onUnmounted(() => {
-  clearRefreshIntervals();
 });
 
 interface AgentConfig {
