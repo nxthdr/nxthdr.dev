@@ -20,22 +20,39 @@
             </div>
           </div>
 
-          <div class="alert alert-important">
-            <p v-if="!isAuthenticated">The probing platform is in <span class="beta-text">alpha</span>. <strong><button @click="handleLogin" class="link-style">Sign up</button></strong> to send your first probes from our network!</p>
-            <p v-else>The probing platform is in <span class="beta-text">alpha</span>. Check the <router-link to="/docs/measurements">documentation</router-link> to send your first probes from our network!</p>
-          </div>
-
           <div class="quick-access-section">
-            <h2 class="quick-access-title">Start Exploring Now</h2>
+            <h2 class="quick-access-title">Start Exploring</h2>
             <div class="quick-links">
-              <router-link to="/docs/measurements" class="quick-link">
-                <span class="quick-link-title">Perform Measurements</span>
-                <span class="quick-link-desc">Learn how to use our measurement platform and send your own probes.</span>
-              </router-link>
+              <div class="quick-link platform-card">
+                <div class="platform-card-header">
+                  <span class="quick-link-title">Peering</span>
+                  <span class="platform-badge">experimental</span>
+                </div>
+                <span class="quick-link-desc">Peer with our IXP servers, announce IPv6 prefixes, and run BGP experiments on the real Internet.</span>
+                <div class="platform-card-action">
+                  <button v-if="!isAuthenticated" @click="handleLogin" class="platform-card-btn">Sign up →</button>
+                  <a v-else href="https://docs.nxthdr.dev/docs/peering/" target="_blank" rel="noopener" class="platform-card-btn">Get started →</a>
+                </div>
+              </div>
+              <div class="quick-link platform-card">
+                <div class="platform-card-header">
+                  <span class="quick-link-title">Probing</span>
+                  <span class="platform-badge">alpha</span>
+                </div>
+                <span class="quick-link-desc">Send active measurements from globally distributed servers and analyze Internet topology.</span>
+                <div class="platform-card-action">
+                  <button v-if="!isAuthenticated" @click="handleLogin" class="platform-card-btn">Sign up →</button>
+                  <router-link v-else to="/docs/measurements" class="platform-card-btn">Get started →</router-link>
+                </div>
+              </div>
               <router-link to="/docs/datasets" class="quick-link">
                 <span class="quick-link-title">Browse Datasets</span>
                 <span class="quick-link-desc">Access public domain BGP routing data, measurement results, and traffic flows.</span>
               </router-link>
+              <a href="https://docs.nxthdr.dev/docs/tools/" target="_blank" rel="noopener" class="quick-link">
+                <span class="quick-link-title">Build with Our Tools</span>
+                <span class="quick-link-desc">Explore open source tools and APIs to integrate nxthdr into your own reseach pipeline.</span>
+              </a>
             </div>
           </div>
 

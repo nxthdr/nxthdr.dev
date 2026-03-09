@@ -1588,6 +1588,59 @@ html::-webkit-scrollbar-thumb {
 /* ====== HomeView Specific Styles ====== */
 /* Styles for the new home page components added without affecting existing styles */
 
+/* Platform card (within quick-links grid) */
+.platform-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.platform-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.platform-card-header .quick-link-title {
+  display: inline;
+  margin-bottom: 0;
+}
+
+.platform-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(45, 212, 191, 0.12);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.platform-card-action {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.platform-card-btn {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.platform-card-btn:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
 /* Home page quick access section */
 .quick-access-section {
   margin: 1rem 0 2.5rem 0;
