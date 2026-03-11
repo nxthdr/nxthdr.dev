@@ -50,18 +50,29 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
 
   // Wait for Auth0 to finish loading before checking authentication
   while (isLoading.value) {
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
-  if (to.meta.requiresAuth && !isAuthenticated.value) {
-    next({ name: 'home' });
-  } else {
-    next();
+  if (to.meta.requiresAuth) {
+    if (!isAuthenticated.value) {
+      next({ name: 'home' });
+      return;
+    }
+
+    // Verify the session is still valid (cached isAuthenticated can be stale)
+    try {
+      await getAccessTokenSilently();
+    } catch {
+      next({ name: 'home' });
+      return;
+    }
   }
+
+  next();
 });
 
 export default router
