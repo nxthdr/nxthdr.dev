@@ -91,9 +91,9 @@
           <div class="content-section">
             <h3 class="section-title"><router-link to="/peering">Peering</router-link> Platform</h3>
             <p>
-              Peer directly with our IXP servers from anywhere in the world and lease public IPv6 prefixes to announce to the real Internet.
-              Our autonomous system, as215011, operates at multiple Internet exchanges, enabling you to conduct hands-on BGP experiments, test routing policies, and study peering dynamics in production networks.
-              Whether you are researching traffic engineering, validating routing security mechanisms, or teaching students about inter-domain routing, you have full control to announce and withdraw prefixes as needed for your experiments.
+              Using <a href="https://github.com/nxthdr/peerlab" target="_blank" rel="noopener">peerlab</a>, peer directly with our IXP servers from anywhere in the world, establish real BGP sessions, and receive the full IPv6 routing table.
+              Our autonomous system, as215011, operates at multiple Internet exchanges, enabling hands-on BGP experiments in production networks.
+              Lease public IPv6 prefixes and announce or withdraw them freely to study routing policies, traffic engineering, or routing security.
             </p>
             <p>
               All BGP routing data from as215011 is passively collected using <a href="https://github.com/nxthdr/risotto" target="_blank" rel="noopener">risotto</a>, our BGP Monitoring Protocol (BMP) collector.
