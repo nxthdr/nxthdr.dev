@@ -26,7 +26,7 @@
               <div class="quick-link platform-card">
                 <div class="platform-card-header">
                   <span class="quick-link-title">Peering</span>
-                  <span class="platform-badge">experimental</span>
+                  <span class="platform-badge">alpha</span>
                 </div>
                 <span class="quick-link-desc">Peer with our IXP servers, announce IPv6 prefixes, and run BGP experiments on the real Internet.</span>
                 <div class="platform-card-action">
