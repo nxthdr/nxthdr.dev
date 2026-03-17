@@ -6,7 +6,7 @@
         <div class="content-card">
           <div class="content-section">
             <h1 class="about-title">About</h1>
-            <div class="main-subtitle">A Wide-Open Window to the Internet</div>
+            <div class="main-subtitle">Open Infrastructure for Internet Experimentation</div>
 
             <p>
               <strong>nxthdr</strong> is a French non-profit organization (association loi 1901) that operates a global network infrastructure designed specifically for Internet research and education.

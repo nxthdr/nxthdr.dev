@@ -7,7 +7,7 @@
           <div class="title-glow-wrapper">
             <h1 class="home-title">nxthdr</h1>
           </div>
-          <div class="main-subtitle">A Wide-Open Window to the Internet</div>
+          <div class="main-subtitle">Open Infrastructure for Internet Experimentation</div>
           <div class="content-section">
             <div class="intro-highlight">
               <p class="intro-main">
