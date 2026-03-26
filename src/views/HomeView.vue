@@ -135,7 +135,7 @@
 
           <h2 class="subheading">Get Involved</h2>
           <div class="content-section">
-            <p>Join us on <a href="https://discord.gg/KF3RSKXrSp" target="_blank" rel="noopener">Discord</a> to discuss the project and get involved!</p>
+            <p>Join us on <a href="https://chat.nxthdr.dev" target="_blank" rel="noopener">chat</a> to discuss the project and get involved!</p>
           </div>
         </div>
       </div>
