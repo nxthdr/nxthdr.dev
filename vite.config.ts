@@ -26,17 +26,17 @@ export default defineConfig({
       },
       // Proxy Peerlab API requests
       '/api/peerlab': {
-        target: 'http://0.0.0.0:8081',
+        target: 'https://peerlab.nxthdr.dev',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/peerlab/, '/api'),
-        secure: false
+        secure: true
       },
       // Proxy Saimiris API requests
       '/api/saimiris': {
-        target: 'http://0.0.0.0:8080',
+        target: 'https://saimiris.nxthdr.dev',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/saimiris/, '/api'),
-        secure: false
+        secure: true
       }
     }
   }

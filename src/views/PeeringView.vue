@@ -93,6 +93,21 @@
                           <span class="time-value">{{ formatDateTime(lease.end_time) }}</span>
                         </div>
                       </div>
+                      <div class="lease-rpki">
+                        <span class="rpki-label">RPKI ROA:</span>
+                        <button
+                          class="rpki-toggle"
+                          :class="{ 'rpki-enabled': lease.rpki_enabled, 'rpki-disabled': !lease.rpki_enabled }"
+                          @click="toggleRpki(lease.prefix, lease.rpki_enabled)"
+                          :disabled="togglingRpki === lease.prefix"
+                          :title="lease.rpki_enabled ? 'Disable RPKI ROA' : 'Enable RPKI ROA'"
+                        >
+                          <span class="rpki-toggle-track">
+                            <span class="rpki-toggle-thumb"></span>
+                          </span>
+                          <span class="rpki-toggle-text">{{ togglingRpki === lease.prefix ? '...' : (lease.rpki_enabled ? 'Enabled' : 'Disabled') }}</span>
+                        </button>
+                      </div>
                     </div>
                     <button
                       class="delete-button"
@@ -174,6 +189,7 @@ const selectedDuration = ref(4); // Default to 4 hours
 const requestingPrefix = ref(false);
 const prefixError = ref<string | null>(null);
 const revokingPrefix = ref<string | null>(null); // Track which prefix is being revoked
+const togglingRpki = ref<string | null>(null); // Track which prefix RPKI is being toggled
 
 interface UserInfo {
   user_hash: string;
@@ -183,6 +199,7 @@ interface UserInfo {
     prefix: string;
     start_time: string;
     end_time: string;
+    rpki_enabled: boolean;
   }>;
 }
 
@@ -307,6 +324,39 @@ const revokeLease = async (prefix: string) => {
       'Unable to revoke prefix. Please try again later.';
   } finally {
     revokingPrefix.value = null;
+  }
+};
+
+// Toggle RPKI ROA for a prefix
+const toggleRpki = async (prefix: string, currentState: boolean) => {
+  togglingRpki.value = prefix;
+  prefixError.value = null;
+
+  try {
+    const response = await apiClient.put(`/api/peerlab/user/prefix/${encodeURIComponent(prefix)}/rpki`, {
+      enabled: !currentState
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+    }
+
+    // Update the lease's rpki_enabled state locally
+    const data = await response.json();
+    if (userInfo.value) {
+      const lease = userInfo.value.active_leases.find(l => l.prefix === prefix);
+      if (lease) {
+        lease.rpki_enabled = data.rpki_enabled;
+      }
+    }
+  } catch (err) {
+    console.error('Error toggling RPKI:', err);
+    prefixError.value = err instanceof Error ?
+      err.message :
+      'Unable to toggle RPKI. Please try again later.';
+  } finally {
+    togglingRpki.value = null;
   }
 };
 
@@ -499,7 +549,7 @@ onMounted(() => {
   padding: 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
 }
 
@@ -589,6 +639,96 @@ onMounted(() => {
 .duration-select:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* RPKI Toggle */
+.lease-rpki {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.rpki-label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.rpki-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.rpki-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rpki-toggle-track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.rpki-enabled .rpki-toggle-track {
+  background-color: rgba(45, 212, 191, 0.3);
+  border: 1px solid rgba(45, 212, 191, 0.5);
+}
+
+.rpki-disabled .rpki-toggle-track {
+  background-color: rgba(156, 163, 175, 0.2);
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+.rpki-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transition: left 0.2s, background-color 0.2s;
+}
+
+.rpki-enabled .rpki-toggle-thumb {
+  left: 18px;
+  background-color: #2dd4bf;
+}
+
+.rpki-disabled .rpki-toggle-thumb {
+  left: 2px;
+  background-color: #9ca3af;
+}
+
+.rpki-toggle-text {
+  transition: color 0.2s;
+}
+
+.rpki-enabled .rpki-toggle-text {
+  color: #2dd4bf;
+}
+
+.rpki-disabled .rpki-toggle-text {
+  color: var(--color-text-muted);
+}
+
+.rpki-toggle.rpki-enabled:hover:not(:disabled) .rpki-toggle-track {
+  background-color: rgba(45, 212, 191, 0.4);
+}
+
+.rpki-toggle.rpki-disabled:hover:not(:disabled) .rpki-toggle-track {
+  background-color: rgba(156, 163, 175, 0.3);
 }
 
 .delete-button {
