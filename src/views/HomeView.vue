@@ -61,7 +61,7 @@
             <div class="use-cases-list-alt">
               <div class="use-case-item">
                 <div class="use-case-title">BGP & Routing Experiments</div>
-                <div class="use-case-desc">Peer with our IXP servers, lease public IPv6 prefixes, and announce them to the real Internet. Conduct hands-on experiments with BGP policies, traffic engineering, and routing dynamics in production networks.</div>
+                <div class="use-case-desc">Peer with our IXP servers, lease public IPv6 prefixes, and announce them to the real Internet. Conduct hands-on experiments with BGP policies, traffic engineering, RPKI validation, and routing dynamics in production networks.</div>
               </div>
               <div class="use-case-item">
                 <div class="use-case-title">Internet Topology & Performance Research</div>
