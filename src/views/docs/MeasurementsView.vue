@@ -38,7 +38,7 @@
           </p>
           <p>
             You can use your token to send measurements from your own scripts, notebooks or applications.
-            We are planning to provide a CLI tool to simplify this process in the future, but for now, you can use tools like <code>curl</code> or <code>httpie</code> to interact with the API directly.
+            You can use the <a href="https://docs.nxthdr.dev/docs/tools/cli/" target="_blank" rel="noopener">nxthdr CLI</a> as a simpler alternative, or interact directly with the API using <code>curl</code> or <code>httpie</code> as shown below.
           </p>
 
           <h3 class="section-title">Check your available agents</h3>
