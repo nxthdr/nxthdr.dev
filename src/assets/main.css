@@ -1,45 +1,48 @@
-/* Main CSS file for nxthdr application - Dark theme only */
+/* Main CSS file for nxthdr application - Light "Paper" theme */
 
 /* ====== Base Variables ====== */
 :root {
-  /* Core colors based on the screenshot */
-  --color-primary: #3B82F6;        /* Primary blue for active elements and links */
-  --color-secondary: #818CF8;      /* Secondary purple-blue for highlights */
-  --color-accent: #2DD4BF;         /* Teal accent for interactive elements */
+  /* Brand */
+  --color-accent: #189872;          /* Teal-green: large text, lines, borders */
+  --color-accent-ink: #147D5D;      /* Darker accent: small text, buttons with white labels (AA contrast) */
+  --color-accent-hover: #0F6A4F;    /* Hover state for accent-ink elements */
+  --color-accent-soft: #E2F2EC;     /* Tinted backgrounds (badges, highlights) */
+  --color-accent-soft-hover: #D3EBE2;
 
-  /* Background colors */
-  --color-bg: #1A1C1D;             /* Main background - darker gray (26-28-29) */
-  --color-content-bg: #2A2C31;     /* Content areas - slightly lighter (42-44-49) */
-  --color-header-bg: #232528;      /* Header background - slightly darker than content */
-  --color-code-bg: #1E293B;        /* Code block background - dark slate */
+  /* Surfaces */
+  --color-bg: #F7F7F4;              /* Page background - warm off-white */
+  --color-surface: #FFFFFF;         /* Cards and panels */
+  --color-surface-sunken: #F0F0EC;  /* Inset areas inside cards */
+  --color-inverse-bg: #141517;      /* Dark bands */
+  --color-code-bg: #1C1E21;         /* Code blocks stay dark */
 
-  /* Text colors */
-  --color-text: #E5E7EB;           /* Main text - light gray with slight blue tint */
-  --color-text-muted: #9CA3AF;     /* Subdued text */
-  --color-heading: #F9FAFB;        /* Headings - almost white */
+  /* Text */
+  --color-heading: #1A1C1E;
+  --color-text: #1A1C1E;
+  --color-text-secondary: #4A4F54;
+  --color-text-muted: #5A5F64;
+  --color-text-faint: #9A9E9A;
 
-  /* UI Element colors */
-  --color-header-link: #D1D5DB;    /* Header navigation links */
-  --color-header-link-hover: #3B82F6; /* Link hover state */
-  --color-header-btn-bg: #374151;  /* Button background */
-  --color-header-btn-text: #3B82F6; /* Button text */
-  --color-header-btn-border: #3B82F6; /* Button border */
+  /* Lines */
+  --color-border: #E2E2DC;
+  --color-border-strong: #C9C9C2;
+
+  /* Status */
+  --color-danger: #B42318;
+  --color-danger-soft: #FDECEA;
+  --color-danger-border: #F2B8B2;
+  --color-warning: #9A5B00;
+  --color-warning-soft: #FDF3E1;
+  --color-warning-border: #EBCB94;
+  --color-info-soft: #EEF1F4;
+
+  /* Typography */
+  --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   /* Layout dimensions */
-  --header-height: 72px;           /* Fixed header height for consistent spacing */
-  --footer-height: 300px;          /* Footer height for layout calculations */
-
-  /* Accents */
-  --color-border: rgba(255, 255, 255, 0.1); /* Subtle borders */
-  --color-card-shadow: rgba(0, 0, 0, 0.25);  /* Shadow for cards */
-
-  /* Page spacing */
-  --section-gap: 160px;
-
-  /* HomeView specific colors */
-  --color-background-soft: rgba(255, 255, 255, 0.05);
-  --color-background-mute: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(45, 212, 191, 0.3);
+  --header-height: 64px;
+  --container-width: 1200px;
 }
 
 /* ====== Base Styles ====== */
@@ -51,51 +54,47 @@
   padding: 0;
 }
 
-html {
-  /* Add this to prevent the initial flash */
-  background-color: var(--color-bg);
-  color: var(--color-text);
-}
-
 html, body {
   width: 100%;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
   overflow-x: hidden;
-  overflow-y: auto;
   background: var(--color-bg);
-  scroll-behavior: smooth;
   color: var(--color-text);
-  box-sizing: border-box;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
   line-height: 1.6;
-  font-size: 15px;
+  scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ====== App Layout ====== */
+::selection {
+  background: var(--color-accent-soft-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 #app {
   width: 100%;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
+}
+
+.app-container {
+  min-height: 100vh;
 }
 
 /* ====== Page Layout ====== */
 .page-root {
   min-height: 100vh;
   width: 100%;
-  max-width: 100%;
-  background: var(--color-bg);
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: var(--header-height) 0 0 0; /* Use header height variable for top padding */
-  box-sizing: border-box;
-  position: relative;
+  padding-top: var(--header-height); /* Header is fixed */
+  background: var(--color-bg);
 }
 
 .main-content {
@@ -103,188 +102,123 @@ html, body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  background: var(--color-bg);
-  border-radius: 0;
+  padding: 0 24px;
   color: var(--color-text);
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-  align-items: flex-start;
 }
 
-/* Content wrapper for consistent layout */
+/* Content wrapper for text pages (About) */
 .content-wrapper {
   width: 100%;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1rem 4rem;
-  align-self: center;
+  padding: 4rem 0 6rem;
 }
 
-/* ====== Content styling (modernized, no card) ====== */
 .content-card {
-  max-width: 800px; /* Match docs page width */
   width: 100%;
-  margin: 0 0 2rem;
-  padding: 0; /* Remove padding since we're removing the card */
+}
+
+/* Documentation and dashboard pages */
+.docs-page-content,
+.dashboard-page-content {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 0 6rem;
 }
 
 /* ====== Typography ====== */
-.main-content h1 {
-  font-size: 2.8rem;
-  font-weight: 900;
+h1, h2, h3, h4 {
   color: var(--color-heading);
-  margin-bottom: 1.2rem;
-  letter-spacing: -1px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
 }
 
-.main-subtitle {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-  margin-bottom: 2.5rem;
-  margin-top: 0;
-  max-width: 800px;
-  width: 100%;
-  text-align: left;
+.content-card h1,
+.docs-title,
+.dashboard-title,
+.about-title,
+.page-title {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  color: var(--color-heading);
+  margin-bottom: 1rem;
+}
+
+.main-subtitle,
+.docs-subtitle,
+.dashboard-subtitle,
+.about-subtitle,
+.page-subtitle {
   display: block;
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  margin: 0 0 3rem;
+  max-width: 680px;
 }
 
-/* Content titles - use same styling as docs titles */
-.content-card h1 {
-  font-size: 2.4rem;
-  font-weight: 900;
-  margin-bottom: 0.2rem;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  letter-spacing: 0.8px;
-  text-shadow: none !important;
-  filter: none !important;
+.subheading, h2 {
+  font-size: 1.75rem;
   line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 3.5rem 0 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
 }
 
-/* First subheading in content card should have less top margin */
 .content-card h2.subheading:first-child {
   margin-top: 0.5rem;
 }
 
-/* Global styles for headings */
-.subheading, h2 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin: 2.5rem 0 1.2rem;
-  color: var(--color-heading);
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-  letter-spacing: -0.01em;
-}
-
 .section-title, h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 1.8rem 0 0.75rem;
-  color: var(--color-heading); /* Use the same white as other section titles */
-  letter-spacing: 0.01em;
-}
-
-.main-desc {
-  color: var(--color-heading); /* Using heading color for more contrast - still white but brighter */
   font-size: 1.25rem;
-  margin: 0 auto 2rem;
-  line-height: 1.8;
-  text-align: justify;
-  width: 100%;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* Subtle text shadow for depth */
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.3); /* Subtle primary-colored bottom border (blue) */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 2rem 0 0.75rem;
 }
 
-/* Apply consistent text styling to all paragraphs */
 p {
   margin-bottom: 1.2rem;
-  line-height: 1.6;
-  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+strong {
   color: var(--color-text);
+  font-weight: 600;
 }
 
-/* But keep certain elements with normal alignment */
-.alert p,
-.values-list li {
-  text-align: left;
-  /* Removed .content-card h1 + p.main-subtitle from here to keep subtitle centered */
-}
-
-/* Content section for better spacing and organization */
 .content-section {
-  margin-bottom: 2rem; /* Slightly reduced spacing between sections */
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .content-section:last-child {
   margin-bottom: 0;
 }
 
-/* Removed duplicate subheading and section-title styles
-   Using the shared styles defined elsewhere */
-
-/* First content section after title should be nicely integrated */
-h1 + .main-subtitle + .content-section {
-  margin-top: 2rem;
-}
-
-/* References section styling to match content-section */
-.references-section {
-  margin-bottom: 2.5rem;
-  width: 100%;
-  margin-top: 2rem;
-}
-
-.references-section:last-child {
-  margin-bottom: 0;
-}
-
-.references-list {
+.values-list {
   padding-left: 1.5rem;
   margin: 1rem 0 1.5rem;
+}
+
+.values-list li {
+  margin-bottom: 0.75rem;
   line-height: 1.6;
+  color: var(--color-text-secondary);
 }
 
-.references-list li {
-  margin-bottom: 1rem;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-}
-
-/* Callout styles */
-.callout {
-  background-color: transparent;
-  border-left: 4px solid var(--color-accent);
-  padding: 1rem;
-  margin: 1.5rem 0;
-  border-radius: 0 6px 6px 0;
-}
-
-.callout p:last-child {
-  margin-bottom: 0;
-}
-
-/* Common Link Styling - Applied globally */
-/* Buttons that should look like links - extend anchor styles */
+/* ====== Links ====== */
 a,
 button.link-style {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 600;
-  position: relative;
-  transition: all 0.2s ease;
+  color: var(--color-accent-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent-ink) 35%, transparent);
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 button.link-style {
@@ -298,224 +232,187 @@ button.link-style {
 
 a:hover,
 button.link-style:hover {
-  filter: brightness(1.2);
-  text-decoration: underline;
+  color: var(--color-accent-hover);
+  text-decoration-color: currentColor;
 }
 
-/* Special case for references list links */
-.references-list a {
-  word-break: break-all;
+/* ====== Buttons ====== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 48px;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-/* Make code elements stand out better */
-code {
-  background-color: var(--color-code-bg);
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-accent-ink);
+  color: #FFFFFF;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--color-border-strong);
   color: var(--color-text);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.9rem;
 }
 
-/* ====== Standardized Alert System ====== */
+.btn-secondary:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+/* ====== Code ====== */
+code {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.docs-page-content pre {
+  background: var(--color-code-bg);
+  color: #E6E8E6;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.docs-page-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+.code-block {
+  background-color: var(--color-code-bg);
+  color: #E6E8E6;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  margin: 1.5rem 0;
+  white-space: pre;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+/* ====== Callout ====== */
+.callout {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* ====== Alerts ====== */
 /*
 Usage examples:
-<div class="alert alert-info">...</div>       // Blue - general information
-<div class="alert alert-important">...</div>  // Teal - important actions (with pulse animation)
-<div class="alert alert-success">...</div>    // Teal - success messages
-<div class="alert alert-warning">...</div>    // Orange - warnings
+<div class="alert alert-info">...</div>       // Neutral - general information
+<div class="alert alert-important">...</div>  // Accent - important actions
+<div class="alert alert-success">...</div>    // Accent - success messages
+<div class="alert alert-warning">...</div>    // Amber - warnings
 <div class="alert alert-error">...</div>      // Red - errors
 */
 .alert {
-  margin: 2.5rem 0;
-  padding: 1.25rem 1.5rem;
-  border-radius: 8px;
-  border-left: 4px solid;
   display: block;
   width: 100%;
-  position: relative;
-  transition: all 0.3s ease;
-  font-size: 1.05rem;
+  margin: 2rem 0;
+  padding: 1.1rem 1.35rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 1rem;
   line-height: 1.6;
 }
 
 .alert p {
   margin-bottom: 0;
-  text-align: left;
-  position: relative;
-  z-index: 1;
-  color: var(--color-heading);
+  color: var(--color-text);
 }
 
 .alert strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
-/* Alert Types */
+.alert a {
+  overflow-wrap: anywhere;
+}
+
 .alert-info {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-  border-left-color: var(--color-primary);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  border-left: 4px solid var(--color-primary);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-}
-
-.alert-info strong {
-  color: var(--color-primary);
+  background: var(--color-info-soft);
+  border-color: #DCE1E6;
 }
 
 .alert-important, .alert-success {
-  background: linear-gradient(135deg, rgba(45, 212, 191, 0.1) 0%, rgba(45, 212, 191, 0.05) 100%);
-  border-left-color: var(--color-accent);
-  border: 1px solid rgba(45, 212, 191, 0.3);
-  border-left: 4px solid var(--color-accent);
-  box-shadow: 0 4px 12px rgba(45, 212, 191, 0.15);
-  animation: pulse-glow 3s ease-in-out infinite;
+  background: var(--color-accent-soft);
+  border-color: #BFE0D3;
 }
 
 .alert-important strong, .alert-success strong {
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
 }
 
 .alert-warning {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
-  border-left-color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  border-left: 4px solid #f59e0b;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
 }
 
 .alert-warning strong {
-  color: #f59e0b;
+  color: var(--color-warning);
 }
 
 .alert-error {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
-  border-left-color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-left: 4px solid #ef4444;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
 }
 
 .alert-error strong {
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
-/* Hover effects for all alerts */
-.alert:hover {
-  transform: translateY(-2px);
+/* ====== Badges ====== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-accent-ink);
+  background: var(--color-accent-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
 }
 
-.alert-info:hover {
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
-  border-color: rgba(59, 130, 246, 0.5);
-}
-
-.alert-important:hover, .alert-success:hover {
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.25);
-  border-color: rgba(45, 212, 191, 0.5);
-}
-
-.alert-warning:hover {
-  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
-  border-color: rgba(245, 158, 11, 0.5);
-}
-
-.alert-error:hover {
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.25);
-  border-color: rgba(239, 68, 68, 0.5);
-}
-
-/* Pulse animation only for important alerts */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.15);
-  }
-  50% {
-    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.25);
-  }
-}
-
-/* Ensure long URLs in alerts wrap properly */
-.alert a {
-  word-break: break-all;
-  overflow-wrap: break-word;
-}
-
-/* Mobile improvements for alerts */
-@media (max-width: 768px) {
-  .alert {
-    margin: 2rem 0;
-    padding: 1rem 1.2rem;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .alert a {
-    display: inline-block;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .alert {
-    margin: 1.5rem 0;
-    padding: 0.8rem 1rem;
-    font-size: 0.95rem;
-  }
-}
-
-/* ====== Beta Badge Styling ====== */
-.beta-badge {
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #FF6B35 100%);
-  color: #FFFFFF;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-radius: 4px;
-  margin-left: 0.3rem;
-  box-shadow: 0 2px 4px rgba(45, 212, 191, 0.3);
-  transition: all 0.2s ease;
-}
-
-.beta-badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(45, 212, 191, 0.4);
-}
-
-/* Alternative: styled as text without badge background */
-.beta-text {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-size: 0.9em;
-  text-shadow: none;
-  display: inline-block;
-}
-
-/* Fix list styles */
-.values-list {
-  padding-left: 1.5rem;
-  margin: 1rem 0 1.5rem;
-}
-
-.values-list li {
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-}
-
+/* ====== Tables ====== */
 table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1.5rem;
-  background: var(--color-content-bg);
 }
 
 th, td {
@@ -525,43 +422,37 @@ th, td {
 }
 
 th {
-  background: var(--color-content-bg);
   font-weight: 600;
   color: var(--color-text);
 }
 
-/* ====== Responsive Table Styles ====== */
 .table-container {
   overflow-x: auto;
   border-radius: 12px;
-  background: var(--color-content-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   margin: 1.5rem 0;
 }
 
 .table-container table {
   margin-bottom: 0;
-  width: 100%;
-  min-width: 700px; /* Reduced since we removed TTL columns */
-  border-radius: 12px;
-  overflow: hidden;
+  min-width: 700px;
 }
 
 .table-container th {
-  background: var(--color-content-bg);
-  color: var(--color-text);
-  font-weight: 600;
-  font-size: 0.875rem;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1rem 1.25rem;
-  border-bottom: 2px solid var(--color-border);
+  letter-spacing: 0.04em;
+  padding: 0.9rem 1.25rem;
   white-space: nowrap;
 }
 
 .table-container td {
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--color-border);
+  padding: 0.9rem 1.25rem;
   vertical-align: top;
 }
 
@@ -569,829 +460,65 @@ th {
   border-bottom: none;
 }
 
-.table-container tr:hover {
-  background: rgba(45, 212, 191, 0.05);
+.table-container tbody tr:hover {
+  background: var(--color-bg);
 }
 
-/* Mobile table improvements */
-@media (max-width: 768px) {
-  .table-container {
-    margin: 1rem -1rem; /* Extend to screen edges on mobile */
-    border-radius: 0;
-    box-shadow: none;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .table-container table {
-    min-width: 650px; /* Adjusted for removed columns */
-    border-radius: 0;
-  }
-
-  .table-container th,
-  .table-container td {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-  }
-
-  .table-container th {
-    font-size: 0.8rem;
-  }
-}
-
-/* ====== Header Styles ====== */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.2rem 2.5rem;
-  background: var(--color-header-bg);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  width: 100%;
-  height: var(--header-height);
-  box-sizing: border-box;
-  /* Ensure header stays fixed at the top without jumping */
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.header-logo {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.header-brand-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 0.4rem;
-  vertical-align: middle;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-}
-
-.header-brand {
-  font-size: 1.3rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 0.8px;
-  text-decoration: none;
-  position: relative;
-  transition: all 0.3s ease;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  padding: 0.25rem 0;
-}
-
-.header-brand:hover {
-  text-decoration: none !important; /* Ensure no underline from global style */
-  filter: brightness(1.2);
-  transform: translateY(-1px);
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 2.2rem;
-  margin-left: 2.5rem;
-}
-
-.header-link {
-  color: var(--color-header-link);
-  font-size: 1.05rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.15s;
-  display: inline-block;
-  position: relative; /* To match global link style */
-}
-
-.header-link:hover {
-  color: var(--color-header-link-hover);
-  text-decoration: none;
-  filter: none; /* Override the global hover brightness */
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-}
-
-.login-btn, .register-btn {
-  padding: 0.5rem 1.1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: rgba(59, 130, 246, 0.15);
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
-}
-
-.login-btn:hover {
-  background: rgba(59, 130, 246, 0.25);
-  text-decoration: none !important; /* Override global link style */
-}
-
-.register-btn {
-  background: var(--color-accent);
-  color: #1A1C1D;
-  margin-left: 0.5rem;
-  border-color: var(--color-accent);
-  font-weight: 700;
-  text-decoration: none !important; /* Override global link style */
-}
-
-.register-btn:hover {
-  filter: brightness(1.08);
-  background: var(--color-accent);
-  text-decoration: none !important; /* Override global link style */
-}
-
-.dark-toggle-btn {
-  /* Dark toggle button is removed since we're only using dark mode */
-  display: none;
-}
-
-/* Dark toggle removed - always in dark mode */
-
-/* RouterLink active styling */
-/* Make router link styles more specific to avoid conflicts with global link styles */
-.header-nav .router-link-active {
-  color: var(--color-header-link-hover);
-}
-
-.header-nav .router-link-exact-active {
-  color: var(--color-header-link-hover);
-  font-weight: 700;
-}
-
-/* ====== Card Grid Layout ====== */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  width: 100%;
-}
-
-.feature-card {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 0.6rem;
-  padding: 1.5rem;
-  border: 1px solid var(--color-border);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-}
-
-.feature-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.feature-card h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--color-heading);
-}
-
-.feature-card p {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* ====== Content Responsive Layout ====== */
-@media (max-width: 768px) {
-  .main-content {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-
-  .content-wrapper {
-    padding: 1rem 0.5rem 2rem;
-  }
-
-  .content-card {
-    margin-bottom: 1.5rem;
-    margin-left: 0;
-    padding: 0 0.5rem;
-  }
-
-  .main-content h1,
-  .content-card h1,
-  .docs-title,
-  .dashboard-title,
-  .about-title,
-  .home-title {
-    font-size: 2.2rem;
-    padding-left: 0.75rem;
-    padding-right: 0.5rem;
-    margin-left: 0;
-    text-shadow: none;
-    line-height: 1.2;
-  }
-
-  .main-subtitle,
-  .docs-subtitle,
-  .dashboard-subtitle,
-  .about-subtitle,
-  .home-subtitle {
-    font-size: 0.95rem;
-    padding-left: 0.75rem;
-    padding-right: 0.5rem;
-    margin-bottom: 1.5rem;
-    margin-top: 0.2rem;
-    margin-left: 0;
-    line-height: 1.4;
-  }
-
-  .main-content h1 {
-    font-size: 2.2rem;
-  }
-
-  /* Better responsive docs page content */
-  .docs-page-content {
-    padding: 1.5rem 1rem 3rem;
-    max-width: 100%;
-  }
-
-  .section-container {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-content {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-  }
-
-  .content-wrapper {
-    padding: 0.75rem 0.25rem 1.5rem;
-  }
-
-  .content-card {
-    margin-bottom: 1rem;
-    margin-left: 0;
-    padding: 0 0.25rem;
-  }
-
-  /* Better mobile typography */
-  .main-content h1,
-  .content-card h1,
-  .docs-title,
-  .dashboard-title,
-  .about-title,
-  .home-title {
-    font-size: 1.8rem;
-    padding-left: 0.5rem;
-    padding-right: 0.25rem;
-    line-height: 1.1;
-  }
-
-  .main-subtitle,
-  .docs-subtitle,
-  .dashboard-subtitle,
-  .about-subtitle,
-  .home-subtitle {
-    font-size: 0.9rem;
-    padding-left: 0.5rem;
-    padding-right: 0.25rem;
-    margin-bottom: 1.2rem;
-    line-height: 1.3;
-  }
-
-  /* Improve docs page content spacing */
-  .docs-page-content {
-    padding: 1rem 0.75rem 3rem;
-    max-width: 100%;
-  }
-
-  .section-container {
-    margin-top: 0.8rem;
-    margin-bottom: 1.2rem;
-  }
-
-  /* References improvements for small screens */
-  .references-list {
-    padding-left: 1.2rem;
-  }
-
-  .references-list li {
-    margin-bottom: 1.2rem;
-  }
-
-  .references-list a {
-    font-size: 0.9rem;
-  }
-}
-
-/* ====== Scroll fixes ====== */
-/* Force header to stay fixed even at scroll boundaries */
-html[data-scroll-y="0"] .header {
-  transform: translateZ(0); /* Force GPU acceleration */
-}
-
-/* Ensure content doesn't jump when scrolling to top */
-.app-container {
-  transform: translateZ(0);
-}
-
-/* Additional scrollbar styles to ensure consistent behavior */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #4d4d4d #1a1c1d;
-}
-
-html::-webkit-scrollbar {
-  width: 8px;
-}
-
-html::-webkit-scrollbar-track {
-  background: #1a1c1d;
-}
-
-html::-webkit-scrollbar-thumb {
-  background-color: #4d4d4d;
-  border-radius: 4px;
-}
-
-/* ====== Page Title Styles (Outside of Content Cards) ====== */
-.page-title {
-  color: var(--color-heading);
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  padding: 0;
-  line-height: 1.2;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  max-width: 900px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.page-subtitle {
-  color: var(--color-text);
-  font-size: 1.25rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  max-width: 900px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ====== Documentation and Dashboard shared styles ====== */
-.docs-page-content,
-.dashboard-page-content {
-  max-width: 900px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem 2rem 3rem;
-}
-
-/* Use the same title styling for all views */
-.main-content h1 {
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: var(--color-heading);
-  margin-bottom: 0.2rem;
-  letter-spacing: -1px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-/* For consistency, we apply same styling to all subtitles */
-.main-subtitle,
-.docs-subtitle,
-.dashboard-subtitle,
-.about-subtitle,
-.home-subtitle {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-  margin-bottom: 2.2rem; /* Consistent spacing between subtitle and content */
-  margin-top: 0.2rem; /* Consistent spacing between title and subtitle */
-  max-width: 800px;
-  width: 100%;
-  display: block;
-}
-
-/* Special gradient styling for all title types */
-.content-card h1,
-.docs-title,
-.dashboard-title,
-.about-title,
-.home-title {
-  font-size: 2.6rem; /* Standardized size for all title elements */
-  font-weight: 900;
-  margin-bottom: 0.2rem; /* Consistent spacing between title and subtitle */
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  letter-spacing: 0.8px;
-  text-shadow: none !important;
-  filter: none !important;
-  line-height: 1.2;
-}
-
-/* Section container styling for both docs and dashboard */
-.section-container {
-  margin-bottom: 2rem;
-  margin-top: 1.5rem;
-}
-
-/* These styles are now handled by global styles */
-
-/* Documentation list styling now uses global styles */
-
-/* Documentation link styling - inherits from global a styles */
-
-/* Documentation Quick Links */
-.quick-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.quick-link {
-  display: block;
-  padding: 1.5rem;
-  background: rgba(30, 32, 33, 0.6);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  /* No font-weight to override the global link style */
-  font-weight: normal;
-}
-
-.quick-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.2);
-  border-color: var(--color-accent);
-  text-decoration: none !important;
-  filter: none; /* Override global hover filter */
-}
-
-.quick-link-title {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--color-accent);
-  margin-bottom: 0.5rem;
-}
-
-.quick-link-desc {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-}
-
-/* Mobile improvements for quick links */
-@media (max-width: 768px) {
-  .quick-links {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .quick-link {
-    padding: 1.2rem;
-    border-radius: 6px;
-  }
-
-  .quick-link:hover {
-    transform: translateY(-2px);
-  }
-
-  .quick-link-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .quick-link-desc {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-}
-
-@media (max-width: 480px) {
-  .quick-links {
-    gap: 0.8rem;
-  }
-
-  .quick-link {
-    padding: 1rem;
-  }
-
-  .quick-link-title {
-    font-size: 1rem;
-  }
-
-  .quick-link-desc {
-    font-size: 0.85rem;
-  }
-}
-
-/* Documentation code blocks */
-.docs-page-content pre {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 4px;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-/* Global code block styling for consistency across all docs pages */
-.code-block {
-  background-color: var(--color-code-bg);
-  color: var(--color-text);
-  padding: 1rem;
-  border-radius: 6px;
-  font-family: monospace;
-  margin: 1.5rem 0;
-  white-space: pre;
-  overflow-x: auto;
-  font-size: 0.9rem;
-}
-
-/* ====== Hamburger Menu Styles ====== */
-.hamburger-btn {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-right: 1rem;
-}
-
-.hamburger-btn span {
-  display: block;
-  height: 2px;
-  width: 100%;
-  background-color: var(--color-header-link);
-  border-radius: 1px;
-  transition: all 0.3s ease;
-  transform-origin: center;
-}
-
-.hamburger-btn.active span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
-}
-
-.hamburger-btn.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-btn.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
-}
-
-/* Mobile Navigation Dropdown */
-.mobile-nav {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--color-header-bg);
-  border-top: 1px solid var(--color-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  flex-direction: column;
-  padding: 1rem 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.mobile-nav.open {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: all;
-}
-
-.mobile-nav-link {
-  color: var(--color-header-link);
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 0.75rem 2rem;
-  transition: all 0.2s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.mobile-nav-link:hover {
-  color: var(--color-header-link-hover);
-  background: rgba(59, 130, 246, 0.1);
-  text-decoration: none;
-  filter: none;
-}
-
-.mobile-nav-link:last-child {
-  border-bottom: none;
-}
-
-/* ====== Header Responsive Styles ====== */
-/* Tablet and small desktop - keep horizontal but reduce spacing */
-@media (max-width: 1024px) {
-  .header {
-    padding: 1rem 1.5rem;
-  }
-
-  .header-nav {
-    margin-left: 1.5rem;
-    gap: 1.5rem;
-  }
-
-  .header-link {
-    font-size: 1rem;
-  }
-}
-
-/* Medium tablet - further reduce spacing */
-@media (max-width: 900px) {
-  .header {
-    padding: 1rem 1rem;
-  }
-
-  .header-nav {
-    margin-left: 1rem;
-    gap: 1.2rem;
-  }
-
-  .header-link {
-    font-size: 0.95rem;
-  }
-
-  .login-btn {
-    padding: 0.45rem 0.9rem;
-    font-size: 0.85rem;
-  }
-}
-
-/* Small tablet - hide navigation, show hamburger menu */
-@media (max-width: 768px) {
-  .header {
-    padding: 1rem 1rem;
-  }
-
-  .header-nav {
-    display: none;
-  }
-
-  .hamburger-btn {
-    display: flex;
-  }
-
-  .header-brand {
-    font-size: 1.2rem;
-  }
-
-  .login-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-  }
-}
-
-/* Mobile refinements */
-@media (max-width: 640px) {
-  .header {
-    padding: 1rem 1rem;
-  }
-
-  .mobile-nav-link {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
-  }
-}
-
-/* Very small mobile */
-@media (max-width: 480px) {
-  .header {
-    padding: 0.8rem 0.8rem;
-  }
-
-  .mobile-nav-link {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .login-btn {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.8rem;
-  }
-}
-
-/* ====== Mobile Page Layout Adjustments ====== */
-/* No extra padding needed since header maintains fixed height with hamburger menu */
-
-/* ====== Table Status Indicators ====== */
-.status-healthy {
-  color: #10b981;
-  font-weight: 600;
+/* ====== Status indicators ====== */
+.status-healthy,
+.status-unhealthy {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
 }
 
-.status-healthy::before {
-  content: '●';
-  margin-right: 0.5rem;
-  color: #10b981;
+.status-healthy {
+  color: var(--color-accent-ink);
 }
 
 .status-unhealthy {
-  color: #ef4444;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
+  color: var(--color-danger);
 }
 
+.status-healthy::before,
 .status-unhealthy::before {
-  content: '●';
-  margin-right: 0.5rem;
-  color: #ef4444;
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .no-prefixes {
   color: var(--color-text-muted);
   font-style: italic;
-  font-size: 0.875rem;
 }
 
 .loading-text {
   color: var(--color-text-muted);
-  font-style: italic;
 }
 
 .error-text {
-  color: #ef4444;
-  font-size: 0.875rem;
+  color: var(--color-danger);
 }
 
-/* Table row styling for unhealthy agents */
 .table-container tr.unhealthy {
-  background: rgba(239, 68, 68, 0.05);
+  background: var(--color-danger-soft);
 }
 
-.table-container tr.unhealthy:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
-
-/* ====== Agents Section Styling ====== */
+/* ====== Section containers (docs + dashboards) ====== */
 .section-container {
   margin: 2.5rem 0;
 }
 
 .section-container h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text);
+  margin-top: 0;
 }
 
+/* ====== Agents table ====== */
 .agents-table {
   font-size: 0.9rem;
-}
-
-.agents-table th {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-text);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
 .agents-table td {
@@ -1407,42 +534,15 @@ html::-webkit-scrollbar-thumb {
   margin-bottom: 0;
 }
 
-/* ====== Agent ID Column Highlighting ====== */
 .agents-table td:first-child {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-weight: 600;
-  color: var(--color-accent);
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-accent-ink);
 }
 
-.agents-table tr:hover td:first-child {
-  color: #ffffff;
-}
-
-/* ====== Callout Styling ====== */
-.callout {
-  background-color: transparent;
-  border-left: 4px solid var(--color-accent);
-  padding: 1rem;
-  margin: 1.5rem 0;
-  border-radius: 0 6px 6px 0;
-}
-
-.callout p:last-child {
-  margin-bottom: 0;
-}
-
-/* References styles */
+/* ====== References ====== */
 .references-section {
   margin-top: 3rem;
-  padding-top: 2rem;
-}
-
-.references-section .subheading {
-  margin-bottom: 1rem;
-  color: var(--color-text);
-  font-size: 1.5rem;
-  font-weight: 600;
 }
 
 .references-list {
@@ -1455,118 +555,64 @@ html::-webkit-scrollbar-thumb {
 .references-list li {
   counter-increment: reference-counter;
   position: relative;
-  padding: 0.5rem 0 0.5rem 2.5rem;
-  margin-bottom: 0.25rem;
+  padding: 0.4rem 0 0.4rem 2.5rem;
+  color: var(--color-text-secondary);
 }
 
 .references-list li::before {
   content: "[" counter(reference-counter) "]";
   position: absolute;
   left: 0;
-  top: 0.5rem;
-  font-weight: 600;
-  color: var(--color-accent);
-  font-size: 0.875rem;
-  width: 2rem;
+  top: 0.45rem;
+  font-family: var(--font-mono);
+  color: var(--color-accent-ink);
+  font-size: 0.85rem;
 }
 
-.references-list li a {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 500;
-  word-break: break-all;
-  transition: color 0.2s ease;
+.references-list a {
+  overflow-wrap: anywhere;
 }
 
-.references-list li a:hover {
-  color: var(--color-accent-hover);
-  text-decoration: underline;
-}
-
-/* Reference links in text */
 .ref-link {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 600;
-  padding: 0.1rem 0.3rem;
   font-size: 0.75rem;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  padding: 0 0.15rem;
 }
 
-.ref-link:hover {
-  color: var(--color-accent-hover);
-  transform: scale(1.05);
-}
-
-/* Mobile responsiveness for references */
-@media (max-width: 768px) {
-  .references-list li {
-    padding: 0.4rem 0 0.4rem 2.5rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .references-list li::before {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
-    top: 0.4rem;
-  }
-
-  .references-list li a {
-    font-size: 0.9rem;
-    word-break: break-word;
-  }
-
-  .ref-link {
-    font-size: 0.7rem;
-    padding: 0.05rem 0.25rem;
-  }
-}
-
-/* Dataset schema styles */
+/* ====== Dataset schema ====== */
 .schema-heading {
   font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-heading);
-  margin: 1.5rem 0 0.75rem 0;
+  margin: 1.5rem 0 0.75rem;
+  padding: 0 0 0.35rem;
+  border-top: none;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.25rem;
 }
 
 .example-heading {
   font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-heading);
-  margin: 1.5rem 0 0.75rem 0;
+  margin: 1.5rem 0 0.75rem;
+  padding: 0;
+  border: none;
 }
 
 .schema-details {
-  margin: 1rem 0 1.5rem 0;
+  margin: 1rem 0 1.5rem;
 }
 
 .schema-field {
   margin-bottom: 1.2rem;
-  padding: 0;
-}
-
-.schema-field code {
-  font-weight: 400;
-  color: var(--color-text);
-  font-size: 0.95rem;
 }
 
 .field-type {
   color: var(--color-text-muted);
-  font-size: 0.85rem;
-  font-style: italic;
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   margin-left: 0.5rem;
 }
 
 .schema-field p {
-  margin: 0.4rem 0 0 0;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  line-height: 1.5;
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
 }
 
 .schema-link {
@@ -1577,191 +623,206 @@ html::-webkit-scrollbar-thumb {
 
 .schema-link a {
   color: var(--color-text-muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
 }
 
-.schema-link a:hover {
-  color: var(--color-text);
+/* ====== Header ====== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* ====== HomeView Specific Styles ====== */
-/* Styles for the new home page components added without affecting existing styles */
-
-/* Platform card (within quick-links grid) */
-.platform-card {
+.header-inner {
+  max-width: var(--container-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.header-brand:hover {
+  color: var(--color-heading);
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-heading);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-link {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.header-link:hover,
+.header-nav .router-link-active {
+  color: var(--color-heading);
+  text-decoration: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.login-btn {
+  height: 40px;
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  border: 0;
+  background: var(--color-heading);
+  color: var(--color-bg);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.login-btn:hover {
+  opacity: 0.85;
+}
+
+/* ====== Hamburger / mobile nav ====== */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0 11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--color-heading);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-nav {
+  display: none;
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.5rem 24px 1rem;
   flex-direction: column;
 }
 
-.platform-card-header {
+.mobile-nav.open {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.5rem;
 }
 
-.platform-card-header .quick-link-title {
-  display: inline;
-  margin-bottom: 0;
-}
-
-.platform-badge {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  background: rgba(45, 212, 191, 0.12);
-  border: 1px solid rgba(45, 212, 191, 0.35);
-  color: var(--color-accent);
-  white-space: nowrap;
-}
-
-.platform-card-action {
-  margin-top: auto;
-  padding-top: 1rem;
-}
-
-.platform-card-btn {
-  background: none;
-  border: none;
-  color: var(--color-accent);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
+.mobile-nav-link {
+  display: block;
+  padding: 0.85rem 0;
+  color: var(--color-heading);
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s ease;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.platform-card-btn:hover {
-  color: var(--color-primary);
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-accent-ink);
   text-decoration: none;
 }
 
-/* Home page quick access section */
-.quick-access-section {
-  margin: 1rem 0 2.5rem 0;
-  padding: 0;
+@media (max-width: 860px) {
+  .header-nav {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
 }
 
-.quick-access-title {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-bottom: 1.2rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  padding-bottom: 0.3rem;
-}
-
-/* Home page principles section */
-.principles-section {
-  margin: 3rem 0;
-}
-
-.principles-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--color-heading);
-  margin-bottom: 1.5rem;
-  text-align: center;
-  letter-spacing: 0.5px;
-}
-
-.principles-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.principle-card {
-  padding: 0;
-  background: transparent;
-  border: none;
-}
-
-.principle-card h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-heading);
-}
-
-.principle-card p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  line-height: 1.5;
-}
-
-/* Mobile responsiveness for home page components */
+/* ====== Mobile adjustments ====== */
 @media (max-width: 768px) {
-  .quick-access-section {
-    margin: 2rem 0;
-    padding: 1.5rem 0;
+  .content-wrapper,
+  .docs-page-content,
+  .dashboard-page-content {
+    padding: 2.5rem 0 4rem;
   }
 
-  .quick-access-title,
-  .principles-title {
-    font-size: 1.4rem;
-    margin-bottom: 1.2rem;
+  .main-subtitle,
+  .docs-subtitle,
+  .dashboard-subtitle,
+  .about-subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
   }
 
-  .principles-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1rem;
+  .subheading, h2 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
   }
 
-  .principle-card {
-    padding: 0;
-  }
-
-  .principle-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .principle-card p {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-}
-
-@media (max-width: 480px) {
-  .quick-access-section {
-    margin: 1.5rem 0;
-    padding: 1rem 0;
-  }
-
-  .principles-section {
-    margin: 2rem 0;
-  }
-
-  .quick-access-title,
-  .principles-title {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-
-  .principles-grid {
-    gap: 0.8rem;
-  }
-
-  .principle-card {
-    padding: 0;
-  }
-
-  .principle-card h3 {
-    font-size: 1rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .principle-card p {
-    font-size: 0.85rem;
+  .table-container {
+    margin: 1rem 0;
   }
 }

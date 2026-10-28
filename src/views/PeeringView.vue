@@ -396,40 +396,40 @@ onMounted(() => {
 }
 
 .error-message {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 20px;
   text-align: center;
-  color: #e0e0e0;
+  color: var(--color-text);
   max-width: 600px;
   margin: 0 auto;
 }
 
 .error-message h3 {
-  color: #e53935;
+  color: var(--color-danger);
   margin-top: 0;
 }
 
 .error-help {
   font-size: 0.9em;
-  color: #9e9e9e;
+  color: var(--color-text-muted);
   margin-bottom: 20px;
 }
 
 .retry-button {
-  background-color: #2196f3;
+  background-color: var(--color-accent-ink);
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
 .retry-button:hover {
-  background-color: #1976d2;
+  background-color: var(--color-accent-hover);
 }
 
 .button-group {
@@ -440,15 +440,17 @@ onMounted(() => {
 
 /* ASN Section */
 .section-container {
-  background-color: #1a1a1a;
+  background-color: var(--color-surface);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--color-border);
 }
 
 .section-container h2 {
   margin-top: 0;
+  padding-top: 0;
+  border-top: none;
   margin-bottom: 1rem;
   font-size: 1.2rem;
   color: var(--color-heading);
@@ -464,7 +466,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--color-surface-sunken);
   border-radius: 4px;
   padding: 1rem;
 }
@@ -475,10 +477,10 @@ onMounted(() => {
 }
 
 .asn-value {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--color-accent);
+  font-weight: 600;
+  color: var(--color-accent-ink);
 }
 
 .info-help {
@@ -493,31 +495,31 @@ onMounted(() => {
 }
 
 .info-error {
-  color: #e53935;
+  color: var(--color-danger);
   padding: 0.75rem;
-  background-color: rgba(229, 57, 53, 0.1);
+  background-color: var(--color-danger-soft);
   border-radius: 4px;
 }
 
 .request-button {
-  background-color: #2196f3;
+  background-color: var(--color-accent-ink);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1rem;
   transition: background-color 0.3s;
   align-self: flex-start;
 }
 
 .request-button:hover:not(:disabled) {
-  background-color: #1976d2;
+  background-color: var(--color-accent-hover);
 }
 
 .request-button:disabled {
-  background-color: #666;
+  background-color: var(--color-text-faint);
   cursor: not-allowed;
 }
 
@@ -543,8 +545,8 @@ onMounted(() => {
 }
 
 .lease-item {
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background-color: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-strong);
   border-radius: 6px;
   padding: 1rem;
   display: flex;
@@ -570,10 +572,10 @@ onMounted(() => {
 }
 
 .prefix-value {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 1.1rem;
-  color: var(--color-accent);
-  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--color-accent-ink);
+  background-color: var(--color-surface-sunken);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
 }
@@ -623,8 +625,8 @@ onMounted(() => {
   width: 100%;
   max-width: 300px;
   padding: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background-color: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-strong);
   border-radius: 4px;
   color: var(--color-text);
   font-size: 1rem;
@@ -633,7 +635,7 @@ onMounted(() => {
 }
 
 .duration-select:hover:not(:disabled) {
-  border-color: rgba(59, 130, 246, 0.5);
+  border-color: var(--color-text-muted);
 }
 
 .duration-select:disabled {
@@ -683,13 +685,13 @@ onMounted(() => {
 }
 
 .rpki-enabled .rpki-toggle-track {
-  background-color: rgba(45, 212, 191, 0.3);
-  border: 1px solid rgba(45, 212, 191, 0.5);
+  background-color: var(--color-accent-soft);
+  border: 1px solid var(--color-accent);
 }
 
 .rpki-disabled .rpki-toggle-track {
-  background-color: rgba(156, 163, 175, 0.2);
-  border: 1px solid rgba(156, 163, 175, 0.3);
+  background-color: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-strong);
 }
 
 .rpki-toggle-thumb {
@@ -703,12 +705,12 @@ onMounted(() => {
 
 .rpki-enabled .rpki-toggle-thumb {
   left: 18px;
-  background-color: #2dd4bf;
+  background-color: var(--color-accent);
 }
 
 .rpki-disabled .rpki-toggle-thumb {
   left: 2px;
-  background-color: #9ca3af;
+  background-color: var(--color-text-faint);
 }
 
 .rpki-toggle-text {
@@ -716,7 +718,7 @@ onMounted(() => {
 }
 
 .rpki-enabled .rpki-toggle-text {
-  color: #2dd4bf;
+  color: var(--color-accent-ink);
 }
 
 .rpki-disabled .rpki-toggle-text {
@@ -724,20 +726,20 @@ onMounted(() => {
 }
 
 .rpki-toggle.rpki-enabled:hover:not(:disabled) .rpki-toggle-track {
-  background-color: rgba(45, 212, 191, 0.4);
+  background-color: var(--color-accent-soft-hover);
 }
 
 .rpki-toggle.rpki-disabled:hover:not(:disabled) .rpki-toggle-track {
-  background-color: rgba(156, 163, 175, 0.3);
+  background-color: var(--color-border);
 }
 
 .delete-button {
   background-color: transparent;
-  border: 1px solid rgba(229, 57, 53, 0.3);
+  border: 1px solid var(--color-danger-border);
   border-radius: 4px;
   padding: 0.5rem;
   cursor: pointer;
-  color: #e53935;
+  color: var(--color-danger);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -746,8 +748,8 @@ onMounted(() => {
 }
 
 .delete-button:hover:not(:disabled) {
-  background-color: rgba(229, 57, 53, 0.1);
-  border-color: rgba(229, 57, 53, 0.5);
+  background-color: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
 }
 
 .delete-button:disabled {

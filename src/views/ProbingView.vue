@@ -412,40 +412,40 @@ const error = ref<string | null>(null);
 }
 
 .error-message {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 20px;
   text-align: center;
-  color: #e0e0e0;
+  color: var(--color-text);
   max-width: 600px;
   margin: 0 auto;
 }
 
 .error-message h3 {
-  color: #e53935;
+  color: var(--color-danger);
   margin-top: 0;
 }
 
 .error-help {
   font-size: 0.9em;
-  color: #9e9e9e;
+  color: var(--color-text-muted);
   margin-bottom: 20px;
 }
 
 .retry-button {
-  background-color: #2196f3;
+  background-color: var(--color-accent-ink);
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 
 .retry-button:hover {
-  background-color: #1976d2;
+  background-color: var(--color-accent-hover);
 }
 
 .button-group {
@@ -458,8 +458,8 @@ const error = ref<string | null>(null);
 
 /* Help section styles */
 .help-section {
-  background-color: rgba(var(--color-accent-rgb, 45, 212, 191), 0.1);
-  border: 1px solid rgba(var(--color-accent-rgb, 45, 212, 191), 0.3);
+  background-color: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -472,28 +472,30 @@ const error = ref<string | null>(null);
 }
 
 .docs-link {
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .docs-link:hover {
-  color: var(--color-primary);
+  color: var(--color-accent-hover);
   text-decoration: underline;
 }
 
 /* Token display styles */
 .auth-status {
-  background-color: #1a1a1a;
+  background-color: var(--color-surface);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--color-border);
 }
 
 .auth-status h3, .auth-status h2 {
   margin-top: 0;
+  padding-top: 0;
+  border-top: none;
   margin-bottom: 1rem;
   font-size: 1.2rem;
   color: var(--color-heading);
@@ -526,24 +528,24 @@ const error = ref<string | null>(null);
 .token-display {
   display: flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--color-surface-sunken);
   border-radius: 4px;
   padding: 0.5rem 0.75rem;
   overflow: hidden;
 }
 
 .token-text {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
 }
 
 .token-text .credit-value {
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 600;
   font-family: inherit;
   color: var(--color-text);
 }
@@ -555,7 +557,7 @@ const error = ref<string | null>(null);
 }
 
 .copy-button {
-  background-color: #2196f3;
+  background-color: var(--color-accent-ink);
   color: white;
   border: none;
   border-radius: 4px;
@@ -568,22 +570,22 @@ const error = ref<string | null>(null);
 }
 
 .copy-button:hover {
-  background-color: #1976d2;
+  background-color: var(--color-accent-hover);
 }
 
 .copy-button-copied {
-  background-color: #4caf50 !important;
+  background-color: var(--color-accent) !important;
   cursor: default;
 }
 
 .copy-button-copied:hover {
-  background-color: #4caf50 !important;
+  background-color: var(--color-accent) !important;
 }
 
 .token-error {
-  color: #e53935;
+  color: var(--color-danger);
   padding: 0.75rem;
-  background-color: rgba(229, 57, 53, 0.1);
+  background-color: var(--color-danger-soft);
   border-radius: 4px;
   margin-bottom: 0.5rem;
 }
@@ -603,20 +605,20 @@ const error = ref<string | null>(null);
 
 .usage-bar {
   height: 10px;
-  background-color: #2a2a2a;
+  background-color: var(--color-surface-sunken);
   border-radius: 5px;
   overflow: hidden;
 }
 
 .usage-bar-fill {
   height: 100%;
-  background-color: #4caf50;
+  background-color: var(--color-accent);
   border-radius: 5px 0 0 5px;
   transition: width 0.3s ease;
 }
 
 .usage-bar-fill.usage-high {
-  background-color: #e53935;
+  background-color: var(--color-danger);
 }
 
 .usage-bar-labels {
@@ -634,7 +636,7 @@ const error = ref<string | null>(null);
 }
 
 .error-text {
-  color: #e53935;
+  color: var(--color-danger);
   font-size: 0.9em;
 }
 
@@ -690,7 +692,7 @@ const error = ref<string | null>(null);
   font-size: 0.85em;
   color: var(--color-text-secondary);
   margin-right: 0.5rem;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-mono);
   display: inline-block;
   min-width: 4em;
 }

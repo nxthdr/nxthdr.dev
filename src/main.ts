@@ -1,7 +1,5 @@
 import './assets/main.css'
 
-document.documentElement.classList.add('dark');
-
 import { createApp } from 'vue'
 import { createAuth0 } from '@auth0/auth0-vue'
 

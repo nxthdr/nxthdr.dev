@@ -97,13 +97,13 @@ import AppFooter from '@/components/AppFooter.vue';
   left: 0;
   top: 0.5rem;
   font-weight: 600;
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   font-size: 0.875rem;
   width: 2rem;
 }
 
 .references-list li a {
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   text-decoration: none;
   font-weight: 500;
   word-break: break-all;
@@ -117,7 +117,7 @@ import AppFooter from '@/components/AppFooter.vue';
 
 /* Reference links in text */
 :deep(.ref-link) {
-  color: var(--color-accent);
+  color: var(--color-accent-ink);
   text-decoration: none;
   font-weight: 600;
   padding: 0.1rem 0.3rem;

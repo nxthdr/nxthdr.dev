@@ -442,12 +442,12 @@ const parseCurlCommand = (curlCommand: string) => {
 }
 
 .copy-button {
-  background-color: #3b82f6;
+  background-color: #147D5D;
   color: white;
 }
 
 .copy-button:hover {
-  background-color: #2563eb;
+  background-color: #0F6A4F;
 }
 
 .copy-button.copied {
@@ -507,7 +507,7 @@ const parseCurlCommand = (curlCommand: string) => {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: #3B82F6;
+  background: #26292C;
   border-bottom: 1px solid #374151;
 }
 
